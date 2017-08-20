@@ -24,13 +24,13 @@ env:
 before_script:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24"
   - sleep 3
+sudo: required 
 before_install: sudo apt-get install xvfb
 # switch off gpg handling
 install: mvn install -DskipTests=true -Dgpg.skip=true
 script: mvn test
 
 # Java FX support
-sudo: false
 addons:
   apt:
     packages:
