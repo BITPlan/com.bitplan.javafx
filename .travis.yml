@@ -2,6 +2,11 @@
 # workaround 2017-08-20
 # this is a java project using maven
 dist: precise
+# https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
 language: java
 jdk:
   - oraclejdk8
@@ -22,9 +27,3 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
-      - xvfb
-# https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
