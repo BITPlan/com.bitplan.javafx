@@ -13,3 +13,9 @@ before_script:
   - sleep 3 # give xvfb some time to start
 # switch off gpg handling
 install: mvn install -Dgpg.skip=true
+# Java FX support
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
