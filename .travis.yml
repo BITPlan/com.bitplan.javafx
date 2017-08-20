@@ -1,22 +1,21 @@
 # 2017-08-20 - initial configuration for javafx
 # workaround 2017-08-20
 # this is a java project using maven
+dist: precise
 language: java
 jdk:
   - oraclejdk8
 # GUI initialization
 # see https://github.com/travis-ci/travis-ci/issues/8262#issue-251064430
-env:
-  global:
-    - DISPLAY=:99
-
-before_script:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24"
-  - sleep 3
-
+#env:
+#  global:
+#    - DISPLAY=:99
+#
+#before_script:
+#  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24"
+#  - sleep 3
 # switch off gpg handling
 install: mvn install -Dgpg.skip=true
-
 # Java FX support
 sudo: false
 addons:
@@ -24,3 +23,8 @@ addons:
     packages:
       - oracle-java8-installer
       - xvfb
+# https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
