@@ -47,46 +47,45 @@ import javafx.scene.layout.FlowPane;
 
 /**
  * Controller for ExceptionHandling
+ * 
  * @author wf
  *
  */
-public class ExceptionController  implements Initializable, ExceptionHandler {
-  protected static Logger LOGGER = Logger
-      .getLogger("com.bitplan.javafx");
+public class ExceptionController implements Initializable, ExceptionHandler {
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   @FXML
   DialogPane dialogPane;
-  
+
   @FXML
   Button reportIssueButton;
-  
+
   @FXML
   TextArea textArea;
-  
+
   @FXML
   Label contentLabel;
-  
+
   private static ExceptionHelper exceptionHelper;
   private static SoftwareVersion softwareVersion;
   private static Linker linker;
-  
+
   public static void setExceptionHelper(ExceptionHelper pExceptionHelper) {
-    exceptionHelper=pExceptionHelper;
+    exceptionHelper = pExceptionHelper;
   }
-  
+
   public static void setSoftwareVersion(SoftwareVersion pSoftwareVersion) {
-    softwareVersion=pSoftwareVersion;
+    softwareVersion = pSoftwareVersion;
   }
-  
+
   public static void setLinker(Linker pLinker) {
-    linker=pLinker;
+    linker = pLinker;
   }
-  
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
 
-    
   }
-  
+
   /**
    * get the flowPane for the Exception Help
    * 
@@ -105,26 +104,29 @@ public class ExceptionController  implements Initializable, ExceptionHandler {
     return fp;
   }
 
-
   /**
    * handle the given Exception
+   * 
    * @param th
    * @param dialogPane
    * @param reportIssueButton
    * @param textArea
-   * @param stringProperty
+   * @param contentProperty
    */
-  public static void handleException(Throwable th, DialogPane dialogPane,Button reportIssueButton, TextArea textArea, StringProperty contentProperty) {
+  public static void handleException(Throwable th, DialogPane dialogPane,
+      Button reportIssueButton, TextArea textArea,
+      StringProperty contentProperty) {
     String exceptionText = GenericDialog.getStackTraceText(th);
     LOGGER.log(Level.INFO, exceptionText);
     reportIssueButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(final ActionEvent e) {
-        GenericDialog.sendReport(softwareVersion, softwareVersion.getName()+" issue",
+        GenericDialog.sendReport(softwareVersion,
+            softwareVersion.getName() + " issue",
             "There seems to be trouble with the exception:\n" + exceptionText);
       }
     });
-    ExceptionHelp ehelp = exceptionHelper.getExceptionHelp(th);  
+    ExceptionHelp ehelp = exceptionHelper.getExceptionHelp(th);
     if (ehelp != null) {
       FlowPane flowPane = getFlowPane(ehelp, linker);
       dialogPane.contentProperty().set(flowPane);
@@ -133,14 +135,15 @@ public class ExceptionController  implements Initializable, ExceptionHandler {
           + th.getLocalizedMessage();
       contentProperty.setValue(errMessage);
     }
-    Platform.runLater(()->textArea.setText(exceptionText));
+    Platform.runLater(() -> textArea.setText(exceptionText));
   }
-  
+
   /**
    * handle the given exception
    */
   public void handleException(Throwable th) {
-    ExceptionController.handleException(th, dialogPane, reportIssueButton, textArea, contentLabel.textProperty()); 
-  }  
- 
+    ExceptionController.handleException(th, dialogPane, reportIssueButton,
+        textArea, contentLabel.textProperty());
+  }
+
 }

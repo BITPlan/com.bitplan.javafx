@@ -36,7 +36,7 @@ public class ConstrainedGridPane extends GridPane {
   /**
    * helper function for images
    * @param icon
-   * @return
+   * @return the BoderPane that wraps the given icon
    */
   public BorderPane wrapImageView(ImageView icon) {
     BorderPane pane = new BorderPane();
@@ -67,11 +67,11 @@ public class ConstrainedGridPane extends GridPane {
    * fix the rowSizes to the given rowHeights
    * @param rowHeights
    */
-  public void fixRowSizes(int vGap,int... rowHeight) {
+  public void fixRowSizes(int vGap,int... rowHeights) {
     this.setVgap(vGap);
-    for (int rowWidth : rowHeight) {
+    for (int rowHeight : rowHeights) {
       RowConstraints rowc = new RowConstraints();
-      rowc.setPercentHeight(rowWidth);
+      rowc.setPercentHeight(rowHeight);
       getRowConstraints().add(rowc);
     }
 

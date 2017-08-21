@@ -84,7 +84,7 @@ public class TestGUI {
       button.setTooltip(icon.getTooltip());
       gridPane.add(button, col, row);
     }
-    SampleApp.createAndShow("icons", gridPane, SHOW_TIME*20);
+    SampleApp.createAndShow("icons", gridPane, SHOW_TIME);
   }
 
   @Test
@@ -107,6 +107,6 @@ public class TestGUI {
       }
     }
     xyTabPane.tabMap.get("battery50").getGraphic().setRotate(90);
-    SampleApp.createAndShow("vertical tabs", xyTabPane, SHOW_TIME * 50);
+    SampleApp.createAndShow("vertical tabs", xyTabPane, SHOW_TIME);
   }
 }
