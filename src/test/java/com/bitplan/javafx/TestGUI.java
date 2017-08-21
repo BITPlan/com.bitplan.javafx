@@ -22,6 +22,7 @@ package com.bitplan.javafx;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
@@ -32,6 +33,7 @@ import org.junit.Test;
 
 import com.bitplan.i18n.Translator;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
@@ -58,30 +60,26 @@ public class TestGUI {
     ConstrainedGridPane gridPane = new ConstrainedGridPane();
     org.controlsfx.glyphfont.FontAwesome.Glyph[] sglyphs = FontAwesome.Glyph
         .values();
-    List<Glyph> icons = new ArrayList<Glyph>();
+    List<Node> icons = new ArrayList<Node>();
     for (FontAwesome.Glyph glyph : sglyphs) {
       Glyph icon = fontAwesome.create(glyph);
       icons.add(icon);
-      icon.setTooltip(new Tooltip(glyph.name()));
+      icon.setId(glyph.name());
+      icon.setFontSize(24);
     }
-    char[] codes = { '\uf240', '\uf241', '\uf242', '\uf243', '\uf244' };
-    String[] names = { "battery-full", "battery75", "battery50", "battery25",
-        "battery0" };
+    XYTabPane xyTabPane = new XYTabPane(24);
+    for (Entry<String, Node> iconentry : xyTabPane.getIconMap().entrySet()) {
+      icons.add(iconentry.getValue());
+      iconentry.getValue().setId(iconentry.getKey());
+    }
     int i = 0;
-    for (char code : codes) {
-      Glyph icon = fontAwesome.create(code);
-      icons.add(icon);
-      icon.setTooltip(new Tooltip(names[i++]));
-    }
-    i = 0;
-    for (Glyph icon : icons) {
+    for (Node icon : icons) {
       int row = i / 30;
       int col = i % 30;
       i++;
       Button button = new Button();
-      icon.setFontSize(24);
       button.setGraphic(icon);
-      button.setTooltip(icon.getTooltip());
+      button.setTooltip(new Tooltip(icon.getId()));
       gridPane.add(button, col, row);
     }
     SampleApp.createAndShow("icons", gridPane, SHOW_TIME);
@@ -92,8 +90,7 @@ public class TestGUI {
     // https://stackoverflow.com/questions/16708578/javafx-2-0-tabpane-tabs-at-left-and-keep-tab-header-horizontal
     XYTabPane xyTabPane = new XYTabPane(64);
 
-    String[] rowNames = { "DASHBOARD", "PLUG", "exchange", "EYE",
-        "GEAR" };
+    String[] rowNames = { "DASHBOARD", "PLUG", "exchange", "EYE", "GEAR" };
     String[] colNames = { "ROAD", "LOCK", "CAMERA", "MAP_MARKER", "QUESTION",
         "SIGNAL", "AREA_CHART", "BAR_CHART", "LINE_CHART", "KEY",
         "FILE_TEXT_ALT", "CLOCK_ALT", "POWER_OFF", "INFO", "ADJUST", "BOLT",
@@ -103,12 +100,21 @@ public class TestGUI {
         "WRENCH", "battery0" };
     int col = 0;
     for (String rowName : rowNames) {
-      TabPane hTabPane = xyTabPane.addTabPane(rowName,rowName, rowName);
+      TabPane hTabPane = xyTabPane.addTabPane(rowName, rowName, rowName);
       for (int i = 0; i < 7; i++) {
-        xyTabPane.addTab(hTabPane,colNames[col], null, colNames[col++], new Pane());
+        xyTabPane.addTab(hTabPane, colNames[col], null, colNames[col++],
+            new Pane());
       }
     }
-    //xyTabPane.tabMap.get("battery25").getGraphic().setRotate(90);
-    SampleApp.createAndShow("vertical tabs", xyTabPane, SHOW_TIME);
+    // xyTabPane.tabMap.get("battery25").getGraphic().setRotate(90);
+    SampleApp sampleApp=new SampleApp("vertical tabs", xyTabPane);
+    sampleApp.show();
+    sampleApp.waitOpen();
+    int loops=colNames.length;
+    for (int i=0;i<loops;i++) {
+      xyTabPane.selectRandomTab();
+      Thread.sleep(SHOW_TIME/loops);
+    }
+    sampleApp.close();
   }
 }

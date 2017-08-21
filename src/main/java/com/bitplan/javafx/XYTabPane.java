@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,11 +35,12 @@ import org.controlsfx.glyphfont.GlyphFontRegistry;
 
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -87,9 +89,9 @@ public class XYTabPane extends Pane {
     if (iconMap == null) {
       iconMap = new HashMap<String, Node>();
       char[] codes = { '\uf240', '\uf241', '\uf242', '\uf243', '\uf244',
-          '\uf0ec' };
+          '\uf0ec', '\uf2c9' };
       String[] names = { "battery-full", "battery75", "battery50", "battery25",
-          "battery0", "exchange" };
+          "battery0", "exchange", "temp50" };
       int i = 0;
       for (char code : codes) {
         Glyph icon = fontAwesome.create(code);
@@ -146,14 +148,13 @@ public class XYTabPane extends Pane {
             "could not get FontAwesomeGlyph for icon " + name);
       }
     }
-    if (icon==null) {
-      URL iconUrl = this.getClass()
-          .getResource("/icons/" + name+ ".png");
+    if (icon == null) {
+      URL iconUrl = this.getClass().getResource("/icons/" + name + ".png");
       if (iconUrl != null) {
         ImageView iconImage = new ImageView(iconUrl.toString());
         iconImage.setFitHeight(fontSize);
         iconImage.setFitWidth(fontSize);
-        icon=iconImage;
+        icon = iconImage;
       }
     }
     if (icon != null) {
@@ -196,7 +197,8 @@ public class XYTabPane extends Pane {
    */
   public TabPane addTabPane(String groupId, String title, String iconName) {
     TabPane tabPane = addTabPane(groupId);
-    Tab tab = addTab(vTabPane, groupId,title, iconName, tabPane);
+    Tab tab = addTab(vTabPane, groupId, title, iconName, tabPane);
+    tab.setUserData(tabPane);
     vTabMap.put(groupId, tab);
     return tabPane;
   }
@@ -256,8 +258,8 @@ public class XYTabPane extends Pane {
    * @param content
    * @return
    */
-  public Tab addTab(TabPane tabPane, String tabId,int index, String title, String glyphName,
-      Node content) {
+  public Tab addTab(TabPane tabPane, String tabId, int index, String title,
+      String glyphName, Node content) {
     Tab tab = new Tab();
     if (glyphName != null) {
       this.setTabGlyph(tab, glyphName);
@@ -287,18 +289,45 @@ public class XYTabPane extends Pane {
    * @param content
    * @return
    */
-  public Tab addTab(TabPane tabPane, String tabid,String title, String glyphName,
-      Node content) {
-    return addTab(tabPane,tabid, -1, title, glyphName, content);
+  public Tab addTab(TabPane tabPane, String tabid, String title,
+      String glyphName, Node content) {
+    return addTab(tabPane, tabid, -1, title, glyphName, content);
   }
 
   /**
    * get the tab with the given tab Id
+   * 
    * @param tabId
    * @return - the tabId
    */
   public Tab getTab(String tabId) {
     return this.tabMap.get(tabId);
+  }
+
+  /**
+   * select a random tab
+   * 
+   * @param tabPane
+   */
+  public Tab selectRandomTab(TabPane tabPane) {
+    Random random = new Random();
+    SingleSelectionModel<Tab> vsel = tabPane.getSelectionModel();
+    int tabIndex = random.nextInt(vTabPane.getTabs().size());
+    vsel.select(tabIndex);
+    return vsel.getSelectedItem();
+  }
+
+  /**
+   * select a random Tab
+   */
+  public Tab selectRandomTab() {
+    Tab vTab = selectRandomTab(this.vTabPane);
+    TabPane hTabPane = (TabPane) vTab.getUserData();
+    if (hTabPane != null) {
+      Tab hTab = selectRandomTab(hTabPane);
+      return hTab;
+    }
+    return null;
   }
 
 }

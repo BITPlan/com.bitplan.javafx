@@ -31,6 +31,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.bitplan.error.ErrorHandler;
@@ -307,6 +308,7 @@ public class GenericDialog {
    */
   public static void showException(String title, String headerText,
       Throwable th, Linker linker) {
+    LOGGER.log(Level.SEVERE, title,th);
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
@@ -350,6 +352,7 @@ public class GenericDialog {
     alert.setHeaderText(headerText);
     alert.setContentText(content);
     alert.showAndWait();
+    LOGGER.log(Level.INFO,"alert "+title+" finished");
   }
 
 }
