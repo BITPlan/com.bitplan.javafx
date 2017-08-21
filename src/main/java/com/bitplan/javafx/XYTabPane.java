@@ -20,9 +20,12 @@
  */
 package com.bitplan.javafx;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
@@ -31,11 +34,11 @@ import org.controlsfx.glyphfont.GlyphFontRegistry;
 
 import javafx.geometry.Side;
 import javafx.scene.Node;
-import javafx.scene.control.Skin;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -54,26 +57,39 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class XYTabPane extends Pane {
-  TabPane vTabPane; // vertical TabPane
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
+
+  private TabPane vTabPane; // vertical TabPane
   List<TabPane> hTabpanes; // horizontal TabPanes - for each vertical tab there
                            // is one horizontal tab
   private int iconSize;
 
-  Map<String, Glyph> iconMap = null;
+  Map<String, Node> iconMap = null;
   private GlyphFont fontAwesome;
-  Map<String,Tab> tabMap=new HashMap<String,Tab>();
+  Map<String, Tab> tabMap = new HashMap<String, Tab>();
+  Map<String, Tab> vTabMap = new HashMap<String, Tab>();
+  Map<String, TabPane> tabPaneMap = new HashMap<String, TabPane>();
+
+  public TabPane getvTabPane() {
+    return vTabPane;
+  }
+
+  public void setvTabPane(TabPane vTabPane) {
+    this.vTabPane = vTabPane;
+  }
 
   /**
    * get an initial Map of Icons
    * 
    * @return
    */
-  public Map<String, Glyph> getIconMap() {
+  public Map<String, Node> getIconMap() {
     if (iconMap == null) {
-      iconMap = new HashMap<String, Glyph>();
-      char[] codes = { '\uf240', '\uf241', '\uf242', '\uf243', '\uf244' };
+      iconMap = new HashMap<String, Node>();
+      char[] codes = { '\uf240', '\uf241', '\uf242', '\uf243', '\uf244',
+          '\uf0ec' };
       String[] names = { "battery-full", "battery75", "battery50", "battery25",
-          "battery0" };
+          "battery0", "exchange" };
       int i = 0;
       for (char code : codes) {
         Glyph icon = fontAwesome.create(code);
@@ -93,9 +109,9 @@ public class XYTabPane extends Pane {
   public XYTabPane(int iconSize) {
     super();
     this.iconSize = iconSize;
-    vTabPane = this.addTabPane("vTabPane");
-    vTabPane.setSide(Side.LEFT);
-    Tab filler=new Tab();
+    setvTabPane(this.addTabPane("vTabPane"));
+    getvTabPane().setSide(Side.LEFT);
+    Tab filler = new Tab();
     Rectangle r = new Rectangle();
     r.setWidth(iconSize);
     r.setHeight(iconSize);
@@ -103,9 +119,9 @@ public class XYTabPane extends Pane {
     r.setStroke(Color.TRANSPARENT);
     filler.setGraphic(r);
     filler.setDisable(true);
-    vTabPane.getTabs().add(filler);
+    getvTabPane().getTabs().add(filler);
     fontAwesome = GlyphFontRegistry.font("FontAwesome");
-    super.getChildren().add(vTabPane);
+    super.getChildren().add(getvTabPane());
   }
 
   /**
@@ -116,18 +132,35 @@ public class XYTabPane extends Pane {
    *          - the fontSize of the glyph
    * @return the Glyph
    */
-  public Glyph getIcon(String name, int fontSize) {
-    Glyph icon = this.getIconMap().get(name + "x" + fontSize);
-    //if (icon == null) {
-      icon = this.getIconMap().get(name);
-      if (icon == null) {
+  public Node getIcon(String name, int fontSize) {
+    Node icon = this.getIconMap().get(name + "x" + fontSize);
+    // if (icon == null) {
+    icon = this.getIconMap().get(name);
+    if (icon == null) {
+      try {
         org.controlsfx.glyphfont.FontAwesome.Glyph fglyph = FontAwesome.Glyph
             .valueOf(name);
         icon = fontAwesome.create(fglyph);
+      } catch (Throwable th) {
+        LOGGER.log(Level.WARNING,
+            "could not get FontAwesomeGlyph for icon " + name);
       }
-      icon.setFontSize(fontSize);
+    }
+    if (icon==null) {
+      URL iconUrl = this.getClass()
+          .getResource("/icons/" + name+ ".png");
+      if (iconUrl != null) {
+        ImageView iconImage = new ImageView(iconUrl.toString());
+        iconImage.setFitHeight(fontSize);
+        iconImage.setFitWidth(fontSize);
+        icon=iconImage;
+      }
+    }
+    if (icon != null) {
+      if (icon instanceof Glyph)
+        ((Glyph) icon).setFontSize(fontSize);
       iconMap.put(name + "x" + fontSize, icon);
-    //}     
+    }
     return icon;
   }
 
@@ -138,35 +171,79 @@ public class XYTabPane extends Pane {
    * @param glyphInfo
    */
   public void setTabGlyph(Tab tab, String glyphInfo) {
-    Glyph icon = getIcon(glyphInfo, iconSize);
-    setTabGlyph(tab, icon);
+    Node icon = getIcon(glyphInfo, iconSize);
+    setTabIcon(tab, icon);
   }
 
   /**
-   * set the glyph for the tab
+   * set the icon for the tab
    * 
    * @param tab
-   * @param glyph
+   * @param icon
    */
-  public void setTabGlyph(Tab tab, Glyph glyph) {
-    tab.setGraphic(glyph);
+  public void setTabIcon(Tab tab, Node icon) {
+    tab.setGraphic(icon);
   }
 
   /**
-   * add a tabPane with the given group Id
+   * add a tabPane with the given group Id and iconName
+   * 
+   * @param title
+   * @param groupId
+   * @param iconName
+   *          - the name of the icon
+   * @return - the tabPane
+   */
+  public TabPane addTabPane(String groupId, String title, String iconName) {
+    TabPane tabPane = addTabPane(groupId);
+    Tab tab = addTab(vTabPane, title, iconName, tabPane);
+    vTabMap.put(groupId, tab);
+    return tabPane;
+  }
+
+  /**
+   * add a tab Pane with the given groupId
    * 
    * @param groupId
-   * @return - the tabPane
+   * @return the tabPane
    */
   public TabPane addTabPane(String groupId) {
     TabPane tabPane = new TabPane();
-    tabPane.setTabMinHeight(iconSize + 4);
-    tabPane.setTabMaxHeight(iconSize + 4);
+    int margin = iconSize / 4;
+    tabPane.setTabMinHeight(iconSize + margin);
+    tabPane.setTabMaxHeight(iconSize + margin);
+    tabPane.setTabMinWidth(iconSize + margin);
+    tabPane.setTabMaxWidth(iconSize + margin);
     // make sure it grows e.g. when Icons are set
     // https://stackoverflow.com/a/25164425/1497139
     VBox.setVgrow(tabPane, Priority.ALWAYS);
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+    this.tabPaneMap.put(groupId, tabPane);
     return tabPane;
+  }
+
+  /**
+   * get the tabPane with the given groupId
+   * 
+   * @param groupId
+   * @return the tabPane
+   */
+  public TabPane getTabPane(String groupId) {
+    TabPane tabPane = this.tabPaneMap.get(groupId);
+    return tabPane;
+  }
+
+  /**
+   * select the Vertical Tab with the given groupId
+   * 
+   * @param groupId
+   */
+  public void selectVTab(String groupId) {
+    Tab tab = vTabMap.get(groupId);
+    if (tab == null)
+      throw new IllegalArgumentException(
+          "unknown groupId for vertical tab " + groupId);
+    vTabPane.getSelectionModel().select(tab);
   }
 
   /**
@@ -182,16 +259,22 @@ public class XYTabPane extends Pane {
   public Tab addTab(TabPane tabPane, int index, String title, String glyphName,
       Node content) {
     Tab tab = new Tab();
-    if (title != null)
-      tab.setText(title);
+    if (glyphName != null) {
+      this.setTabGlyph(tab, glyphName);
+      tabMap.put(glyphName, tab);
+    }
+    if (title != null) {
+      tab.setTooltip(new Tooltip(title));
+      if (tab.getGraphic() == null) {
+        tab.setText(title);
+      }
+    }
     tab.setContent(content);
     if (index > 0)
       tabPane.getTabs().add(index, tab);
     else
       tabPane.getTabs().add(tab);
-    if (glyphName != null)
-      this.setTabGlyph(tab, glyphName);
-    tabMap.put(glyphName, tab);
+
     return tab;
   }
 
@@ -208,4 +291,5 @@ public class XYTabPane extends Pane {
       Node content) {
     return addTab(tabPane, -1, title, glyphName, content);
   }
+
 }

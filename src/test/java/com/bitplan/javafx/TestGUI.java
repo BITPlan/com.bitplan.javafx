@@ -92,16 +92,18 @@ public class TestGUI {
     // https://stackoverflow.com/questions/16708578/javafx-2-0-tabpane-tabs-at-left-and-keep-tab-header-horizontal
     XYTabPane xyTabPane = new XYTabPane(64);
 
-    String[] rowNames = { "DASHBOARD", "PLUG",
-        "battery50","battery25",FontAwesome.Glyph.GEAR.name() };
+    String[] rowNames = { "DASHBOARD", "PLUG", "battery50", "battery25",
+        FontAwesome.Glyph.GEAR.name() };
     String[] colNames = { "ROAD", "LOCK", "CAMERA", "MAP_MARKER", "QUESTION",
-        "SIGNAL",  "AREA_CHART","BAR_CHART", "LINE_CHART", "KEY", "FILE_TEXT_ALT", "CLOCK_ALT", "POWER_OFF", "INFO", 
-        "ADJUST", "BOLT", "PLAY", "CHECK", "DASHBOARD", "EDIT", "FILE_PHOTO_ALT", "FILE_TEXT_ALT", "FLAG_CHECKERED", "MALE",
-        "SMILE_ALT", "MOON_ALT", "SEARCH_MINUS", "SEARCH_PLUS", "SLIDERS", "CHAIN",  "EDIT", "CAR", "USER", "WIFI", "WRENCH", "battery0"};
+        "SIGNAL", "AREA_CHART", "BAR_CHART", "LINE_CHART", "KEY",
+        "FILE_TEXT_ALT", "CLOCK_ALT", "POWER_OFF", "INFO", "ADJUST", "BOLT",
+        "PLAY", "CHECK", "DASHBOARD", "EDIT", "FILE_PHOTO_ALT", "FILE_TEXT_ALT",
+        "FLAG_CHECKERED", "MALE", "SMILE_ALT", "MOON_ALT", "SEARCH_MINUS",
+        "SEARCH_PLUS", "SLIDERS", "CHAIN", "EDIT", "CAR", "USER", "WIFI",
+        "WRENCH", "battery0" };
     int col = 0;
     for (String rowName : rowNames) {
-      TabPane hTabPane = xyTabPane.addTabPane("h" + rowName);
-      xyTabPane.addTab(xyTabPane.vTabPane, null, rowName, hTabPane);
+      TabPane hTabPane = xyTabPane.addTabPane("h" + rowName,rowName, rowName);
       for (int i = 0; i < 7; i++) {
         xyTabPane.addTab(hTabPane, null, colNames[col++], new Pane());
       }
