@@ -196,7 +196,7 @@ public class XYTabPane extends Pane {
    */
   public TabPane addTabPane(String groupId, String title, String iconName) {
     TabPane tabPane = addTabPane(groupId);
-    Tab tab = addTab(vTabPane, title, iconName, tabPane);
+    Tab tab = addTab(vTabPane, groupId,title, iconName, tabPane);
     vTabMap.put(groupId, tab);
     return tabPane;
   }
@@ -256,12 +256,12 @@ public class XYTabPane extends Pane {
    * @param content
    * @return
    */
-  public Tab addTab(TabPane tabPane, int index, String title, String glyphName,
+  public Tab addTab(TabPane tabPane, String tabId,int index, String title, String glyphName,
       Node content) {
     Tab tab = new Tab();
     if (glyphName != null) {
       this.setTabGlyph(tab, glyphName);
-      tabMap.put(glyphName, tab);
+      tabMap.put(tabId, tab);
     }
     if (title != null) {
       tab.setTooltip(new Tooltip(title));
@@ -287,9 +287,18 @@ public class XYTabPane extends Pane {
    * @param content
    * @return
    */
-  public Tab addTab(TabPane tabPane, String title, String glyphName,
+  public Tab addTab(TabPane tabPane, String tabid,String title, String glyphName,
       Node content) {
-    return addTab(tabPane, -1, title, glyphName, content);
+    return addTab(tabPane,tabid, -1, title, glyphName, content);
+  }
+
+  /**
+   * get the tab with the given tab Id
+   * @param tabId
+   * @return - the tabId
+   */
+  public Tab getTab(String tabId) {
+    return this.tabMap.get(tabId);
   }
 
 }

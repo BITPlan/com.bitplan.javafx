@@ -92,8 +92,8 @@ public class TestGUI {
     // https://stackoverflow.com/questions/16708578/javafx-2-0-tabpane-tabs-at-left-and-keep-tab-header-horizontal
     XYTabPane xyTabPane = new XYTabPane(64);
 
-    String[] rowNames = { "DASHBOARD", "PLUG", "battery50", "battery25",
-        FontAwesome.Glyph.GEAR.name() };
+    String[] rowNames = { "DASHBOARD", "PLUG", "exchange", "EYE",
+        "GEAR" };
     String[] colNames = { "ROAD", "LOCK", "CAMERA", "MAP_MARKER", "QUESTION",
         "SIGNAL", "AREA_CHART", "BAR_CHART", "LINE_CHART", "KEY",
         "FILE_TEXT_ALT", "CLOCK_ALT", "POWER_OFF", "INFO", "ADJUST", "BOLT",
@@ -103,12 +103,12 @@ public class TestGUI {
         "WRENCH", "battery0" };
     int col = 0;
     for (String rowName : rowNames) {
-      TabPane hTabPane = xyTabPane.addTabPane("h" + rowName,rowName, rowName);
+      TabPane hTabPane = xyTabPane.addTabPane(rowName,rowName, rowName);
       for (int i = 0; i < 7; i++) {
-        xyTabPane.addTab(hTabPane, null, colNames[col++], new Pane());
+        xyTabPane.addTab(hTabPane,colNames[col], null, colNames[col++], new Pane());
       }
     }
-    xyTabPane.tabMap.get("battery50").getGraphic().setRotate(90);
+    //xyTabPane.tabMap.get("battery25").getGraphic().setRotate(90);
     SampleApp.createAndShow("vertical tabs", xyTabPane, SHOW_TIME);
   }
 }
