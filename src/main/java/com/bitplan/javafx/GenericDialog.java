@@ -147,6 +147,7 @@ public class GenericDialog {
   public void setup(Map<String, Object> valueMap) {
     // Create the custom dialog.
     dialog = new Dialog<Map<String, Object>>();
+    dialog.initOwner(stage);
     dialog.setTitle(form.getTitle());
     dialog.setHeaderText(form.getHeaderText());
 

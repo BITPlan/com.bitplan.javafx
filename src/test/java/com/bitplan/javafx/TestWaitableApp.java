@@ -20,7 +20,6 @@
  */
 package com.bitplan.javafx;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Test;
@@ -59,7 +58,7 @@ public class TestWaitableApp {
       primaryStage.show();
       stage.setOnCloseRequest(e -> {
         Platform.exit();
-        //System.exit(0);
+        System.exit(0);
       });
     }
 
