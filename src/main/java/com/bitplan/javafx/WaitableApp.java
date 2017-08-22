@@ -83,7 +83,7 @@ public abstract class WaitableApp extends Application implements Display {
    * get SceneBounds
    * 
    * @param screenPercent
-   * @return
+   * @return the scene bounds
    */
   public Rectangle2D getSceneBounds(int screenPercent, int xDiv, int yDiv) {
     double sceneWidth = getScreenWidth() * screenPercent / 100.0;
@@ -171,8 +171,8 @@ public abstract class WaitableApp extends Application implements Display {
   /**
    * save me as a Png File
    * 
-   * @param file
-   * @return
+   * @param stage - the stage to take a screen shot from
+   * @param file - the file to save the image to
    */
   public static synchronized void saveAsPng(Stage stage, File file) {
     WritableImage image = stage.getScene().snapshot(null);

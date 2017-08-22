@@ -162,9 +162,8 @@ public class GenericApp extends WaitableApp {
   }
 
   /**
-   * get the tab of the given view with the given id
+   * get the tab with the given tabId
    * 
-   * @param view
    * @param tabId
    * @return - the tab
    */

@@ -209,7 +209,7 @@ public class GenericControl implements ValueHolder {
   /**
    * get the value of a control
    * 
-   * @return
+   * @return the value
    */
   public Object getValue() {
     if (control instanceof TextField) {
@@ -237,13 +237,17 @@ public class GenericControl implements ValueHolder {
    * 
    * @param stage
    * @param field
-   * @return
+   * @return the new generic control
    */
   public static GenericControl create(Stage stage, Field field) {
     GenericControl gcontrol = new GenericControl(stage, field);
     return gcontrol;
   }
 
+  /**
+   * accessor for FileChooser
+   * @return the fileChooser
+   */
   public FileChooser getFileChooser() {
     return fileChooser;
   }
