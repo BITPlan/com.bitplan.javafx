@@ -65,6 +65,7 @@ public class ExceptionController implements Initializable, ExceptionHandler {
   @FXML
   Label contentLabel;
 
+  static boolean debug=true;
   private static ExceptionHelper exceptionHelper;
   private static SoftwareVersion softwareVersion;
   private static Linker linker;
@@ -117,7 +118,8 @@ public class ExceptionController implements Initializable, ExceptionHandler {
       Button reportIssueButton, TextArea textArea,
       StringProperty contentProperty) {
     String exceptionText = GenericDialog.getStackTraceText(th);
-    LOGGER.log(Level.INFO, exceptionText);
+    if (debug)
+      LOGGER.log(Level.INFO, exceptionText);
     reportIssueButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(final ActionEvent e) {
@@ -126,7 +128,10 @@ public class ExceptionController implements Initializable, ExceptionHandler {
             "There seems to be trouble with the exception:\n" + exceptionText);
       }
     });
-    ExceptionHelp ehelp = exceptionHelper.getExceptionHelp(th);
+    ExceptionHelp ehelp=null;
+    if (exceptionHelper!=null) {
+      ehelp = exceptionHelper.getExceptionHelp(th);
+    }
     if (ehelp != null) {
       FlowPane flowPane = getFlowPane(ehelp, linker);
       dialogPane.contentProperty().set(flowPane);

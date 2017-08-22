@@ -30,7 +30,10 @@ import org.controlsfx.glyphfont.Glyph;
 import org.controlsfx.glyphfont.GlyphFont;
 import org.controlsfx.glyphfont.GlyphFontRegistry;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.bitplan.i18n.Translator;
 
@@ -46,6 +49,7 @@ import javafx.scene.layout.Pane;
  * @author wf
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGUI {
   static int SHOW_TIME = 4000;
 
@@ -116,6 +120,29 @@ public class TestGUI {
       xyTabPane.selectTab(tabId);
       Thread.sleep(SHOW_TIME / tabids.size());
     }
+    sampleApp.close();
+  }
+  
+  @Test
+  public void testXAlert() throws Exception {
+    Pane pane=new Pane();
+    SampleApp sampleApp = new SampleApp("alert", pane);
+    sampleApp.show();
+    sampleApp.waitOpen();
+    GenericDialog.showAlert("Alert", "test", "test");
+    Thread.sleep(SHOW_TIME);
+    sampleApp.close();
+  }
+  
+  @Test
+  public void testYException() throws Exception {
+    Pane pane=new Pane();
+    SampleApp sampleApp = new SampleApp("alert", pane);
+    sampleApp.show();
+    sampleApp.waitOpen();
+    ExceptionController.debug=false;
+    GenericDialog.showException("exception", "an exception", new Exception("Test"), null);
+    Thread.sleep(SHOW_TIME);
     sampleApp.close();
   }
 }

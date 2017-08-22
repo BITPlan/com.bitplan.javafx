@@ -69,6 +69,7 @@ public class GenericDialog {
   private Dialog<Map<String, Object>> dialog;
   private ButtonType okButtonType;
   protected GridPane grid;
+  static boolean debug=false;
 
   /**
    * construct me from the given form description
@@ -308,7 +309,13 @@ public class GenericDialog {
    */
   public static void showException(String title, String headerText,
       Throwable th, Linker linker) {
-    LOGGER.log(Level.SEVERE, title,th);
+    if (debug)
+      LOGGER.log(Level.SEVERE, title,th);
+    Platform.runLater(()->doshowException(title,headerText,th,linker));
+  }
+   
+  private static void doshowException(String title, String headerText,
+        Throwable th, Linker linker) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
@@ -347,12 +354,23 @@ public class GenericDialog {
   public static void showAlert(String title, String headerText, String content,
       AlertType alertType) {
     // make sure the showAndWait is on the FX thread - even if a little later:-)
+    Platform.runLater(()->doshowAlert(title,headerText,content,alertType));
+  }
+  
+  /**
+   * show the given alert
+   * @param title
+   * @param headerText
+   * @param content
+   * @param alertType
+   */
+  private static void doshowAlert(String title, String headerText, String content,
+      AlertType alertType) {
     Alert alert = new Alert(alertType);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
     alert.setContentText(content);
-    alert.showAndWait();
-    LOGGER.log(Level.INFO,"alert "+title+" finished");
+    alert.showAndWait(); 
   }
 
 }
