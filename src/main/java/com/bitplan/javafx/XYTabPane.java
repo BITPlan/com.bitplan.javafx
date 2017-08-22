@@ -35,6 +35,7 @@ import org.controlsfx.glyphfont.GlyphFontRegistry;
 
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -44,8 +45,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * this is a pane that has a tabular setup for TabPanes - a vertical one to
@@ -60,24 +59,53 @@ import javafx.scene.shape.Rectangle;
  */
 public class XYTabPane extends Pane {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-
-  private TabPane vTabPane; // vertical TabPane
+  boolean debug=true;
+  TabPane vTabPane; // vertical TabPane
   List<TabPane> hTabpanes; // horizontal TabPanes - for each vertical tab there
                            // is one horizontal tab
-  private int iconSize;
+  int iconSize;
 
   Map<String, Node> iconMap = null;
-  private GlyphFont fontAwesome;
+  GlyphFont fontAwesome;
+  // Map of all Tabs by tabId
   Map<String, Tab> tabMap = new HashMap<String, Tab>();
   Map<String, Tab> vTabMap = new HashMap<String, Tab>();
+  Map<Tab,TabPane> vTabPaneMapByTab=new HashMap<Tab,TabPane>();
+  Map<TabPane,Tab> vTapMapByTabPane=new HashMap<TabPane,Tab>();
   Map<String, TabPane> tabPaneMap = new HashMap<String, TabPane>();
-
+  Map<String, TabPane> tabPaneByTabIdMap = new HashMap<String, TabPane>();
+  Button topLeftButton;
+  
+  /**
+   * get the vertical tab Pane
+   * @return - the vertical Tab Pane
+   */
   public TabPane getvTabPane() {
     return vTabPane;
   }
 
   public void setvTabPane(TabPane vTabPane) {
     this.vTabPane = vTabPane;
+  }
+
+  /**
+   * get the map of Tabs
+   * @return - the tab map
+   */
+  public Map<String, Tab> getTabMap() {
+    return tabMap;
+  }
+
+  public Button getTopLeftButton() {
+    return topLeftButton;
+  }
+
+  public void setTopLeftButton(Button topLeftButton) {
+    this.topLeftButton = topLeftButton;
+  }
+  
+  public int getTabSize() {
+    return iconSize*5/4;
   }
 
   /**
@@ -114,14 +142,15 @@ public class XYTabPane extends Pane {
     setvTabPane(this.addTabPane("vTabPane"));
     getvTabPane().setSide(Side.LEFT);
     Tab filler = new Tab();
-    Rectangle r = new Rectangle();
-    r.setWidth(iconSize);
-    r.setHeight(iconSize);
-    r.setFill(Color.TRANSPARENT);
-    r.setStroke(Color.TRANSPARENT);
-    filler.setGraphic(r);
+    topLeftButton=new Button();
+    int tabSize=getTabSize();
+    topLeftButton.setMinSize(tabSize,tabSize);
+    topLeftButton.setMaxSize(tabSize,tabSize);
+    topLeftButton.setDisable(true);
+    filler.setGraphic(topLeftButton);
     filler.setDisable(true);
     getvTabPane().getTabs().add(filler);
+    this.addToMaps(filler, vTabPane);
     fontAwesome = GlyphFontRegistry.font("FontAwesome");
     super.getChildren().add(getvTabPane());
   }
@@ -144,8 +173,7 @@ public class XYTabPane extends Pane {
             .valueOf(name);
         icon = fontAwesome.create(fglyph);
       } catch (Throwable th) {
-        LOGGER.log(Level.WARNING,
-            "could not get FontAwesomeGlyph for icon " + name);
+
       }
     }
     if (icon == null) {
@@ -157,6 +185,10 @@ public class XYTabPane extends Pane {
         icon = iconImage;
       }
     }
+    if (icon == null)
+      if (debug)
+        LOGGER.log(Level.WARNING,
+            "could not get FontAwesomeGlyph for icon " + name);
     if (icon != null) {
       if (icon instanceof Glyph)
         ((Glyph) icon).setFontSize(fontSize);
@@ -187,64 +219,74 @@ public class XYTabPane extends Pane {
   }
 
   /**
-   * add a tabPane with the given group Id and iconName
+   * add a tabPane with the given tabPane Id and iconName
    * 
    * @param title
-   * @param groupId
+   * @param tabPaneId / tabPaneId
    * @param iconName
    *          - the name of the icon
    * @return - the tabPane
    */
-  public TabPane addTabPane(String groupId, String title, String iconName) {
-    TabPane tabPane = addTabPane(groupId);
-    Tab tab = addTab(vTabPane, groupId, title, iconName, tabPane);
-    tab.setUserData(tabPane);
-    vTabMap.put(groupId, tab);
+  public TabPane addTabPane(String tabPaneId, String title, String iconName) {
+    TabPane tabPane = addTabPane(tabPaneId);
+    Tab tab = addTab(vTabPane, tabPaneId, title, iconName, tabPane);
+    vTabMap.put(tabPaneId, tab);
+    addToMaps(tab,tabPane);
     return tabPane;
+  }
+  
+  /**
+   * add the given tab/tabPane combination to the maps
+   * @param tab
+   * @param tabPane
+   */
+  private void addToMaps(Tab tab,TabPane tabPane) {
+    this.vTabPaneMapByTab.put(tab,tabPane);
+    this.vTapMapByTabPane.put(tabPane, tab);
   }
 
   /**
-   * add a tab Pane with the given groupId
+   * add a tab Pane with the given tabPaneId
    * 
-   * @param groupId
+   * @param tabPaneId
    * @return the tabPane
    */
-  public TabPane addTabPane(String groupId) {
+  public TabPane addTabPane(String tabPaneId) {
     TabPane tabPane = new TabPane();
-    int margin = iconSize / 4;
-    tabPane.setTabMinHeight(iconSize + margin);
-    tabPane.setTabMaxHeight(iconSize + margin);
-    tabPane.setTabMinWidth(iconSize + margin);
-    tabPane.setTabMaxWidth(iconSize + margin);
+    int tabSize=getTabSize();
+    tabPane.setTabMinHeight(tabSize);
+    tabPane.setTabMaxHeight(tabSize);
+    tabPane.setTabMinWidth(tabSize);
+    tabPane.setTabMaxWidth(tabSize);
     // make sure it grows e.g. when Icons are set
     // https://stackoverflow.com/a/25164425/1497139
     VBox.setVgrow(tabPane, Priority.ALWAYS);
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-    this.tabPaneMap.put(groupId, tabPane);
+    this.tabPaneMap.put(tabPaneId, tabPane);
     return tabPane;
   }
 
   /**
-   * get the tabPane with the given groupId
+   * get the tabPane with the given tabId
    * 
-   * @param groupId
+   * @param tabId
    * @return the tabPane
    */
-  public TabPane getTabPane(String groupId) {
-    TabPane tabPane = this.tabPaneMap.get(groupId);
+  public TabPane getTabPane(String tabId) {
+    TabPane tabPane = this.tabPaneMap.get(tabId);
     return tabPane;
   }
 
   /**
-   * select the Vertical Tab with the given groupId
+   * select the Vertical Tab with the given tabPaneId
    * 
-   * @param groupId
+   * @param tabPaneId
    */
-  public void selectVTab(String groupId) {
-    Tab tab = vTabMap.get(groupId);
+  public void selectVTab(String tabPaneId) {
+    Tab tab = vTabMap.get(tabPaneId);
     if (tab == null)
       throw new IllegalArgumentException(
-          "unknown groupId for vertical tab " + groupId);
+          "unknown tabPaneId for vertical tab " + tabPaneId);
     vTabPane.getSelectionModel().select(tab);
   }
 
@@ -263,7 +305,7 @@ public class XYTabPane extends Pane {
     Tab tab = new Tab();
     if (glyphName != null) {
       this.setTabGlyph(tab, glyphName);
-      tabMap.put(tabId, tab);
+      getTabMap().put(tabId, tab);
     }
     if (title != null) {
       tab.setTooltip(new Tooltip(title));
@@ -276,7 +318,7 @@ public class XYTabPane extends Pane {
       tabPane.getTabs().add(index, tab);
     else
       tabPane.getTabs().add(tab);
-
+    this.tabPaneByTabIdMap.put(tabId, tabPane);
     return tab;
   }
 
@@ -301,7 +343,31 @@ public class XYTabPane extends Pane {
    * @return - the tabId
    */
   public Tab getTab(String tabId) {
-    return this.tabMap.get(tabId);
+    return this.getTabMap().get(tabId);
+  }
+  
+  /**
+   * get the select horizontal TabPane
+   * @return - the tabPane
+   */
+  public TabPane getSelectedTabPane() {
+    Tab vTab=vTabPane.getSelectionModel().getSelectedItem();
+    TabPane tabPane=this.vTabPaneMapByTab.get(vTab);
+    return tabPane;
+  }
+  
+  /**
+   * select the tab with the given tab id
+   * @param tabId
+   * @return - the tab;
+   */
+  public Tab selectTab(String tabId) {
+    Tab tab=getTab(tabId);
+    TabPane tabPane=this.tabPaneByTabIdMap.get(tabId);
+    Tab vtab=this.vTapMapByTabPane.get(tabPane);
+    vTabPane.getSelectionModel().select(vtab);
+    tabPane.getSelectionModel().select(tab);
+    return tab;
   }
 
   /**
@@ -316,18 +382,39 @@ public class XYTabPane extends Pane {
     vsel.select(tabIndex);
     return vsel.getSelectedItem();
   }
+  
+  /**
+   * get the selected tab of the given tab Pane
+   * @param tabPane
+   * @return
+   */
+  public Tab getSelectedTab(TabPane tabPane) {
+    SingleSelectionModel<Tab> vsel = tabPane.getSelectionModel();
+    return vsel.getSelectedItem();
+  }
+  
+  /**
+   * get the selected Tab
+   * @return - the selected Tab
+   */
+  public Tab getSelectedTab() {
+    Tab vTab = getSelectedTab(this.vTabPane);
+    TabPane hTabPane =this.vTabPaneMapByTab.get(vTab);
+    return getSelectedTab(hTabPane);
+  }
 
   /**
    * select a random Tab
    */
   public Tab selectRandomTab() {
     Tab vTab = selectRandomTab(this.vTabPane);
-    TabPane hTabPane = (TabPane) vTab.getUserData();
-    if (hTabPane != null) {
-      Tab hTab = selectRandomTab(hTabPane);
-      return hTab;
-    }
-    return null;
+    TabPane hTabPane = this.vTabPaneMapByTab.get(vTab);
+    Tab hTab = selectRandomTab(hTabPane);
+    return hTab;
+  }
+
+  public int getIconSize() {
+    return this.iconSize;
   }
 
 }

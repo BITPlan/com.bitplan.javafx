@@ -23,6 +23,7 @@ package com.bitplan.javafx;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
@@ -107,13 +108,13 @@ public class TestGUI {
       }
     }
     // xyTabPane.tabMap.get("battery25").getGraphic().setRotate(90);
-    SampleApp sampleApp=new SampleApp("vertical tabs", xyTabPane);
+    SampleApp sampleApp = new SampleApp("vertical tabs", xyTabPane);
     sampleApp.show();
     sampleApp.waitOpen();
-    int loops=colNames.length;
-    for (int i=0;i<loops;i++) {
-      xyTabPane.selectRandomTab();
-      Thread.sleep(SHOW_TIME/loops);
+    Set<String> tabids = xyTabPane.getTabMap().keySet();
+    for (String tabId : tabids) {
+      xyTabPane.selectTab(tabId);
+      Thread.sleep(SHOW_TIME / tabids.size());
     }
     sampleApp.close();
   }
