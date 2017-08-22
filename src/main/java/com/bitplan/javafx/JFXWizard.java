@@ -47,7 +47,7 @@ import javafx.scene.control.Dialog;
  */
 public class JFXWizard extends Wizard {
   public static String HELP = "help";
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.obdii.javafx");
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   List<WizardPane> pages = new ArrayList<WizardPane>();
   private BooleanProperty finishedProperty = new SimpleBooleanProperty();
   private String resourcePath;

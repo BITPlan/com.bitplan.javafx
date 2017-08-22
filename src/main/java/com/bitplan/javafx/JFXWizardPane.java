@@ -54,7 +54,7 @@ import javafx.scene.control.DialogPane;
  *
  */
 public class JFXWizardPane extends WizardPane {
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.obdii.javafx");
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   public static Linker linker;
  
   /**

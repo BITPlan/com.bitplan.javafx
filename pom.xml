@@ -39,6 +39,7 @@
 		<github.global.server>github</github.global.server>
 		<!-- Dependency versions -->
 		<junit4.version>4.12</junit4.version>
+		<args4j.version>2.0.29</args4j.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -62,6 +63,12 @@
 			<artifactId>junit</artifactId>
 			<version>${junit4.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- args4j command line utility -->
+		<dependency>
+			<groupId>args4j</groupId>
+			<artifactId>args4j</artifactId>
+			<version>${args4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.bitplan.gui</groupId>
