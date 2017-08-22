@@ -30,4 +30,5 @@ https://www.apache.org/licenses/LICENSE-2.0
 ### Version History
 * 2017-08-20 0.0.1 - initial release
 * 2017-08-21 0.0.2 - adds XYTabPane
+* 2017-08-22 0.0.3 - improves icon handling
 
