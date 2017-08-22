@@ -128,7 +128,7 @@ public class TestGUI {
     SampleApp sampleApp = new SampleApp("alert", pane);
     sampleApp.show();
     sampleApp.waitOpen();
-    GenericDialog.showAlert("Alert", "test", "test");
+    GenericDialog.showAlert(sampleApp.stage,"Alert", "test", "test");
     Thread.sleep(SHOW_TIME);
     sampleApp.close();
   }
@@ -140,7 +140,7 @@ public class TestGUI {
     sampleApp.show();
     sampleApp.waitOpen();
     ExceptionController.debug=false;
-    GenericDialog.showException("exception", "an exception", new Exception("Test"), null);
+    GenericDialog.showException(sampleApp.stage,"exception", "an exception", new Exception("Test"), null);
     Thread.sleep(SHOW_TIME);
     sampleApp.close();
   }

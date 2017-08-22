@@ -71,13 +71,21 @@ public class GenericDialog {
   protected GridPane grid;
   static boolean debug=false;
 
+  public Stage getStage() {
+    return stage;
+  }
+
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
+
   /**
    * construct me from the given form description
    * 
    * @param form
    */
   public GenericDialog(Stage stage, Form form) {
-    this.stage = stage;
+    this.setStage(stage);
     this.form = form;
   }
 
@@ -153,7 +161,7 @@ public class GenericDialog {
     dialog.getDialogPane().getButtonTypes().addAll(okButtonType,
         ButtonType.CANCEL);
 
-    SetupResult setupResult=getSetup(stage,form);
+    SetupResult setupResult=getSetup(getStage(),form);
     grid=setupResult.grid;
     controls=setupResult.controls;
     dialog.getDialogPane().setContent(grid);
@@ -216,25 +224,26 @@ public class GenericDialog {
   /**
    * show the given alert
    * 
+   * @param stage
    * @param title
    * @param headerText
    * @param content
    */
-  public static void showAlert(String title, String headerText,
+  public static void showAlert(Stage stage,String title, String headerText,
       String content) {
-    showAlert(title, headerText, content, AlertType.INFORMATION);
+    showAlert(stage,title, headerText, content, AlertType.INFORMATION);
   }
 
   /**
    * show an Error
-   * 
+   * @param stage
    * @param title
    * @param headerText
    * @param content
    */
-  public static void showError(String title, String headerText,
+  public static void showError(Stage stage,String title, String headerText,
       String content) {
-    showAlert(title, headerText, content, AlertType.ERROR);
+    showAlert(stage,title, headerText, content, AlertType.ERROR);
   }
 
   /**
@@ -307,16 +316,25 @@ public class GenericDialog {
    * @param headerText
    * @param th
    */
-  public static void showException(String title, String headerText,
+  public static void showException(Stage stage,String title, String headerText,
       Throwable th, Linker linker) {
     if (debug)
       LOGGER.log(Level.SEVERE, title,th);
-    Platform.runLater(()->doshowException(title,headerText,th,linker));
+    Platform.runLater(()->doshowException(stage,title,headerText,th,linker));
   }
    
-  private static void doshowException(String title, String headerText,
+  /**
+   * show the given exception
+   * @param stage
+   * @param title
+   * @param headerText
+   * @param th
+   * @param linker
+   */
+  private static void doshowException(Stage stage,String title, String headerText,
         Throwable th, Linker linker) {
     Alert alert = new Alert(AlertType.ERROR);
+    alert.initOwner(stage);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
     Button reportIssueButton = new Button(Translator.translate("reportIssue"));
@@ -345,28 +363,30 @@ public class GenericDialog {
 
   /**
    * show an alert
-   * 
+   * @param stage
    * @param title
    * @param headerText
    * @param content
    * @param alertType
    */
-  public static void showAlert(String title, String headerText, String content,
+  public static void showAlert(Stage stage,String title, String headerText, String content,
       AlertType alertType) {
     // make sure the showAndWait is on the FX thread - even if a little later:-)
-    Platform.runLater(()->doshowAlert(title,headerText,content,alertType));
+    Platform.runLater(()->doshowAlert(stage,title,headerText,content,alertType));
   }
   
   /**
    * show the given alert
+   * @param stage
    * @param title
    * @param headerText
    * @param content
    * @param alertType
    */
-  private static void doshowAlert(String title, String headerText, String content,
+  private static void doshowAlert(Stage stage,String title, String headerText, String content,
       AlertType alertType) {
     Alert alert = new Alert(alertType);
+    alert.initOwner(stage);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
     alert.setContentText(content);

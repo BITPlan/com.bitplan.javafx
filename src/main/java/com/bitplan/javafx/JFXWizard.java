@@ -37,6 +37,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.stage.Stage;
 
 /**
  * a generic Wizard based on the controls FX Wizard which needs some tweaks to
@@ -76,8 +77,9 @@ public class JFXWizard extends Wizard {
    * 
    * @param resourcePath
    */
-  public JFXWizard(String resourcePath) {
+  public JFXWizard(Stage stage,String resourcePath) {
     this.setResourcePath(resourcePath);
+    this.getPrivateDialog().initOwner(stage);
   }
 
   public boolean isFinished() {
