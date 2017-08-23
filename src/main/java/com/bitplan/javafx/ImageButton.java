@@ -84,7 +84,7 @@ public class ImageButton extends Button {
   /**
    * get an ImageIcon for the given iconName
    * @param iconName
-   * @return
+   * @return the image icon
    */
   public static Image getImageIcon(String iconName) {
     URL resource = ImageButton.class.getResource("/icons/" + iconName);

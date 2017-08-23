@@ -64,7 +64,8 @@ public class JFXWizard extends Wizard {
    * get the internationalized text
    * 
    * @param i18nId
-   * @return
+   * @param params optional parameters
+   * @return the translated text
    */
   public String getI18n(String i18nId, Object... params) {
     String i18n = Translator.translate(i18nId, params);
@@ -74,7 +75,7 @@ public class JFXWizard extends Wizard {
   /**
    * construct me
    * 
-   * @param resourcePath
+   * @param fxml - the FXML loader utility
    */
   public JFXWizard(JFXML fxml) {
     this.setFxml(fxml);

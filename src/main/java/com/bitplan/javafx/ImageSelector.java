@@ -51,7 +51,7 @@ public class ImageSelector<T> extends GridPane {
   
   /**
    * get the choice
-   * @return
+   * @return the choice
    */
   public ChoiceBox<T> getChoice() {
     return choice;

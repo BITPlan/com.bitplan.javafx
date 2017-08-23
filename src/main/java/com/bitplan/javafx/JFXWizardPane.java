@@ -165,9 +165,8 @@ public class JFXWizardPane extends WizardPane {
   }
 
   /**
+   * fix the encoding problems with controlfx buttons
    * https://bitbucket.org/controlsfx/controlsfx/issues/769/encoding-problem-all-german-umlauts-are
-   * 
-   * @param wizardPane
    */
   protected void fixButtons() {
     ButtonType buttonTypes[] = { ButtonType.NEXT, ButtonType.PREVIOUS,
@@ -284,7 +283,7 @@ public class JFXWizardPane extends WizardPane {
   
   /**
    * get the button Bar
-   * @return
+   * @return the button bar
    */
   public ButtonBar getPrivateButtonBar() {
     Node buttonBar=wizard.getPrivate(DialogPane.class,"buttonBar",this);

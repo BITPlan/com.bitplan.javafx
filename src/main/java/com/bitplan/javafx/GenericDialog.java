@@ -61,15 +61,14 @@ import javafx.stage.Stage;
  * @author wf
  */
 public class GenericDialog {
-  protected static Logger LOGGER = Logger
-      .getLogger("com.bitplan.javafx");
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   private Form form;
   private Stage stage;
   protected Map<String, GenericControl> controls;
   private Dialog<Map<String, Object>> dialog;
   private ButtonType okButtonType;
   protected GridPane grid;
-  static boolean debug=false;
+  static boolean debug = false;
 
   public Stage getStage() {
     return stage;
@@ -121,12 +120,14 @@ public class GenericDialog {
     }
     return controls;
   }
+
   public static class SetupResult {
     GridPane grid;
-    Map<String,GenericControl>controls;
+    Map<String, GenericControl> controls;
   }
+
   public static SetupResult getSetup(Stage stage, Form form) {
-    SetupResult setupResult=new SetupResult();
+    SetupResult setupResult = new SetupResult();
     // Create labels and fields.
     GridPane grid = new GridPane();
     grid.setHgap(10);
@@ -135,7 +136,7 @@ public class GenericDialog {
 
     int ypos = 0;
     setupResult.controls = getFields(stage, grid, form, ypos);
-    setupResult.grid=grid;
+    setupResult.grid = grid;
     return setupResult;
   }
 
@@ -162,9 +163,9 @@ public class GenericDialog {
     dialog.getDialogPane().getButtonTypes().addAll(okButtonType,
         ButtonType.CANCEL);
 
-    SetupResult setupResult=getSetup(getStage(),form);
-    grid=setupResult.grid;
-    controls=setupResult.controls;
+    SetupResult setupResult = getSetup(getStage(), form);
+    grid = setupResult.grid;
+    controls = setupResult.controls;
     dialog.getDialogPane().setContent(grid);
     if (valueMap != null) {
       for (GenericControl control : controls.values()) {
@@ -176,7 +177,7 @@ public class GenericDialog {
   /**
    * get the result
    * 
-   * @return
+   * @return the result
    */
   public Map<String, Object> getResult() {
     Map<String, Object> result = new HashMap<String, Object>();
@@ -190,7 +191,8 @@ public class GenericDialog {
   /**
    * show this form with the given values
    * 
-   * @return
+   * @param valueMap
+   * @return the result
    */
   public Optional<Map<String, Object>> show(Map<String, Object> valueMap) {
     setup(valueMap);
@@ -230,21 +232,22 @@ public class GenericDialog {
    * @param headerText
    * @param content
    */
-  public static void showAlert(Stage stage,String title, String headerText,
+  public static void showAlert(Stage stage, String title, String headerText,
       String content) {
-    showAlert(stage,title, headerText, content, AlertType.INFORMATION);
+    showAlert(stage, title, headerText, content, AlertType.INFORMATION);
   }
 
   /**
    * show an Error
+   * 
    * @param stage
    * @param title
    * @param headerText
    * @param content
    */
-  public static void showError(Stage stage,String title, String headerText,
+  public static void showError(Stage stage, String title, String headerText,
       String content) {
-    showAlert(stage,title, headerText, content, AlertType.ERROR);
+    showAlert(stage, title, headerText, content, AlertType.ERROR);
   }
 
   /**
@@ -267,7 +270,7 @@ public class GenericDialog {
   /**
    * send a Report
    * 
-   * @param softwareVersion.getSupportEMail()
+   * @param softwareVersion
    * @param subject
    * @param body
    * @throws IOException
@@ -309,7 +312,7 @@ public class GenericDialog {
     String exceptionText = sw.toString();
     return exceptionText;
   }
-  
+
   /**
    * show the Exception
    * 
@@ -317,23 +320,25 @@ public class GenericDialog {
    * @param headerText
    * @param th
    */
-  public static void showException(Stage stage,String title, String headerText,
+  public static void showException(Stage stage, String title, String headerText,
       Throwable th, Linker linker) {
     if (debug)
-      LOGGER.log(Level.SEVERE, title,th);
-    Platform.runLater(()->doshowException(stage,title,headerText,th,linker));
+      LOGGER.log(Level.SEVERE, title, th);
+    Platform
+        .runLater(() -> doshowException(stage, title, headerText, th, linker));
   }
-   
+
   /**
    * show the given exception
+   * 
    * @param stage
    * @param title
    * @param headerText
    * @param th
    * @param linker
    */
-  private static void doshowException(Stage stage,String title, String headerText,
-        Throwable th, Linker linker) {
+  private static void doshowException(Stage stage, String title,
+      String headerText, Throwable th, Linker linker) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.initOwner(stage);
     alert.setTitle(title);
@@ -358,40 +363,44 @@ public class GenericDialog {
 
     // Set expandable Exception into the dialog pane.
     alert.getDialogPane().setExpandableContent(expContent);
-    ExceptionController.handleException(th, alert.getDialogPane(), reportIssueButton,textArea,alert.contentTextProperty());
+    ExceptionController.handleException(th, alert.getDialogPane(),
+        reportIssueButton, textArea, alert.contentTextProperty());
     alert.showAndWait();
   }
 
   /**
    * show an alert
+   * 
    * @param stage
    * @param title
    * @param headerText
    * @param content
    * @param alertType
    */
-  public static void showAlert(Stage stage,String title, String headerText, String content,
-      AlertType alertType) {
+  public static void showAlert(Stage stage, String title, String headerText,
+      String content, AlertType alertType) {
     // make sure the showAndWait is on the FX thread - even if a little later:-)
-    Platform.runLater(()->doshowAlert(stage,title,headerText,content,alertType));
+    Platform.runLater(
+        () -> doshowAlert(stage, title, headerText, content, alertType));
   }
-  
+
   /**
    * show the given alert
+   * 
    * @param stage
    * @param title
    * @param headerText
    * @param content
    * @param alertType
    */
-  private static void doshowAlert(Stage stage,String title, String headerText, String content,
-      AlertType alertType) {
+  private static void doshowAlert(Stage stage, String title, String headerText,
+      String content, AlertType alertType) {
     Alert alert = new Alert(alertType);
     alert.initOwner(stage);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
     alert.setContentText(content);
-    alert.showAndWait(); 
+    alert.showAndWait();
   }
 
 }

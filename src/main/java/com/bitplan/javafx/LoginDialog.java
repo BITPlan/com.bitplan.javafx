@@ -44,7 +44,7 @@ import javafx.util.Pair;
 public class LoginDialog {
   /**
    * show the Login dialog
-   * @return
+   * @return the pair
    */
   public Optional<Pair<String, String>> show() {
     // Create the custom dialog.

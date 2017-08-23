@@ -111,7 +111,7 @@ public class XYTabPane extends Pane {
   /**
    * get an initial Map of Icons
    * 
-   * @return
+   * @return the icon map
    */
   public Map<String, Node> getIconMap() {
     if (iconMap == null) {
@@ -156,9 +156,9 @@ public class XYTabPane extends Pane {
   }
 
   /**
-   * get the icon for the given glyph
+   * get the icon for the given name and fontSize
    * 
-   * @param glyph
+   * @param name - the name of the glyph
    * @param fontSize
    *          - the fontSize of the glyph
    * @return the Glyph
@@ -293,12 +293,13 @@ public class XYTabPane extends Pane {
   /**
    * add a tab
    * 
-   * @param the
+   * @param tabPane the
    *          TabPane to add a Tab to
    * @param index
    * @param title
+   * @param glyphName
    * @param content
-   * @return
+   * @return the tab
    */
   public Tab addTab(TabPane tabPane, String tabId, int index, String title,
       String glyphName, Node content) {
@@ -329,7 +330,7 @@ public class XYTabPane extends Pane {
    * @param title
    * @param glyphName
    * @param content
-   * @return
+   * @return the tab
    */
   public Tab addTab(TabPane tabPane, String tabid, String title,
       String glyphName, Node content) {
@@ -386,7 +387,7 @@ public class XYTabPane extends Pane {
   /**
    * get the selected tab of the given tab Pane
    * @param tabPane
-   * @return
+   * @return the selected tab
    */
   public Tab getSelectedTab(TabPane tabPane) {
     SingleSelectionModel<Tab> vsel = tabPane.getSelectionModel();

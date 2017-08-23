@@ -94,7 +94,7 @@ public class SampleApp extends WaitableApp {
    * @param region
    * @param showTimeMSecs
    * @param screenShotFileName
-   * @return
+   * @return the sample app
    * @throws InterruptedException
    */
   public static SampleApp createAndShow(String title, Region region,
