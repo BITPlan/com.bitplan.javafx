@@ -37,7 +37,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.stage.Stage;
 
 /**
  * a generic Wizard based on the controls FX Wizard which needs some tweaks to
@@ -51,14 +50,14 @@ public class JFXWizard extends Wizard {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   List<WizardPane> pages = new ArrayList<WizardPane>();
   private BooleanProperty finishedProperty = new SimpleBooleanProperty();
-  private String resourcePath;
+  private JFXML fxml;
 
-  public String getResourcePath() {
-    return resourcePath;
+  public JFXML getFxml() {
+    return fxml;
   }
 
-  public void setResourcePath(String resourcePath) {
-    this.resourcePath = resourcePath;
+  public void setFxml(JFXML fxml) {
+    this.fxml = fxml;
   }
 
   /**
@@ -77,9 +76,9 @@ public class JFXWizard extends Wizard {
    * 
    * @param resourcePath
    */
-  public JFXWizard(Stage stage,String resourcePath) {
-    this.setResourcePath(resourcePath);
-    this.getPrivateDialog().initOwner(stage);
+  public JFXWizard(JFXML fxml) {
+    this.setFxml(fxml);
+    this.getPrivateDialog().initOwner(fxml.getStage());
   }
 
   public boolean isFinished() {

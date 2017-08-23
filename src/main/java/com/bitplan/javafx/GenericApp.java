@@ -53,6 +53,8 @@ public class GenericApp extends WaitableApp {
   protected XYTabPane xyTabPane;
   private Map<String, GenericPanel> panels = new HashMap<String, GenericPanel>();
   public int ICON_SIZE = 64;
+  private JFXML fxml;
+  private String resourcePath;
   
   public XYTabPane getXyTabPane() {
     return xyTabPane;
@@ -62,7 +64,6 @@ public class GenericApp extends WaitableApp {
     this.xyTabPane = xyTabPane;
   }
   
- 
   public SoftwareVersion getSoftwareVersion() {
     return softwareVersion;
   }
@@ -79,6 +80,14 @@ public class GenericApp extends WaitableApp {
     this.app = app;
   }
   
+  public JFXML getFxml() {
+    return fxml;
+  }
+
+  public void setFxml(JFXML fxml) {
+    this.fxml = fxml;
+  }
+
   /**
    * setup the given Application adds tabPanes to the tabPaneByView map
    * 
@@ -102,11 +111,12 @@ public class GenericApp extends WaitableApp {
    * @param app
    * @param softwareVersion
    */
-  public GenericApp(App app, SoftwareVersion softwareVersion) {
+  public GenericApp(App app, SoftwareVersion softwareVersion, String resourcePath) {
     toolkitInit();
     xyTabPane=new XYTabPane(ICON_SIZE);
     // new JFXPanel();
     this.setApp(app);
+    this.resourcePath=resourcePath;
     this.setSoftwareVersion(softwareVersion);
     ExceptionController.setExceptionHelper(app);
     ExceptionController.setSoftwareVersion(softwareVersion);
@@ -175,6 +185,7 @@ public class GenericApp extends WaitableApp {
   @Override
   public void start(Stage stage) {
     super.start(stage);
+    fxml=new JFXML(resourcePath,stage,app);
     stage.setTitle(
         softwareVersion.getName() + " " + softwareVersion.getVersion());
   }

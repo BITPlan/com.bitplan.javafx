@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.gui</groupId>
 	<artifactId>com.bitplan.javafx</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>com.bitplan.javafx</name>
 	<description>javafx controls and utilties</description>
 	<url>https://github.com/BITPlan/com.bitplan.javafx</url>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.bitplan.gui</groupId>
 			<artifactId>com.bitplan.gui</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.3</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
 		<dependency>

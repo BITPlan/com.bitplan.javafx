@@ -20,8 +20,6 @@
  */
 package com.bitplan.javafx;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.controlsfx.dialog.Wizard;
@@ -31,16 +29,15 @@ import org.controlsfx.glyphfont.Glyph;
 import org.controlsfx.glyphfont.GlyphFont;
 import org.controlsfx.glyphfont.GlyphFontRegistry;
 
-import com.bitplan.error.ErrorHandler;
 import com.bitplan.gui.Linker;
 import com.bitplan.i18n.Translator;
+import com.bitplan.javafx.JFXML.LoadResult;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -65,7 +62,6 @@ public class JFXWizardPane extends WizardPane {
   private int step;
   private int steps;
   protected Object controller;
-  private String pageName;
   private GlyphFont fontAwesome;
   private JFXWizard wizard;
   private Button helpButton;
@@ -198,7 +194,6 @@ public class JFXWizardPane extends WizardPane {
    * 
    * @return the button
    */
-  @SuppressWarnings("rawtypes")
   public Button findButton(ButtonType buttonType) {
     /* Dialog dialog=wizard.getPrivateDialog();
     return (Button) dialog.getDialogPane().lookupButton(buttonType);
@@ -237,27 +232,26 @@ public class JFXWizardPane extends WizardPane {
 
   public void setController(Object controller) {
     this.controller = controller;
-  }
-
+  }  
   
-
   /**
-   * load me from the given fxml pageName
-   * 
-   * @param pageName
+   * load the controller for the given fxmlFileName
+   * @param fxmlFileName
+   * @return - the fxmlFileName
    */
-  public void load(String pageName) {
-    this.pageName = pageName;
-    try {
-      ResourceBundle resourceBundle = Translator.getBundle();
-      URL fxml = getClass().getResource(wizard.getResourcePath() + pageName + ".fxml");
-      FXMLLoader fxmlLoader = new FXMLLoader(fxml, resourceBundle);
-      Parent parent = fxmlLoader.load();
-      this.setContentNode(parent);
-      controller = fxmlLoader.getController();
-    } catch (Throwable th) {
-      ErrorHandler.handle(th);
-    }
+  public <T> T load(String fxmlFileName) {
+    LoadResult<T> loadResult=wizard.getFxml().load(fxmlFileName);
+    this.setContentNode(loadResult.parent);
+    controller=loadResult.getController();
+    return loadResult.getController();
+  }
+  
+  /**
+   * accessor for contentNode
+   * @return -the content Node
+   */
+  public Node getContentNode() {
+    return contentNode;
   }
   
   /**
