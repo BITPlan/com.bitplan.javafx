@@ -28,7 +28,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -41,7 +40,6 @@ import com.bitplan.gui.Linker;
 import com.bitplan.i18n.Translator;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -64,10 +62,10 @@ public class GenericDialog {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   private Form form;
   private Stage stage;
-  protected Map<String, GenericControl> controls;
+ 
   private Dialog<Map<String, Object>> dialog;
   private ButtonType okButtonType;
-  protected GridPane grid;
+  protected GenericPanel genericPanel;
   static boolean debug = false;
 
   public Stage getStage() {
@@ -87,59 +85,7 @@ public class GenericDialog {
     this.setStage(stage);
     this.form = form;
   }
-
-  /**
-   * get the Fields for the given form
-   * 
-   * @param grid
-   * @param form
-   * @param ypos
-   * @return - the Map of fields
-   */
-  public static Map<String, GenericControl> getFields(Stage stage,
-      GridPane grid, Form form, int ypos) {
-    Map<String, GenericControl> controls = new HashMap<String, GenericControl>();
-    for (com.bitplan.gui.Field field : form.getFields()) {
-      GenericControl gcontrol = GenericControl.create(stage, field);
-      int x = 0;
-      int y = ypos;
-      if (field.getGridX() != null)
-        x = field.getGridX();
-      if (field.getGridY() != null)
-        y = field.getGridY();
-      grid.add(gcontrol.label, x, y);
-      if (gcontrol.control != null) {
-        grid.add(gcontrol.control, x + 1, y);
-      }
-      if (gcontrol.button != null) {
-        grid.add(gcontrol.button, x + 2, y);
-      }
-      if (field.getGridY() == null)
-        ypos++;
-      controls.put(field.getId(), gcontrol);
-    }
-    return controls;
-  }
-
-  public static class SetupResult {
-    GridPane grid;
-    Map<String, GenericControl> controls;
-  }
-
-  public static SetupResult getSetup(Stage stage, Form form) {
-    SetupResult setupResult = new SetupResult();
-    // Create labels and fields.
-    GridPane grid = new GridPane();
-    grid.setHgap(10);
-    grid.setVgap(10);
-    grid.setPadding(new Insets(20, 150, 10, 10));
-
-    int ypos = 0;
-    setupResult.controls = getFields(stage, grid, form, ypos);
-    setupResult.grid = grid;
-    return setupResult;
-  }
-
+  
   /**
    * setup the control according to the given valueMap
    * 
@@ -163,14 +109,11 @@ public class GenericDialog {
     dialog.getDialogPane().getButtonTypes().addAll(okButtonType,
         ButtonType.CANCEL);
 
-    SetupResult setupResult = getSetup(getStage(), form);
-    grid = setupResult.grid;
-    controls = setupResult.controls;
-    dialog.getDialogPane().setContent(grid);
+    genericPanel = new GenericPanel(getStage(),form);
+
+    dialog.getDialogPane().setContent(genericPanel);
     if (valueMap != null) {
-      for (GenericControl control : controls.values()) {
-        control.setValue(valueMap.get(control.field.getId()));
-      }
+      genericPanel.setValues(valueMap);
     }
   }
 
@@ -180,14 +123,14 @@ public class GenericDialog {
    * @return the result
    */
   public Map<String, Object> getResult() {
-    Map<String, Object> result = new HashMap<String, Object>();
-    for (com.bitplan.gui.Field field : form.getFields()) {
-      GenericControl gcontrol = controls.get(field.getId());
-      result.put(field.getId(), gcontrol.getValue());
-    }
-    return result;
+    return genericPanel.getValueMap();
   }
 
+  public GenericControl getControl(String controlId) {
+    return genericPanel.getControl(controlId);
+  }
+
+  
   /**
    * show this form with the given values
    * 
@@ -198,8 +141,8 @@ public class GenericDialog {
     setup(valueMap);
 
     // Request focus on the first field by default.
-    final GenericControl focusField = controls
-        .get(form.getFields().get(0).getId());
+    String firstFieldId=form.getFields().get(0).getId();
+    final GenericControl focusField = this.getControl(firstFieldId);
     Platform.runLater(() -> focusField.control.requestFocus());
 
     // Convert the result to a username-password-pair when the login button is

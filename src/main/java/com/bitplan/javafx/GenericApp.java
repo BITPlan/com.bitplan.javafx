@@ -90,6 +90,14 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
     this.fxml = fxml;
   }
 
+  public Map<String, GenericPanel> getPanels() {
+    return panels;
+  }
+
+  public void setPanels(Map<String, GenericPanel> panels) {
+    this.panels = panels;
+  }
+
   /**
    * setup the given Application adds tabPanes to the tabPaneByView map
    * 
@@ -101,7 +109,8 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
       TabPane tabPane = xyTabPane.addTabPane(group.getId(),Translator.translate(group.getName()),group.getIcon());
       for (Form form : group.getForms()) {
         GenericPanel panel = new GenericPanel(stage, form);
-        panels.put(form.getId(), panel);
+        panel.setEditable(false);
+        getPanels().put(form.getId(), panel);
         controls.putAll(panel.controls);
         xyTabPane.addTab(tabPane, form.getId(),Translator.translate(form.getTitle()), form.getIcon(),panel);
       }
