@@ -26,10 +26,12 @@ import java.util.logging.Logger;
 
 import org.controlsfx.control.Notifications;
 
+import com.bitplan.error.ExceptionHandler;
 import com.bitplan.error.SoftwareVersion;
 import com.bitplan.gui.App;
 import com.bitplan.gui.Form;
 import com.bitplan.gui.Group;
+import com.bitplan.gui.Linker;
 import com.bitplan.i18n.Translator;
 
 import javafx.application.Platform;
@@ -43,7 +45,7 @@ import javafx.util.Duration;
  * @author wf
  *
  */
-public class GenericApp extends WaitableApp {
+public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   public static boolean testMode = false;
@@ -188,6 +190,38 @@ public class GenericApp extends WaitableApp {
     fxml=new JFXML(resourcePath,stage,app);
     stage.setTitle(
         softwareVersion.getName() + " " + softwareVersion.getVersion());
+  }
+  
+  /**
+   * handle the given exception
+   * 
+   * @param th
+   */
+  public void handleException(Throwable th) {
+    Platform.runLater(() -> GenericDialog.showException(stage,
+        Translator.translate("error"), Translator.translate("problem_occured"), th, this));
+  }
+
+  /**
+   * show an About dialog
+   */
+  public void showAbout() {
+    String headerText = softwareVersion.getName() + " "
+        + softwareVersion.getVersion();
+    GenericDialog.showAlert(stage, "About", headerText,
+        softwareVersion.getUrl());
+  }
+
+  /**
+   * browse to the link page
+   */
+  public Void showLink(String link) {
+    try {
+      this.browse(link);
+    } catch (Exception e) {
+      handleException(e);
+    }
+    return null;
   }
 
 }

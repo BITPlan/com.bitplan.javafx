@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.bitplan.error.ErrorHandler;
+import com.bitplan.error.ExceptionHandler;
 import com.bitplan.gui.App;
 import com.bitplan.i18n.Translator;
 
@@ -58,7 +59,6 @@ public class JFXML {
   public void setApp(App app) {
     this.app = app;
   }
-
 
   /**
    * create an FXML loader for the given resourcePath
@@ -107,13 +107,18 @@ public class JFXML {
   }
   
   /**
-   * load the presenter for the given FXMLFilename
+   * load the presenter for the given entityName
    * @param fxmlFileName
+   * @param clazz - the runtime class 
+   * @param exceptionhandler
    * @return the presenter
    */
-  public <T extends BasePresenter<?>> T loadPresenter(String fxmlFileName) {
-    LoadResult<T> loadResult = load(fxmlFileName);
-    loadResult.controller.setParent(loadResult.parent);
-    return loadResult.controller;
+  public <T extends BasePresenter<V>,V> T loadPresenter(String entityName, Class<V> clazz, ExceptionHandler exceptionHandler) {
+    LoadResult<T> loadResult = load(entityName);
+    T presenter=loadResult.controller;
+    presenter.setParent(loadResult.parent);
+    presenter.init(stage, app, exceptionHandler);
+    presenter.setClazz(clazz);
+    return presenter;
   }
 }

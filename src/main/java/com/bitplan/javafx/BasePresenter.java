@@ -20,6 +20,7 @@
  */
 package com.bitplan.javafx;
 
+import com.bitplan.error.ExceptionHandler;
 import com.bitplan.gui.App;
 import com.bitplan.gui.Presenter;
 
@@ -37,7 +38,9 @@ public abstract class BasePresenter<T> implements Presenter<T>, Initializable {
   private Stage stage;
   private App app;
   private Parent parent;
-  
+  Class<T> clazz; // runtime Class Information
+  private ExceptionHandler exceptionHandler;
+
   public Stage getStage() {
     return stage;
   }
@@ -62,13 +65,37 @@ public abstract class BasePresenter<T> implements Presenter<T>, Initializable {
     this.parent = parent;
   }
 
+  public Class<T> getClazz() {
+    return clazz;
+  }
+
+  public void setClazz(Class<T> clazz) {
+    this.clazz = clazz;
+  }
+
+  public ExceptionHandler getExceptionHandler() {
+    return exceptionHandler;
+  }
+
+  public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+    this.exceptionHandler = exceptionHandler;
+  }
+
   /**
    * initialize me
    * @param stage
    * @param app
+   * @param exceptionHandler
    */
-  public void init(Stage stage, App app) {
+  public void init(Stage stage, App app, ExceptionHandler exceptionHandler) {
+    preInit();
     this.stage=stage;
     this.app=app;
+    this.exceptionHandler=exceptionHandler;
+    postInit();
   }
+  
+  public void preInit() {}; // override if you like
+  public void postInit(){}; // override if you like
+  abstract public void show(T model);
 }

@@ -29,6 +29,7 @@ import org.controlsfx.glyphfont.Glyph;
 import org.controlsfx.glyphfont.GlyphFont;
 import org.controlsfx.glyphfont.GlyphFontRegistry;
 
+import com.bitplan.error.ExceptionHandler;
 import com.bitplan.gui.Linker;
 import com.bitplan.i18n.Translator;
 import com.bitplan.javafx.JFXML.LoadResult;
@@ -50,7 +51,7 @@ import javafx.scene.control.DialogPane;
  * @author wf
  *
  */
-public class JFXWizardPane extends WizardPane {
+public class JFXWizardPane extends WizardPane implements ExceptionHandler {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   public static Linker linker;
  
