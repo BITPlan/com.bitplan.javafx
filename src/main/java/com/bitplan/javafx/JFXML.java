@@ -35,15 +35,16 @@ import javafx.stage.Stage;
 /**
  * FXML loader utility that can integrate between the platform independent
  * Application (App) concept and FXML
+ * 
  * @author wf
  *
  */
 public class JFXML {
-  
+
   private String resourcePath;
   private Stage stage;
   private App app;
-  
+
   public Stage getStage() {
     return stage;
   }
@@ -62,29 +63,33 @@ public class JFXML {
 
   /**
    * create an FXML loader for the given resourcePath
+   * 
    * @param resourcePath
    */
-  public JFXML(String resourcePath,Stage stage, App app) {
-    this.stage=stage;
-    this.app=app;
-    this.resourcePath=resourcePath;
+  public JFXML(String resourcePath, Stage stage, App app) {
+    this.stage = stage;
+    this.app = app;
+    this.resourcePath = resourcePath;
   }
-  
+
   /**
-   * Load a Result 
+   * Load a Result
+   * 
    * @param <T>
    */
   public class LoadResult<T> {
     Parent parent;
     private T controller;
+
     public T getController() {
       return controller;
     }
+
     public void setController(T controller) {
       this.controller = controller;
     }
   }
-  
+
   /**
    * load me from the given fxml fileName
    * 
@@ -93,9 +98,10 @@ public class JFXML {
    */
   public <T> LoadResult<T> load(String fxmlFileName) {
     try {
-      LoadResult<T> loadResult=new LoadResult<T>();
+      LoadResult<T> loadResult = new LoadResult<T>();
       ResourceBundle resourceBundle = Translator.getBundle();
-      URL fxml = JFXWizardPane.class.getResource(resourcePath+ fxmlFileName + ".fxml");
+      URL fxml = JFXWizardPane.class
+          .getResource(resourcePath + fxmlFileName + ".fxml");
       FXMLLoader fxmlLoader = new FXMLLoader(fxml, resourceBundle);
       loadResult.parent = fxmlLoader.load();
       loadResult.setController(fxmlLoader.getController());
@@ -105,17 +111,20 @@ public class JFXML {
     }
     return null;
   }
-  
+
   /**
    * load the presenter for the given entityName
-   * @param fxmlFileName
-   * @param clazz - the runtime class 
-   * @param exceptionhandler
+   * 
+   * @param entityName
+   * @param clazz
+   *          - the runtime class
+   * @param exceptionHandler
    * @return the presenter
    */
-  public <T extends BasePresenter<V>,V> T loadPresenter(String entityName, Class<V> clazz, ExceptionHandler exceptionHandler) {
+  public <T extends BasePresenter<V>, V> T loadPresenter(String entityName,
+      Class<V> clazz, ExceptionHandler exceptionHandler) {
     LoadResult<T> loadResult = load(entityName);
-    T presenter=loadResult.controller;
+    T presenter = loadResult.controller;
     presenter.setParent(loadResult.parent);
     presenter.init(stage, app, exceptionHandler);
     presenter.setClazz(clazz);
