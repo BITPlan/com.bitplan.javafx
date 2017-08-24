@@ -9,7 +9,7 @@ javafx controls and utilities
 ### Distribution
 Available at Maven Central see 
 
-http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.5|jar
+http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.6|jar
 
 Maven dependency:
 
@@ -17,7 +17,7 @@ Maven dependency:
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
 </dependency>
 ```
 

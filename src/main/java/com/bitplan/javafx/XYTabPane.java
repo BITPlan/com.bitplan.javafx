@@ -388,7 +388,7 @@ public class XYTabPane extends Pane {
   public Tab selectRandomTab(TabPane tabPane) {
     Random random = new Random();
     SingleSelectionModel<Tab> vsel = tabPane.getSelectionModel();
-    int tabIndex = random.nextInt(vTabPane.getTabs().size());
+    int tabIndex = random.nextInt(vTabPane.getTabs().size()-1);
     vsel.select(tabIndex);
     return vsel.getSelectedItem();
   }

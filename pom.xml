@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.gui</groupId>
 	<artifactId>com.bitplan.javafx</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<name>com.bitplan.javafx</name>
 	<description>javafx controls and utilties</description>
 	<url>https://github.com/BITPlan/com.bitplan.javafx</url>
