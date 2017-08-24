@@ -59,7 +59,7 @@ import javafx.scene.layout.VBox;
  */
 public class XYTabPane extends Pane {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-  boolean debug=true;
+  boolean debug = true;
   TabPane vTabPane; // vertical TabPane
   List<TabPane> hTabpanes; // horizontal TabPanes - for each vertical tab there
                            // is one horizontal tab
@@ -70,14 +70,15 @@ public class XYTabPane extends Pane {
   // Map of all Tabs by tabId
   Map<String, Tab> tabMap = new HashMap<String, Tab>();
   Map<String, Tab> vTabMap = new HashMap<String, Tab>();
-  Map<Tab,TabPane> vTabPaneMapByTab=new HashMap<Tab,TabPane>();
-  Map<TabPane,Tab> vTapMapByTabPane=new HashMap<TabPane,Tab>();
+  Map<Tab, TabPane> vTabPaneMapByTab = new HashMap<Tab, TabPane>();
+  Map<TabPane, Tab> vTapMapByTabPane = new HashMap<TabPane, Tab>();
   Map<String, TabPane> tabPaneMap = new HashMap<String, TabPane>();
   Map<String, TabPane> tabPaneByTabIdMap = new HashMap<String, TabPane>();
   Button topLeftButton;
-  
+
   /**
    * get the vertical tab Pane
+   * 
    * @return - the vertical Tab Pane
    */
   public TabPane getvTabPane() {
@@ -90,6 +91,7 @@ public class XYTabPane extends Pane {
 
   /**
    * get the map of Tabs
+   * 
    * @return - the tab map
    */
   public Map<String, Tab> getTabMap() {
@@ -103,9 +105,9 @@ public class XYTabPane extends Pane {
   public void setTopLeftButton(Button topLeftButton) {
     this.topLeftButton = topLeftButton;
   }
-  
+
   public int getTabSize() {
-    return iconSize*5/4;
+    return iconSize * 5 / 4;
   }
 
   /**
@@ -142,10 +144,10 @@ public class XYTabPane extends Pane {
     setvTabPane(this.addTabPane("vTabPane"));
     getvTabPane().setSide(Side.LEFT);
     Tab filler = new Tab();
-    topLeftButton=new Button();
-    int tabSize=getTabSize();
-    topLeftButton.setMinSize(tabSize,tabSize);
-    topLeftButton.setMaxSize(tabSize,tabSize);
+    topLeftButton = new Button();
+    int tabSize = getTabSize();
+    topLeftButton.setMinSize(tabSize, tabSize);
+    topLeftButton.setMaxSize(tabSize, tabSize);
     topLeftButton.setDisable(true);
     filler.setGraphic(topLeftButton);
     filler.setDisable(true);
@@ -158,7 +160,8 @@ public class XYTabPane extends Pane {
   /**
    * get the icon for the given name and fontSize
    * 
-   * @param name - the name of the glyph
+   * @param name
+   *          - the name of the glyph
    * @param fontSize
    *          - the fontSize of the glyph
    * @return the Glyph
@@ -222,7 +225,8 @@ public class XYTabPane extends Pane {
    * add a tabPane with the given tabPane Id and iconName
    * 
    * @param title
-   * @param tabPaneId / tabPaneId
+   * @param tabPaneId
+   *          / tabPaneId
    * @param iconName
    *          - the name of the icon
    * @return - the tabPane
@@ -231,17 +235,18 @@ public class XYTabPane extends Pane {
     TabPane tabPane = addTabPane(tabPaneId);
     Tab tab = addTab(vTabPane, tabPaneId, title, iconName, tabPane);
     vTabMap.put(tabPaneId, tab);
-    addToMaps(tab,tabPane);
+    addToMaps(tab, tabPane);
     return tabPane;
   }
-  
+
   /**
    * add the given tab/tabPane combination to the maps
+   * 
    * @param tab
    * @param tabPane
    */
-  private void addToMaps(Tab tab,TabPane tabPane) {
-    this.vTabPaneMapByTab.put(tab,tabPane);
+  private void addToMaps(Tab tab, TabPane tabPane) {
+    this.vTabPaneMapByTab.put(tab, tabPane);
     this.vTapMapByTabPane.put(tabPane, tab);
   }
 
@@ -253,11 +258,13 @@ public class XYTabPane extends Pane {
    */
   public TabPane addTabPane(String tabPaneId) {
     TabPane tabPane = new TabPane();
-    int tabSize=getTabSize();
+    int tabSize = getTabSize();
     tabPane.setTabMinHeight(tabSize);
     tabPane.setTabMaxHeight(tabSize);
     tabPane.setTabMinWidth(tabSize);
     tabPane.setTabMaxWidth(tabSize);
+    //tabPane.setMaxWidth(Control.USE_PREF_SIZE);
+    //tabPane.setMaxHeight(Control.USE_PREF_SIZE);
     // make sure it grows e.g. when Icons are set
     // https://stackoverflow.com/a/25164425/1497139
     VBox.setVgrow(tabPane, Priority.ALWAYS);
@@ -293,8 +300,8 @@ public class XYTabPane extends Pane {
   /**
    * add a tab
    * 
-   * @param tabPane the
-   *          TabPane to add a Tab to
+   * @param tabPane
+   *          the TabPane to add a Tab to
    * @param index
    * @param title
    * @param glyphName
@@ -346,26 +353,28 @@ public class XYTabPane extends Pane {
   public Tab getTab(String tabId) {
     return this.getTabMap().get(tabId);
   }
-  
+
   /**
    * get the select horizontal TabPane
+   * 
    * @return - the tabPane
    */
   public TabPane getSelectedTabPane() {
-    Tab vTab=vTabPane.getSelectionModel().getSelectedItem();
-    TabPane tabPane=this.vTabPaneMapByTab.get(vTab);
+    Tab vTab = vTabPane.getSelectionModel().getSelectedItem();
+    TabPane tabPane = this.vTabPaneMapByTab.get(vTab);
     return tabPane;
   }
-  
+
   /**
    * select the tab with the given tab id
+   * 
    * @param tabId
    * @return - the tab;
    */
   public Tab selectTab(String tabId) {
-    Tab tab=getTab(tabId);
-    TabPane tabPane=this.tabPaneByTabIdMap.get(tabId);
-    Tab vtab=this.vTapMapByTabPane.get(tabPane);
+    Tab tab = getTab(tabId);
+    TabPane tabPane = this.tabPaneByTabIdMap.get(tabId);
+    Tab vtab = this.vTapMapByTabPane.get(tabPane);
     vTabPane.getSelectionModel().select(vtab);
     tabPane.getSelectionModel().select(tab);
     return tab;
@@ -383,9 +392,10 @@ public class XYTabPane extends Pane {
     vsel.select(tabIndex);
     return vsel.getSelectedItem();
   }
-  
+
   /**
    * get the selected tab of the given tab Pane
+   * 
    * @param tabPane
    * @return the selected tab
    */
@@ -393,14 +403,15 @@ public class XYTabPane extends Pane {
     SingleSelectionModel<Tab> vsel = tabPane.getSelectionModel();
     return vsel.getSelectedItem();
   }
-  
+
   /**
    * get the selected Tab
+   * 
    * @return - the selected Tab
    */
   public Tab getSelectedTab() {
     Tab vTab = getSelectedTab(this.vTabPane);
-    TabPane hTabPane =this.vTabPaneMapByTab.get(vTab);
+    TabPane hTabPane = this.vTabPaneMapByTab.get(vTab);
     return getSelectedTab(hTabPane);
   }
 

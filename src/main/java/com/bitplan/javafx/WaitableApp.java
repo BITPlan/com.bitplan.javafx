@@ -161,8 +161,10 @@ public abstract class WaitableApp extends Application implements Display {
    * close this display
    */
   public void close() {
-    if (stage != null)
-      Platform.runLater(() -> stage.close());
+    Platform.runLater(() -> {
+      if (stage != null)
+        stage.close();
+    });
     this.waitClose();
     // allow reopening
     stage = null;
@@ -171,8 +173,10 @@ public abstract class WaitableApp extends Application implements Display {
   /**
    * save me as a Png File
    * 
-   * @param stage - the stage to take a screen shot from
-   * @param file - the file to save the image to
+   * @param stage
+   *          - the stage to take a screen shot from
+   * @param file
+   *          - the file to save the image to
    */
   public static synchronized void saveAsPng(Stage stage, File file) {
     WritableImage image = stage.getScene().snapshot(null);

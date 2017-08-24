@@ -22,6 +22,7 @@ package com.bitplan.javafx;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.Notifications;
@@ -124,8 +125,12 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
    */
   public GenericApp(App app, SoftwareVersion softwareVersion, String resourcePath) {
     toolkitInit();
-    xyTabPane=new XYTabPane(ICON_SIZE);
     // new JFXPanel();
+    double screenHeight = getScreenHeight();
+    // 839 
+    ICON_SIZE=(int) Math.round(screenHeight/13);
+    LOGGER.log(Level.INFO,"screenHeight= "+screenHeight+" icon size="+ICON_SIZE);
+    xyTabPane=new XYTabPane(ICON_SIZE);
     this.setApp(app);
     this.resourcePath=resourcePath;
     this.setSoftwareVersion(softwareVersion);
