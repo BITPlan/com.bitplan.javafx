@@ -129,7 +129,7 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
     double screenHeight = getScreenHeight();
     // 839 
     ICON_SIZE=(int) Math.round(screenHeight/13);
-    LOGGER.log(Level.INFO,"screenHeight= "+screenHeight+" icon size="+ICON_SIZE);
+    // LOGGER.log(Level.INFO,"screenHeight= "+screenHeight+" icon size="+ICON_SIZE);
     xyTabPane=new XYTabPane(ICON_SIZE);
     this.setApp(app);
     this.resourcePath=resourcePath;
