@@ -38,4 +38,6 @@ https://www.apache.org/licenses/LICENSE-2.0
 * 2017-08-22 0.0.3 - improves icon handling
 * 2017-08-22 0.0.4 - adds GenericApp
 * 2017-08-23 0.0.5 - add JFXML
+* 2017-08-24 0.0.6 - fixes selectRandomTab
+* 2018-08-05 0.0.7 - upgrades to com.bitplan.gui 0.0.4 and refactors
 
