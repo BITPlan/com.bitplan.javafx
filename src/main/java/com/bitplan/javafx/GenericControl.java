@@ -35,6 +35,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
@@ -49,12 +50,13 @@ import javafx.stage.Stage;
  * @author wf
  *
  */
+@SuppressWarnings("restriction")
 public class GenericControl implements ValueHolder {
-  protected static Logger LOGGER = Logger
-      .getLogger("com.bitplan.javafx");
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   Control control;
   Label label;
   private TextField textField;
+
   Button button;
   Field field;
   ChoiceBox<String> choiceBox;
@@ -74,6 +76,23 @@ public class GenericControl implements ValueHolder {
   }
 
   /**
+   * get the columnt Count estimate for the given field
+   * 
+   * @param field
+   * @return - the column count
+   */
+  public int getColumnCount(Field field) {
+    int columnCount = 0;
+    if (field.getFieldSize() != null) {
+      // heuristic correction of columns specified in generic description
+      // versus Java FX interpretation - the columns are too wide as of
+      // 2017-06-28
+      columnCount = field.getFieldSize() * 4 / 6;
+    }
+    return columnCount;
+  }
+
+  /**
    * create a generic control for the given field
    * 
    * @param stage
@@ -84,17 +103,17 @@ public class GenericControl implements ValueHolder {
     this.field = field;
     String fieldType = field.getType();
     if (fieldType == null || "Integer".equals(fieldType)
+        || "Double".equals(fieldType) || "Password".equals(fieldType)
         || "File".equals(fieldType) || "Directory".equals(fieldType)) {
-      textField = new TextField();
-      textField.setPromptText(field.getTitle());
-      if (field.getFieldSize() != null) {
-        // heuristic correction of columns specified in generic description
-        // versus Java FX interpretation - the columns are too wide as of
-        // 2017-06-28
-        int columnCount = field.getFieldSize() * 4 / 6;
-        if (columnCount > 0)
-          textField.setPrefColumnCount(columnCount);
+      if ("Password".equals(fieldType)) {
+        textField = new PasswordField();
+      } else {
+        textField = new TextField();
       }
+      textField.setPromptText(field.getTitle());
+      int columnCount = this.getColumnCount(field);
+      if (columnCount > 0)
+        textField.setPrefColumnCount(columnCount);
       control = textField;
     } else if ("Choice".equals(fieldType)) {
       choiceBox = new ChoiceBox<String>();
@@ -103,15 +122,28 @@ public class GenericControl implements ValueHolder {
     } else if ("Boolean".equals(fieldType)) {
       checkBox = new CheckBox();
       control = checkBox;
+    } else {
+      throw new IllegalArgumentException(
+          String.format("Unsupported field type %s", fieldType));
     }
     // force numeric content for integer fields
-    if ("Integer".equals(fieldType)) {
+    if ("Integer".equals(fieldType) || "Double".equals(fieldType)) {
       // force numeric content
       // https://stackoverflow.com/a/36436243/1497139
+      String matchExpr = "";
+      switch (fieldType) {
+      case "Integer":
+        matchExpr = "[0-9]*";
+        break;
+      case "Double":
+        matchExpr = "[0-9]*\\.[0-9]*";
+        break;
+      }
+      final String match = matchExpr;
       UnaryOperator<Change> filter = change -> {
         String text = change.getText();
 
-        if (text.matches("[0-9]*")) {
+        if (text.matches(match)) {
           return change;
         }
 
@@ -195,13 +227,14 @@ public class GenericControl implements ValueHolder {
       }
     }
   }
-  
+
   /**
    * set the toolTip
+   * 
    * @param toolTip
    */
   public void setToolTip(String toolTip) {
-    if (control.getTooltip()==null)
+    if (control.getTooltip() == null)
       control.setTooltip(new Tooltip());
     control.getTooltip().setText(toolTip);
   }
@@ -246,6 +279,7 @@ public class GenericControl implements ValueHolder {
 
   /**
    * accessor for FileChooser
+   * 
    * @return the fileChooser
    */
   public FileChooser getFileChooser() {
@@ -263,7 +297,5 @@ public class GenericControl implements ValueHolder {
   public void setDirectoryChooser(DirectoryChooser directoryChooser) {
     this.directoryChooser = directoryChooser;
   }
-
-  
 
 }

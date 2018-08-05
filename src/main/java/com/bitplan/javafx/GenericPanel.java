@@ -35,6 +35,7 @@ import javafx.stage.Stage;
  * @author wf
  *
  */
+@SuppressWarnings("restriction")
 public class GenericPanel extends GridPane {
   protected Form form;
   public Map<String, GenericControl> controls;

@@ -22,7 +22,6 @@ package com.bitplan.javafx;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.Notifications;
@@ -33,11 +32,24 @@ import com.bitplan.gui.App;
 import com.bitplan.gui.Form;
 import com.bitplan.gui.Group;
 import com.bitplan.gui.Linker;
+import com.bitplan.i18n.I18n;
 import com.bitplan.i18n.Translator;
 
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -46,7 +58,8 @@ import javafx.util.Duration;
  * @author wf
  *
  */
-public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
+@SuppressWarnings("restriction")
+public abstract class GenericApp extends WaitableApp implements ExceptionHandler,Linker, EventHandler<ActionEvent> {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   public static boolean testMode = false;
@@ -58,6 +71,41 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
   public int ICON_SIZE = 64;
   private JFXML fxml;
   private String resourcePath;
+  private Scene scene;
+  private Button hideMenuButton;
+  private MenuBar menuBar;
+  private VBox root;
+  
+  public Scene getScene() {
+    return scene;
+  }
+
+  public void setScene(Scene scene) {
+    this.scene = scene;
+  }
+  
+  public VBox getRoot() {
+    return root;
+  }
+
+  public void setRoot(VBox root) {
+    this.root = root;
+  }
+  
+  /**
+   * @return the menuBar
+   */
+  public MenuBar getMenuBar() {
+    return menuBar;
+  }
+
+  /**
+   * @param menuBar
+   *          the menuBar to set
+   */
+  public void setMenuBar(MenuBar menuBar) {
+    this.menuBar = menuBar;
+  }
   
   public XYTabPane getXyTabPane() {
     return xyTabPane;
@@ -98,6 +146,72 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
   public void setPanels(Map<String, GenericPanel> panels) {
     this.panels = panels;
   }
+  
+  /**
+   * internationalization function
+   * 
+   * @param params
+   * @param text
+   * @return translated text
+   */
+  public String i18n(String text, Object... params) {
+    String i18n = I18n.get(text, params);
+    return i18n;
+  }
+
+  /**
+   * show or hide the menuBar
+   * 
+   * @param scene
+   * @param pMenuBar
+   */
+  public void showMenuBar(Scene scene, MenuBar pMenuBar, boolean show) {
+    Parent sroot = scene.getRoot();
+    ObservableList<Node> rootChilds = null;
+    if (sroot instanceof VBox)
+      rootChilds = ((VBox) sroot).getChildren();
+    if (rootChilds == null)
+      throw new RuntimeException(
+          "showMenuBar can not handle scene root of type "
+              + sroot.getClass().getName());
+    if (!show && rootChilds.contains(pMenuBar)) {
+      rootChilds.remove(pMenuBar);
+    } else if (show) {
+      rootChilds.add(0, pMenuBar);
+    }
+    pMenuBar.setVisible(show);
+    hideMenuButton
+        .setText(show ? "hide menu" : "show menu");
+  }
+  
+  /**
+   * create the Menu Bar
+   * 
+   * @param scene
+   */
+  public MenuBar createMenuBar(Scene scene, App app) {
+    MenuBar lMenuBar = new MenuBar();
+    for (com.bitplan.gui.Menu amenu : app.getMainMenu().getSubMenus()) {
+      Menu menu = new Menu(i18n(amenu.getId()));
+      lMenuBar.getMenus().add(menu);
+      for (com.bitplan.gui.MenuItem amenuitem : amenu.getMenuItems()) {
+        MenuItem menuItem = new MenuItem(i18n(amenuitem.getId()));
+        menuItem.setOnAction(this);
+        menuItem.setId(amenuitem.getId());
+        menu.getItems().add(menuItem);
+      }
+    }
+
+    hideMenuButton = new Button("hide menu");
+    hideMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
+        showMenuBar(scene, lMenuBar, !lMenuBar.isVisible());
+      }
+    });
+    return lMenuBar;
+  }
+
 
   /**
    * setup the given Application adds tabPanes to the tabPaneByView map
@@ -110,12 +224,21 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
       TabPane tabPane = xyTabPane.addTabPane(group.getId(),Translator.translate(group.getName()),group.getIcon());
       for (Form form : group.getForms()) {
         GenericPanel panel = new GenericPanel(stage, form);
-        panel.setEditable(false);
+        // do not do this as a default
+        // panel.setEditable(false);
         getPanels().put(form.getId(), panel);
         controls.putAll(panel.controls);
         xyTabPane.addTab(tabPane, form.getId(),Translator.translate(form.getTitle()), form.getIcon(),panel);
       }
     }
+    BorderPane mainPane = new BorderPane();
+   
+    mainPane.setCenter(xyTabPane);
+   
+    mainPane.prefHeightProperty().bind(scene.heightProperty());
+    mainPane.prefWidthProperty().bind(scene.widthProperty());
+   
+    getRoot().getChildren().add(mainPane);
   }
   
   /**
@@ -237,5 +360,8 @@ public class GenericApp extends WaitableApp implements ExceptionHandler,Linker {
     }
     return null;
   }
+
+  @Override
+  public abstract void handle(ActionEvent event);
 
 }
