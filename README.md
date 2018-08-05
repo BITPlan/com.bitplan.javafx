@@ -1,7 +1,9 @@
 # com.bitplan.javafx
-javafx controls and utilities
+javafx controls and utilities - with binding to platform independent gui declaration
 
 [![Build Status](https://travis-ci.org/BITPlan/com.bitplan.javafx.svg?branch=master)](https://travis-ci.org/BITPlan/com.bitplan.javafx)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.bitplan.gui/com.bitplan.javafx/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.bitplan.gui/com.bitplan.javafx)
+
 ### github repository
 * repository: https://github.com/BITPlan/com.bitplan.javafx
 * issues: https://github.com/BITPlan/com.bitplan.javafx/issues
@@ -20,6 +22,9 @@ Maven dependency:
   <version>0.0.6</version>
 </dependency>
 ```
+
+### Documentation 
+see http://wiki.bitplan.com/index.php/com.bitplan.javafx
 
 ### License
 https://www.apache.org/licenses/LICENSE-2.0
