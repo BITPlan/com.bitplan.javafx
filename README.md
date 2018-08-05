@@ -40,4 +40,5 @@ https://www.apache.org/licenses/LICENSE-2.0
 * 2017-08-23 0.0.5 - add JFXML
 * 2017-08-24 0.0.6 - fixes selectRandomTab
 * 2018-08-05 0.0.7 - upgrades to com.bitplan.gui 0.0.4 and refactors
+* 2018-08-05 0.0.8 - fixes incomplete release to maven central 
 
