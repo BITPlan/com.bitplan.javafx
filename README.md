@@ -42,4 +42,3 @@ https://www.apache.org/licenses/LICENSE-2.0
 * 2018-08-05 0.0.7 - upgrades to com.bitplan.gui 0.0.4 and refactors
 * 2018-08-05 0.0.8 - fixes incomplete release to maven central 
 * 2018-08-06 0.0.9 - improves I18n handling and fixes GenericApp
-
