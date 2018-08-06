@@ -55,6 +55,8 @@ import javafx.stage.Stage;
 @SuppressWarnings("restriction")
 public class GenericControl implements ValueHolder {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
+  public static final String INTEGER_MATCH="[0-9]*";
+  public static final String DOUBLE_MATCH="[0-9]*(\\.[0-9]*)?";
   Control control;
   Label label;
   private TextField textField;
@@ -142,10 +144,10 @@ public class GenericControl implements ValueHolder {
       String matchExpr = "";
       switch (fieldType) {
       case "Integer":
-        matchExpr = "[0-9]*";
+        matchExpr = INTEGER_MATCH;
         break;
       case "Double":
-        matchExpr = "[0-9]*\\.[0-9]*";
+        matchExpr = DOUBLE_MATCH;
         break;
       }
       final String match = matchExpr;

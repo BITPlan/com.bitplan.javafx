@@ -20,10 +20,14 @@
  */
 package com.bitplan.javafx;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
@@ -56,6 +60,24 @@ public class TestGUI {
   public void initGUI() {
     WaitableApp.toolkitInit();
     Translator.initialize("i18n", "en");
+  }
+  
+  @Test
+  public void testNumberMatchers() {
+    String texts[]= {"1","a","1.2"};
+    boolean iexpected[]= {true,false,false};
+    boolean dexpected[]= {true,false,true};
+    Pattern pi=Pattern.compile(GenericControl.INTEGER_MATCH);
+    Pattern pd=Pattern.compile(GenericControl.DOUBLE_MATCH);
+      
+    int i=0;
+    for (String text:texts) {
+      Matcher matcheri=pi.matcher(text);
+      Matcher matcherd=pd.matcher(text);
+      assertEquals("integer "+text,iexpected[i],matcheri.matches());
+      assertEquals("double "+text,dexpected[i],matcherd.matches());
+      i++;
+    }
   }
 
   @Test
