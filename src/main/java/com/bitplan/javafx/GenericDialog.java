@@ -131,7 +131,6 @@ public class GenericDialog {
   public GenericControl getControl(String controlId) {
     return genericPanel.getControl(controlId);
   }
-
   
   /**
    * show this form with the given values

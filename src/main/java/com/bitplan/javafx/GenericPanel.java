@@ -20,14 +20,18 @@
  */
 package com.bitplan.javafx;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 import com.bitplan.gui.Form;
+import com.bitplan.json.ValueMap;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 
 /**
  * a generic Panel
@@ -36,9 +40,12 @@ import javafx.stage.Stage;
  *
  */
 @SuppressWarnings("restriction")
-public class GenericPanel extends GridPane {
+public class GenericPanel extends GridPane implements ValueMap {
   protected Form form;
-  public Map<String, GenericControl> controls;
+  Map<String, GenericControl> controls = new HashMap<String, GenericControl>();
+  private int ypos;
+  private Button okButton;
+  private BaseModifier<?> modifier;
   
   /**
    * get the Fields for the given form
@@ -48,27 +55,42 @@ public class GenericPanel extends GridPane {
    * @param ypos
    * @return - the Map of fields
    */
-  public static Map<String, GenericControl> getFields(Stage stage,
-      GridPane grid, Form form, int ypos) {
-    Map<String, GenericControl> controls = new HashMap<String, GenericControl>();
+  public Map<String, GenericControl> getFields(Stage stage,
+      GridPane grid, Form form) {
+    int x=0; 
     for (com.bitplan.gui.Field field : form.getFields()) {
       GenericControl gcontrol = GenericControl.create(stage, field);
-      int x = 0;
-      int y = ypos;
       if (field.getGridX() != null)
         x = field.getGridX();
       if (field.getGridY() != null)
-        y = field.getGridY();
-      grid.add(gcontrol.label, x, y);
+        ypos = field.getGridY();
+      grid.add(gcontrol.label, x, ypos);
       if (gcontrol.control != null) {
-        grid.add(gcontrol.control, x + 1, y);
+        grid.add(gcontrol.control, x + 1, ypos);
       }
       if (gcontrol.button != null) {
-        grid.add(gcontrol.button, x + 2, y);
+        grid.add(gcontrol.button, x + 2, ypos);
       }
       if (field.getGridY() == null)
         ypos++;
       controls.put(field.getId(), gcontrol);
+    }
+    if (!form.getReadOnly()) {
+      okButton=new Button("Modify");    
+      grid.add(okButton,0,ypos);
+      okButton.setOnAction((ActionEvent e) -> {
+        if (okButton.getText().equals("Modify")) {
+          setEditable(true);
+          if (this.modifier!=null)
+            modifier.updateView();
+          okButton.setText("OK");
+        } else {
+          if (this.modifier!=null)
+            modifier.updateModel();
+          setEditable(false);
+          okButton.setText("Modify");
+        }
+    });
     }
     return controls;
   }
@@ -83,10 +105,10 @@ public class GenericPanel extends GridPane {
     setHgap(10);
     setVgap(10);
     setPadding(new Insets(20, 150, 10, 10));
-    int ypos = 0;
-    if (form.getReadOnly())
-      setEditable(false);
-    controls = getFields(stage,this, form, ypos);
+    ypos = 0;
+    controls = getFields(stage,this, form);
+    // disable all controls - modify 
+    setEditable(false);
   }
   
   /**
@@ -131,5 +153,14 @@ public class GenericPanel extends GridPane {
       result.put(field.getId(), gcontrol.getValue());
     }
     return result;
+  }
+
+  /**
+   * set the modifier
+   * @param modifier
+   */
+  public <T> void setModifier(BaseModifier<T> modifier) {
+    this.modifier=modifier;
+    modifier.setView(this);
   }
 }

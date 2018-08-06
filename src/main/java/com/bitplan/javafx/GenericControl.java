@@ -95,6 +95,16 @@ public class GenericControl implements ValueHolder {
     }
     return columnCount;
   }
+  
+  /**
+   * create a new generic Control from the given control
+   * @param stage
+   * @param control
+   */
+  public GenericControl(Stage stage, Control control) {
+    this.stage=stage;
+    this.control=control;
+  }
 
   /**
    * create a generic control for the given field
