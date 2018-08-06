@@ -59,6 +59,7 @@ import javafx.stage.Stage;
  * 
  * @author wf
  */
+@SuppressWarnings("restriction")
 public class GenericDialog {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   private Form form;
@@ -96,7 +97,7 @@ public class GenericDialog {
     // Create the custom dialog.
     dialog = new Dialog<Map<String, Object>>();
     dialog.initOwner(stage);
-    dialog.setTitle(I18n.get(form.getId()));
+    dialog.setTitle(I18n.get(form.getI18nId()));
     dialog.setHeaderText(form.getHeaderText());
 
     // Set the icon (must be included in the project).

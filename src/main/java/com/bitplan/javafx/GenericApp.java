@@ -222,12 +222,12 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setup(App app) {
     controls = new HashMap<String, GenericControl>();
     for (Group group : app.getGroups()) {
-      TabPane tabPane = xyTabPane.addTabPane(group.getId(),Translator.translate(group.getId()),group.getIcon());
+      TabPane tabPane = xyTabPane.addTabPane(group.getI18nId(),Translator.translate(group.getI18nId()),group.getIcon());
       for (Form form : group.getForms()) {
         GenericPanel panel = new GenericPanel(stage, form);
-        getPanels().put(form.getId(), panel);
+        getPanels().put(form.getI18nId(), panel);
         controls.putAll(panel.controls);
-        xyTabPane.addTab(tabPane, form.getId(),Translator.translate(form.getId()), form.getIcon(),panel);
+        xyTabPane.addTab(tabPane, form.getI18nId(),Translator.translate(form.getI18nId()), form.getIcon(),panel);
       }
     }
     Button powerButton = xyTabPane.getTopLeftButton();
@@ -307,12 +307,6 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
     // we do not wait and we do not set stage to null
   }
 
-  /**
-   * select a random tab
-   */
-  public void selectRandomTab() {
-    this.xyTabPane.selectRandomTab();
-  }
 
   /**
    * get the tab with the given tabId
@@ -323,6 +317,21 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public Tab getTab(String tabId) {
     Tab tab = xyTabPane.getTab(tabId);
     return tab;
+  }
+  
+  /**
+   * select the given tab
+   * @param tabId
+   */
+  public void selectTab(String tabId) {
+    xyTabPane.selectTab(tabId);
+  }
+  
+  /**
+   * select a random tab
+   */
+  public void selectRandomTab() {
+    this.xyTabPane.selectRandomTab();
   }
   
   @Override

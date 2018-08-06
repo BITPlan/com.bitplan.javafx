@@ -57,6 +57,7 @@ import javafx.scene.layout.VBox;
  * @author wf
  *
  */
+@SuppressWarnings("restriction")
 public class XYTabPane extends Pane {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   boolean debug = false;
