@@ -11,7 +11,7 @@ javafx controls and utilities - with binding to platform independent gui declara
 ### Distribution
 Available at Maven Central see 
 
-http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.6|jar
+http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.9|jar
 
 Maven dependency:
 
@@ -19,7 +19,7 @@ Maven dependency:
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.9</version>
 </dependency>
 ```
 
@@ -41,4 +41,5 @@ https://www.apache.org/licenses/LICENSE-2.0
 * 2017-08-24 0.0.6 - fixes selectRandomTab
 * 2018-08-05 0.0.7 - upgrades to com.bitplan.gui 0.0.4 and refactors
 * 2018-08-05 0.0.8 - fixes incomplete release to maven central 
+* 2018-08-06 0.0.9 - improves I18n handling and fixes GenericApp
 

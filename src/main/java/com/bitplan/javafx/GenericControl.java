@@ -26,7 +26,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.bitplan.gui.Field;
+import com.bitplan.gui.Form;
 import com.bitplan.gui.ValueHolder;
+import com.bitplan.i18n.I18n;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -76,7 +78,7 @@ public class GenericControl implements ValueHolder {
   }
 
   /**
-   * get the columnt Count estimate for the given field
+   * get the column Count estimate for the given field
    * 
    * @param field
    * @return - the column count
@@ -101,6 +103,13 @@ public class GenericControl implements ValueHolder {
   public GenericControl(Stage stage, Field field) {
     this.stage = stage;
     this.field = field;
+    Form form=field.getForm();
+    String i18n=field.getLabel();
+    if (form!=null) {
+      String ti18n=I18n.get(field.getId());
+      if (ti18n!=null  && !"".equals(ti18n) && !field.getId().equals(ti18n))
+        i18n=ti18n;
+    }
     String fieldType = field.getType();
     if (fieldType == null || "Integer".equals(fieldType)
         || "Double".equals(fieldType) || "Password".equals(fieldType)
@@ -110,7 +119,7 @@ public class GenericControl implements ValueHolder {
       } else {
         textField = new TextField();
       }
-      textField.setPromptText(field.getTitle());
+      textField.setPromptText(i18n);
       int columnCount = this.getColumnCount(field);
       if (columnCount > 0)
         textField.setPrefColumnCount(columnCount);
@@ -178,7 +187,7 @@ public class GenericControl implements ValueHolder {
       tooltip.setText(field.getHint());
       control.setTooltip(tooltip);
     }
-    label = new Label(field.getLabel() + ":");
+    label = new Label(i18n + ":");
   }
 
   /**

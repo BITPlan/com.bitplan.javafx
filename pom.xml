@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.gui</groupId>
 	<artifactId>com.bitplan.javafx</artifactId>
-	<version>0.0.8</version>
+	<version>0.0.9</version>
 	<name>com.bitplan.javafx</name>
 	<description>javafx controls and utilties</description>
 	<url>https://github.com/BITPlan/com.bitplan.javafx</url>
@@ -73,18 +73,19 @@
 		<dependency>
 			<groupId>com.bitplan.gui</groupId>
 			<artifactId>com.bitplan.gui</artifactId>
-			<version>0.0.5</version>
+			<version>0.0.6</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
-			<version>8.40.13</version>
+			<version>8.40.14</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/de.jensd/fontawesomefx-commons -->
 		<dependency>
 			<groupId>de.jensd</groupId>
 			<artifactId>fontawesomefx-commons</artifactId>
-			<version>8.15</version>
+			<version>9.1.2</version>
 			<type>pom</type>
 		</dependency>
 	</dependencies>

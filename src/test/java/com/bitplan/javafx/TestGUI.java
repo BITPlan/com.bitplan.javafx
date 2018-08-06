@@ -70,6 +70,7 @@ public class TestGUI {
       icons.add(icon);
       icon.setId(glyph.name());
       icon.setFontSize(24);
+      icon.setTooltip(new Tooltip(glyph.name()));
     }
     XYTabPane xyTabPane = new XYTabPane(24);
     for (Entry<String, Node> iconentry : xyTabPane.getIconMap().entrySet()) {

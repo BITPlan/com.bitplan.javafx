@@ -84,6 +84,8 @@ public class GenericPanel extends GridPane {
     setVgap(10);
     setPadding(new Insets(20, 150, 10, 10));
     int ypos = 0;
+    if (form.getReadOnly())
+      setEditable(false);
     controls = getFields(stage,this, form, ypos);
   }
   

@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.Notifications;
+import org.controlsfx.glyphfont.FontAwesome;
 
 import com.bitplan.error.ExceptionHandler;
 import com.bitplan.error.SoftwareVersion;
@@ -48,7 +49,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -221,24 +222,27 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setup(App app) {
     controls = new HashMap<String, GenericControl>();
     for (Group group : app.getGroups()) {
-      TabPane tabPane = xyTabPane.addTabPane(group.getId(),Translator.translate(group.getName()),group.getIcon());
+      TabPane tabPane = xyTabPane.addTabPane(group.getId(),Translator.translate(group.getId()),group.getIcon());
       for (Form form : group.getForms()) {
         GenericPanel panel = new GenericPanel(stage, form);
-        // do not do this as a default
-        // panel.setEditable(false);
         getPanels().put(form.getId(), panel);
         controls.putAll(panel.controls);
-        xyTabPane.addTab(tabPane, form.getId(),Translator.translate(form.getTitle()), form.getIcon(),panel);
+        xyTabPane.addTab(tabPane, form.getId(),Translator.translate(form.getId()), form.getIcon(),panel);
       }
     }
-    BorderPane mainPane = new BorderPane();
-   
-    mainPane.setCenter(xyTabPane);
-   
-    mainPane.prefHeightProperty().bind(scene.heightProperty());
-    mainPane.prefWidthProperty().bind(scene.widthProperty());
-   
-    getRoot().getChildren().add(mainPane);
+    Button powerButton = xyTabPane.getTopLeftButton();
+    Node icon = xyTabPane.getIcon(FontAwesome.Glyph.POWER_OFF.name(),
+        xyTabPane.getIconSize());
+    powerButton.setTooltip(new Tooltip(I18n.get(JavaFxI18n.POWER_OFF)));
+    powerButton.setGraphic(icon);
+    powerButton.setDisable(false);
+    powerButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
+        close();
+      }
+    });
+    
   }
   
   /**

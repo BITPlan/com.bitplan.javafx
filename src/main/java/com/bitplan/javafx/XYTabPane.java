@@ -173,10 +173,11 @@ public class XYTabPane extends Pane {
     if (icon == null) {
       try {
         org.controlsfx.glyphfont.FontAwesome.Glyph fglyph = FontAwesome.Glyph
-            .valueOf(name);
+            .valueOf(name.toUpperCase());
         icon = fontAwesome.create(fglyph);
       } catch (Throwable th) {
-
+        if (debug)
+          LOGGER.log(Level.INFO,"Could not get FontAwesomeGlyph for icon "+name);
       }
     }
     if (icon == null) {
@@ -186,12 +187,12 @@ public class XYTabPane extends Pane {
         iconImage.setFitHeight(fontSize);
         iconImage.setFitWidth(fontSize);
         icon = iconImage;
+      } else {
+        if (debug)
+          LOGGER.log(Level.WARNING,
+              "could not get resource for icon " + name);  
       }
     }
-    if (icon == null)
-      if (debug)
-        LOGGER.log(Level.WARNING,
-            "could not get FontAwesomeGlyph for icon " + name);
     if (icon != null) {
       if (icon instanceof Glyph)
         ((Glyph) icon).setFontSize(fontSize);
