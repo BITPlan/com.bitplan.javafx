@@ -37,6 +37,7 @@ import com.bitplan.error.ErrorHandler;
 import com.bitplan.error.SoftwareVersion;
 import com.bitplan.gui.Form;
 import com.bitplan.gui.Linker;
+import com.bitplan.i18n.I18n;
 import com.bitplan.i18n.Translator;
 
 import javafx.application.Platform;
@@ -95,7 +96,7 @@ public class GenericDialog {
     // Create the custom dialog.
     dialog = new Dialog<Map<String, Object>>();
     dialog.initOwner(stage);
-    dialog.setTitle(form.getTitle());
+    dialog.setTitle(I18n.get(form.getId()));
     dialog.setHeaderText(form.getHeaderText());
 
     // Set the icon (must be included in the project).

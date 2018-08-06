@@ -114,7 +114,8 @@ public class GenericPanel extends GridPane {
    */
   public void setValues(Map<String, Object> valueMap) {
     for (GenericControl control : controls.values()) {
-      control.setValue(valueMap.get(control.field.getId()));
+      String fieldId=control.field.getId();
+      control.setValue(valueMap.get(fieldId));
     }
   }
   

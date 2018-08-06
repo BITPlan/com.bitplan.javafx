@@ -59,7 +59,7 @@ import javafx.scene.layout.VBox;
  */
 public class XYTabPane extends Pane {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-  boolean debug = true;
+  boolean debug = false;
   TabPane vTabPane; // vertical TabPane
   List<TabPane> hTabpanes; // horizontal TabPanes - for each vertical tab there
                            // is one horizontal tab
