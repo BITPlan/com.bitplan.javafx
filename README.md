@@ -11,7 +11,7 @@ javafx controls and utilities - with binding to platform independent gui declara
 ### Distribution
 Available at Maven Central see 
 
-http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.9|jar
+http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.10|jar
 
 Maven dependency:
 
@@ -19,7 +19,7 @@ Maven dependency:
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
-  <version>0.0.9</version>
+  <version>0.0.10</version>
 </dependency>
 ```
 
@@ -33,12 +33,13 @@ https://www.apache.org/licenses/LICENSE-2.0
 [![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/8/87/BITPlanLogo2012.svg/200px-BITPlanLogo2012.svg.png)](http://web.bitplan.com)
 
 ### Version History
-* 2017-08-20 0.0.1 - initial release
-* 2017-08-21 0.0.2 - adds XYTabPane
-* 2017-08-22 0.0.3 - improves icon handling
-* 2017-08-22 0.0.4 - adds GenericApp
-* 2017-08-23 0.0.5 - add JFXML
-* 2017-08-24 0.0.6 - fixes selectRandomTab
-* 2018-08-05 0.0.7 - upgrades to com.bitplan.gui 0.0.4 and refactors
-* 2018-08-05 0.0.8 - fixes incomplete release to maven central 
-* 2018-08-06 0.0.9 - improves I18n handling and fixes GenericApp
+* 2017-08-20 0.0.1  - initial release
+* 2017-08-21 0.0.2  - adds XYTabPane
+* 2017-08-22 0.0.3  - improves icon handling
+* 2017-08-22 0.0.4  - adds GenericApp
+* 2017-08-23 0.0.5  - add JFXML
+* 2017-08-24 0.0.6  - fixes selectRandomTab
+* 2018-08-05 0.0.7  - upgrades to com.bitplan.gui 0.0.4 and refactors
+* 2018-08-05 0.0.8  - fixes incomplete release to maven central 
+* 2018-08-06 0.0.9  - improves I18n handling and fixes GenericApp
+* 2018-08-06 0.0.10 - refactors to use getI18nId() 
