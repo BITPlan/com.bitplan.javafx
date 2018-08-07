@@ -109,7 +109,7 @@ public class TestGUI {
       button.setTooltip(new Tooltip(icon.getId()));
       gridPane.add(button, col, row);
     }
-    SampleApp.createAndShow("icons", gridPane, SHOW_TIME);
+    SampleApp.createAndShow("icons", gridPane, SHOW_TIME*10);
   }
 
   @Test

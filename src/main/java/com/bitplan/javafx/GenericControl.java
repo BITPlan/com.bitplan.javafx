@@ -123,7 +123,7 @@ public class GenericControl implements ValueHolder {
         i18n=ti18n;
     }
     String fieldType = field.getType();
-    if (fieldType == null || "Integer".equals(fieldType)
+    if (fieldType == null || "Integer".equals(fieldType) || "Long".equals(fieldType)
         || "Double".equals(fieldType) || "Password".equals(fieldType)
         || "File".equals(fieldType) || "Directory".equals(fieldType)) {
       if ("Password".equals(fieldType)) {
@@ -148,12 +148,13 @@ public class GenericControl implements ValueHolder {
           String.format("Unsupported field type %s", fieldType));
     }
     // force numeric content for integer fields
-    if ("Integer".equals(fieldType) || "Double".equals(fieldType)) {
+    if ("Integer".equals(fieldType) || "Long".equals(fieldType) || "Double".equals(fieldType)) {
       // force numeric content
       // https://stackoverflow.com/a/36436243/1497139
       String matchExpr = "";
       switch (fieldType) {
       case "Integer":
+      case "Long":
         matchExpr = INTEGER_MATCH;
         break;
       case "Double":
@@ -271,6 +272,16 @@ public class GenericControl implements ValueHolder {
         if (textField.getText().isEmpty())
           return null;
         Integer result = Integer.parseInt(textField.getText());
+        return result;
+      } else if ("Long".equals(field.getType())) {
+        if (textField.getText().isEmpty())
+          return null;
+        Long result = Long.parseLong(textField.getText());
+        return result;
+      } else if ("Double".equals(field.getType())) {
+        if (textField.getText().isEmpty())
+          return null;
+        Double result = Double.parseDouble(textField.getText());
         return result;
       } else {
         return textField.getText();
