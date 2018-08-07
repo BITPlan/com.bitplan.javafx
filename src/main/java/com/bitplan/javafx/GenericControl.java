@@ -115,13 +115,10 @@ public class GenericControl implements ValueHolder {
   public GenericControl(Stage stage, Field field) {
     this.stage = stage;
     this.field = field;
-    Form form=field.getForm();
     String i18n=field.getLabel();
-    if (form!=null) {
-      String ti18n=I18n.get(field.getId());
-      if (ti18n!=null  && !"".equals(ti18n) && !field.getId().equals(ti18n))
-        i18n=ti18n;
-    }
+    String ti18n=I18n.get(field.getI18nId());
+    if (ti18n!=null  && !"".equals(ti18n) && !field.getId().equals(ti18n))
+       i18n=ti18n;
     String fieldType = field.getType();
     if (fieldType == null || "Integer".equals(fieldType) || "Long".equals(fieldType)
         || "Double".equals(fieldType) || "Password".equals(fieldType)
@@ -141,8 +138,8 @@ public class GenericControl implements ValueHolder {
       choiceBox.getItems().addAll(field.getChoices().split(","));
       control = choiceBox;
     } else if ("Boolean".equals(fieldType)) {
-      checkBox = new CheckBox();
-      control = checkBox;
+      setCheckBox(new CheckBox());
+      control = getCheckBox();
     } else {
       throw new IllegalArgumentException(
           String.format("Unsupported field type %s", fieldType));
@@ -226,9 +223,16 @@ public class GenericControl implements ValueHolder {
       if (value != null) {
         String valueText = value.toString();
         // workaround gson returning doubles in the map
-        if ("Integer".equals(field.getType()) && (value instanceof Double)) {
+        if (("Integer".equals(field.getType()) || ("Long".equals(field.getType())) && (value instanceof Double))) {
           Double d = (Double) value;
-          valueText = "" + d.intValue();
+          valueText = "" + d.longValue();
+        }
+        if ("Double".equals(field.getType()) && (value instanceof Double)) {
+          Double d = (Double) value;
+          String format=field.getFormat();
+          if (format==null)
+            format="%10.2f";
+          valueText = "" + String.format(format, value);
         }
         if (debug)
           LOGGER.log(Level.INFO, field.getId() + "=" + valueText + "("
@@ -238,9 +242,9 @@ public class GenericControl implements ValueHolder {
       }
     } else if (control instanceof CheckBox) {
       if (value != null)
-        checkBox.setSelected((boolean) value);
+        getCheckBox().setSelected((boolean) value);
       else
-        checkBox.setIndeterminate(true);
+        getCheckBox().setIndeterminate(true);
     } else if (control instanceof ChoiceBox) {
       if (value == null) {
         choiceBox.getSelectionModel().clearSelection();
@@ -287,10 +291,10 @@ public class GenericControl implements ValueHolder {
         return textField.getText();
       }
     } else if (control instanceof CheckBox) {
-      if (checkBox.isIndeterminate())
+      if (getCheckBox().isIndeterminate())
         return null;
       else
-        return checkBox.isSelected();
+        return getCheckBox().isSelected();
     } else if (control instanceof ChoiceBox) {
       return choiceBox.getSelectionModel().getSelectedItem();
     }
@@ -328,6 +332,14 @@ public class GenericControl implements ValueHolder {
 
   public void setDirectoryChooser(DirectoryChooser directoryChooser) {
     this.directoryChooser = directoryChooser;
+  }
+
+  public CheckBox getCheckBox() {
+    return checkBox;
+  }
+
+  public void setCheckBox(CheckBox checkBox) {
+    this.checkBox = checkBox;
   }
 
 }

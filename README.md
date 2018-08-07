@@ -11,7 +11,7 @@ javafx controls and utilities - with binding to platform independent gui declara
 ### Distribution
 Available at Maven Central see 
 
-http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.11|jar
+http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.12|jar
 
 Maven dependency:
 
@@ -19,7 +19,7 @@ Maven dependency:
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
-  <version>0.0.11</version>
+  <version>0.0.12</version>
 </dependency>
 ```
 
@@ -44,3 +44,4 @@ https://www.apache.org/licenses/LICENSE-2.0
 * 2018-08-06 0.0.9  - improves I18n handling and fixes GenericApp
 * 2018-08-06 0.0.10 - refactors to use getI18nId() 
 * 2018-08-07 0.0.11 - refactors to use getInstance - improves I18n 
+* 2018-08-07 0.0.12 - includes medusa gauges and some extensions of it 

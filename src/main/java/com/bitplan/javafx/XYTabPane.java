@@ -35,6 +35,7 @@ import org.controlsfx.glyphfont.GlyphFontRegistry;
 
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -42,9 +43,12 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.*;
 
 /**
  * this is a pane that has a tabular setup for TabPanes - a vertical one to
@@ -159,6 +163,80 @@ public class XYTabPane extends Pane {
   }
 
   /**
+   * make clicked tabs blue
+   * 
+   * @param tabPane
+   */
+  protected void makeBlueOnSelect(TabPane tabPane) {
+    tabPane.getSelectionModel().selectedItemProperty()
+        .addListener((ov, oldTab, newTab) -> {
+          if (oldTab != null) {
+            setColor(oldTab, Color.BLUE, Color.BLACK);
+          }
+          setColor(newTab, Color.BLACK,Color.BLUE);
+        });
+  }
+
+  /**
+   * set the color of the given graphic
+   * 
+   * @param oldTab
+   * @param color
+   */
+  protected void setColor(Tab tab, Color oldColor, Color newColor) {
+    Node graphic = tab.getGraphic();
+    
+    if (graphic instanceof Glyph) {
+      Glyph glyph = (Glyph) graphic;
+      glyph.setColor(newColor);
+    } else if (graphic instanceof ImageView) {
+      //  https://docs.oracle.com/javafx/2/image_ops/jfxpub-image_ops.htm
+      ImageView imageView=(ImageView) graphic;
+      imageView.setImage(reColor(imageView.getImage(),oldColor,newColor));
+    }
+  }
+  
+  /**
+   * reColor the given InputImage to the given color
+   * inspired by https://stackoverflow.com/a/12945629/1497139
+   * @param inputImage
+   * @param color 
+   * @return reColored Image
+   * 
+   */
+  public static Image reColor(Image inputImage, Color oldColor, Color newColor) {
+    int W = (int) inputImage.getWidth();
+    int H = (int) inputImage.getHeight();
+    WritableImage outputImage = new WritableImage(W, H);
+    PixelReader reader = inputImage.getPixelReader();
+    PixelWriter writer = outputImage.getPixelWriter();
+    int ob=(int) oldColor.getBlue()*255;
+    int or=(int) oldColor.getRed()*255;
+    int og=(int) oldColor.getGreen()*255;
+    int nb=(int) newColor.getBlue()*255;
+    int nr=(int) newColor.getRed()*255;
+    int ng=(int) newColor.getGreen()*255;
+    for (int y = 0; y < H; y++) {
+      for (int x = 0; x < W; x++) {
+        int argb = reader.getArgb(x, y);
+        int a = (argb >> 24) & 0xFF;
+        int r = (argb >> 16) & 0xFF;
+        int g = (argb >>  8) & 0xFF;
+        int b =  argb        & 0xFF;
+        if (g==og && r==or && b==ob) {
+          r=nr;
+          g=ng;
+          b=nb;
+        }
+    
+        argb = (a << 24) | (r << 16) | (g << 8) | b;
+        writer.setArgb(x, y, argb);
+      }
+    }
+    return outputImage;
+  }
+
+  /**
    * get the icon for the given name and fontSize
    * 
    * @param name
@@ -178,7 +256,8 @@ public class XYTabPane extends Pane {
         icon = fontAwesome.create(fglyph);
       } catch (Throwable th) {
         if (debug)
-          LOGGER.log(Level.INFO,"Could not get FontAwesomeGlyph for icon "+name);
+          LOGGER.log(Level.INFO,
+              "Could not get FontAwesomeGlyph for icon " + name);
       }
     }
     if (icon == null) {
@@ -187,11 +266,11 @@ public class XYTabPane extends Pane {
         ImageView iconImage = new ImageView(iconUrl.toString());
         iconImage.setFitHeight(fontSize);
         iconImage.setFitWidth(fontSize);
+        iconImage.setId(name);
         icon = iconImage;
       } else {
         if (debug)
-          LOGGER.log(Level.WARNING,
-              "could not get resource for icon " + name);  
+          LOGGER.log(Level.WARNING, "could not get resource for icon " + name);
       }
     }
     if (icon != null) {
@@ -220,7 +299,8 @@ public class XYTabPane extends Pane {
    * @param icon
    */
   public void setTabIcon(Tab tab, Node icon) {
-    tab.setGraphic(icon);
+    if (icon!=null)
+      tab.setGraphic(icon);
   }
 
   /**
@@ -265,12 +345,15 @@ public class XYTabPane extends Pane {
     tabPane.setTabMaxHeight(tabSize);
     tabPane.setTabMinWidth(tabSize);
     tabPane.setTabMaxWidth(tabSize);
-    //tabPane.setMaxWidth(Control.USE_PREF_SIZE);
-    //tabPane.setMaxHeight(Control.USE_PREF_SIZE);
+    // tabPane.setMaxWidth(Control.USE_PREF_SIZE);
+    // tabPane.setMaxHeight(Control.USE_PREF_SIZE);
     // make sure it grows e.g. when Icons are set
     // https://stackoverflow.com/a/25164425/1497139
     VBox.setVgrow(tabPane, Priority.ALWAYS);
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+    // add click behavior
+    makeBlueOnSelect(tabPane);
+    // add tab Pane to map
     this.tabPaneMap.put(tabPaneId, tabPane);
     return tabPane;
   }

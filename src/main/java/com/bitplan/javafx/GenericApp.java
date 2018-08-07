@@ -56,11 +56,13 @@ import javafx.util.Duration;
 
 /**
  * Generic Application
+ * 
  * @author wf
  *
  */
 @SuppressWarnings("restriction")
-public abstract class GenericApp extends WaitableApp implements ExceptionHandler,Linker, EventHandler<ActionEvent> {
+public abstract class GenericApp extends WaitableApp
+    implements ExceptionHandler, Linker, EventHandler<ActionEvent> {
   public static boolean debug = false;
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   public static boolean testMode = false;
@@ -76,7 +78,7 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   private Button hideMenuButton;
   private MenuBar menuBar;
   private VBox root;
-  
+
   public Scene getScene() {
     return scene;
   }
@@ -84,7 +86,7 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setScene(Scene scene) {
     this.scene = scene;
   }
-  
+
   public VBox getRoot() {
     return root;
   }
@@ -92,7 +94,7 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setRoot(VBox root) {
     this.root = root;
   }
-  
+
   /**
    * @return the menuBar
    */
@@ -107,7 +109,7 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setMenuBar(MenuBar menuBar) {
     this.menuBar = menuBar;
   }
-  
+
   public XYTabPane getXyTabPane() {
     return xyTabPane;
   }
@@ -115,7 +117,7 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setXyTabPane(XYTabPane xyTabPane) {
     this.xyTabPane = xyTabPane;
   }
-  
+
   public SoftwareVersion getSoftwareVersion() {
     return softwareVersion;
   }
@@ -131,7 +133,7 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setApp(com.bitplan.gui.App app) {
     this.app = app;
   }
-  
+
   public JFXML getFxml() {
     return fxml;
   }
@@ -147,7 +149,7 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setPanels(Map<String, GenericPanel> panels) {
     this.panels = panels;
   }
-  
+
   /**
    * internationalization function
    * 
@@ -181,10 +183,9 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
       rootChilds.add(0, pMenuBar);
     }
     pMenuBar.setVisible(show);
-    hideMenuButton
-        .setText(show ? "hide menu" : "show menu");
+    hideMenuButton.setText(show ? "hide menu" : "show menu");
   }
-  
+
   /**
    * create the Menu Bar
    * 
@@ -213,7 +214,6 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
     return lMenuBar;
   }
 
-
   /**
    * setup the given Application adds tabPanes to the tabPaneByView map
    * 
@@ -222,12 +222,14 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public void setup(App app) {
     controls = new HashMap<String, GenericControl>();
     for (Group group : app.getGroups()) {
-      TabPane tabPane = xyTabPane.addTabPane(group.getI18nId(),Translator.translate(group.getI18nId()),group.getIcon());
+      TabPane tabPane = xyTabPane.addTabPane(group.getI18nId(),
+          Translator.translate(group.getI18nId()), group.getIcon());
       for (Form form : group.getForms()) {
         GenericPanel panel = new GenericPanel(stage, form);
         getPanels().put(form.getI18nId(), panel);
         controls.putAll(panel.controls);
-        xyTabPane.addTab(tabPane, form.getI18nId(),Translator.translate(form.getI18nId()), form.getIcon(),panel);
+        xyTabPane.addTab(tabPane, form.getI18nId(),
+            Translator.translate(form.getI18nId()), form.getIcon(), panel);
       }
     }
     Button powerButton = xyTabPane.getTopLeftButton();
@@ -242,31 +244,46 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
         close();
       }
     });
-    
   }
-  
+
+  /**
+   * setup the xyTabPane and it's behavior
+   */
+  public void setupXyTabPane() {
+    // add the xyTabPane
+    getRoot().getChildren().add(xyTabPane);
+    // make sure it shrinks and grows with the scene
+    xyTabPane.getvTabPane().prefHeightProperty()
+        .bind(getStage().heightProperty().add(-xyTabPane.getTabSize()));
+    xyTabPane.getvTabPane().prefWidthProperty()
+        .bind(getStage().widthProperty().add(-xyTabPane.getTabSize()));
+  }
+
   /**
    * construct me
+   * 
    * @param app
    * @param softwareVersion
    */
-  public GenericApp(App app, SoftwareVersion softwareVersion, String resourcePath) {
+  public GenericApp(App app, SoftwareVersion softwareVersion,
+      String resourcePath) {
     toolkitInit();
     // new JFXPanel();
     double screenHeight = getScreenHeight();
-    // 839 
-    ICON_SIZE=(int) Math.round(screenHeight/13);
-    // LOGGER.log(Level.INFO,"screenHeight= "+screenHeight+" icon size="+ICON_SIZE);
-    xyTabPane=new XYTabPane(ICON_SIZE);
+    // 839
+    ICON_SIZE = (int) Math.round(screenHeight / 13);
+    // LOGGER.log(Level.INFO,"screenHeight= "+screenHeight+" icon
+    // size="+ICON_SIZE);
+    xyTabPane = new XYTabPane(ICON_SIZE);
     this.setApp(app);
-    this.resourcePath=resourcePath;
+    this.resourcePath = resourcePath;
     this.setSoftwareVersion(softwareVersion);
     ExceptionController.setExceptionHelper(app);
     ExceptionController.setSoftwareVersion(softwareVersion);
     ExceptionController.setLinker(this);
     JFXWizardPane.setLinker(this);
   }
-  
+
   /**
    * show the given notification
    * 
@@ -291,11 +308,10 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
   public Tab getActiveTab() {
     return xyTabPane.getSelectedTab();
   }
-  
+
   public void setActiveTabPane(String groupId) {
-    xyTabPane.selectVTab(groupId);  
+    xyTabPane.selectVTab(groupId);
   }
-  
 
   /**
    * close this display
@@ -307,7 +323,6 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
     // we do not wait and we do not set stage to null
   }
 
-
   /**
    * get the tab with the given tabId
    * 
@@ -318,38 +333,40 @@ public abstract class GenericApp extends WaitableApp implements ExceptionHandler
     Tab tab = xyTabPane.getTab(tabId);
     return tab;
   }
-  
+
   /**
    * select the given tab
+   * 
    * @param tabId
    */
   public void selectTab(String tabId) {
     xyTabPane.selectTab(tabId);
   }
-  
+
   /**
    * select a random tab
    */
   public void selectRandomTab() {
     this.xyTabPane.selectRandomTab();
   }
-  
+
   @Override
   public void start(Stage stage) {
     super.start(stage);
-    fxml=new JFXML(resourcePath,stage,app);
+    fxml = new JFXML(resourcePath, stage, app);
     stage.setTitle(
         softwareVersion.getName() + " " + softwareVersion.getVersion());
   }
-  
+
   /**
    * handle the given exception
    * 
    * @param th
    */
   public void handleException(Throwable th) {
-    Platform.runLater(() -> GenericDialog.showException(stage,
-        Translator.translate("error"), Translator.translate("problem_occured"), th, this));
+    Platform.runLater(
+        () -> GenericDialog.showException(stage, Translator.translate("error"),
+            Translator.translate("problem_occured"), th, this));
   }
 
   /**

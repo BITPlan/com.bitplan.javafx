@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.gui</groupId>
 	<artifactId>com.bitplan.javafx</artifactId>
-	<version>0.0.11</version>
+	<version>0.0.12</version>
 	<name>com.bitplan.javafx</name>
 	<description>javafx controls and utilties</description>
 	<url>https://github.com/BITPlan/com.bitplan.javafx</url>
@@ -87,6 +87,12 @@
 			<artifactId>fontawesomefx-commons</artifactId>
 			<version>9.1.2</version>
 			<type>pom</type>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/eu.hansolo/Medusa -->
+		<dependency>
+			<groupId>eu.hansolo</groupId>
+			<artifactId>Medusa</artifactId>
+			<version>7.9</version>
 		</dependency>
 	</dependencies>
 	<build>
