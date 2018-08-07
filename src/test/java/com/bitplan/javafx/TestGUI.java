@@ -40,10 +40,12 @@ import org.junit.runners.MethodSorters;
 
 import com.bitplan.i18n.Translator;
 
+import eu.hansolo.OverviewDemo;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 /**
@@ -52,6 +54,7 @@ import javafx.scene.layout.Pane;
  * @author wf
  *
  */
+@SuppressWarnings("restriction")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGUI {
   static int SHOW_TIME = 4000;
@@ -78,6 +81,14 @@ public class TestGUI {
       assertEquals("double "+text,dexpected[i],matcherd.matches());
       i++;
     }
+  }
+  
+  @Test
+  public void testMedusa() throws Exception {
+    OverviewDemo demo = new OverviewDemo();
+    demo.init();
+    GridPane demoPane = demo.getDemoPane();
+    SampleApp.createAndShow("Controls", demoPane, SHOW_TIME*10);
   }
 
   @Test
@@ -109,7 +120,7 @@ public class TestGUI {
       button.setTooltip(new Tooltip(icon.getId()));
       gridPane.add(button, col, row);
     }
-    SampleApp.createAndShow("icons", gridPane, SHOW_TIME*10);
+    SampleApp.createAndShow("icons", gridPane, SHOW_TIME);
   }
 
   @Test
