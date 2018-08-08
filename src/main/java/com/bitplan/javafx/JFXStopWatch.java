@@ -69,7 +69,7 @@ public class JFXStopWatch implements StopWatch {
   /**
    * get the clock
    * 
-   * @return
+   * @return - the clock
    */
   public Clock get() {
     return stopWatch;

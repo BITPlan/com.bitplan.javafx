@@ -178,10 +178,11 @@ public class XYTabPane extends Pane {
   }
 
   /**
-   * set the color of the given graphic
-   * 
-   * @param oldTab
-   * @param color
+   * set the color of the graphic of the given tab
+   *
+   * @param tab - the tab to change
+   * @param oldColor - the old color
+   * @param newColor - the new color
    */
   protected void setColor(Tab tab, Color oldColor, Color newColor) {
     Node graphic = tab.getGraphic();

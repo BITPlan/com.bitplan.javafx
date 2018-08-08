@@ -78,10 +78,11 @@ public class LcdGauge {
   }
 
   /**
-   * 
+   * create a localized gauge
    * @param title
    * @param unit
-   * @return
+   * @param resetAble - should the gauge be resetable?
+   * @return - the gauge
    */
   public static Gauge createGaugeLocalized(String title, String unit,
       boolean resetAble) {
@@ -202,7 +203,7 @@ public class LcdGauge {
    * create a clock with the given title
    * 
    * @param title
-   * @return
+   * @return - the created clock
    */
   public static Clock createClock(String i18nTitle) {
     String title = I18n.get(i18nTitle);
