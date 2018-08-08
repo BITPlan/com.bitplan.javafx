@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import com.bitplan.i18n.Translator;
+import com.bitplan.states.StopWatch;
 
 import eu.hansolo.OverviewDemo;
 import javafx.scene.Node;
@@ -80,6 +81,21 @@ public class TestGUI {
       assertEquals("integer "+text,iexpected[i],matcheri.matches());
       assertEquals("double "+text,dexpected[i],matcherd.matches());
       i++;
+    }
+  }
+  
+  @Test
+  public void testStopWatch() {
+    StopWatch stopWatch = new JFXStopWatch("StopTime");
+    stopWatch.halt();
+    stopWatch.reset();
+    // System.out.println(stopWatch.asIsoDateStr());
+    // assertEquals(0l,stopWatch.getTime());
+    long times[] = { 90000 * 1000, 7200000, 0, 2000, 500, 1000, 2000 };
+    for (long time : times) {
+      stopWatch.setTime(time);
+      // System.out.println(stopWatch.asIsoDateStr());
+      assertEquals(time, stopWatch.getTime());
     }
   }
   

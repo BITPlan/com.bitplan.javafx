@@ -1,6 +1,6 @@
 /**
  *
- * This file is part of the https://github.com/BITPlan/can4eve open source project
+ * This file is part of the https://github.com/BITPlan/com.bitplan.javafx open source project
  *
  * Copyright 2017 BITPlan GmbH https://github.com/BITPlan
  *
