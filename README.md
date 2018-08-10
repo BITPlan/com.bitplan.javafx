@@ -46,4 +46,4 @@ https://www.apache.org/licenses/LICENSE-2.0
 * 2018-08-07 0.0.11 - refactors to use getInstance - improves I18n 
 * 2018-08-07 0.0.12 - includes medusa gauges and some extensions of it 
 * 2018-08-07 0.0.13 - refactors to include JFXStopWatch
-* 2018-08-10 0.0.14 - fixes Double handling - trim text 
+* 2018-08-10 0.0.14 - fixes Double handling - trim text
