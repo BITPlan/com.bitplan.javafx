@@ -26,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.bitplan.gui.Field;
-import com.bitplan.gui.Form;
 import com.bitplan.gui.ValueHolder;
 import com.bitplan.i18n.I18n;
 
@@ -231,8 +230,8 @@ public class GenericControl implements ValueHolder {
           Double d = (Double) value;
           String format=field.getFormat();
           if (format==null)
-            format="%10.2f";
-          valueText = "" + String.format(format, value);
+            format="%.2f";
+          valueText = "" + String.format(format, d).trim();
         }
         if (debug)
           LOGGER.log(Level.INFO, field.getId() + "=" + valueText + "("
