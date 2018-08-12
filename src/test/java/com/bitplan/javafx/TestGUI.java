@@ -68,9 +68,9 @@ public class TestGUI {
   
   @Test
   public void testNumberMatchers() {
-    String texts[]= {"1","a","1.2"};
-    boolean iexpected[]= {true,false,false};
-    boolean dexpected[]= {true,false,true};
+    String texts[]= {"1","a","1.2","2,5","1.,2"};
+    boolean iexpected[]= {true,false,false,false,false};
+    boolean dexpected[]= {true,false,true,true,false};
     Pattern pi=Pattern.compile(GenericControl.INTEGER_MATCH);
     Pattern pd=Pattern.compile(GenericControl.DOUBLE_MATCH);
       

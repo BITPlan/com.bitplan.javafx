@@ -55,7 +55,7 @@ import javafx.stage.Stage;
 public class GenericControl implements ValueHolder {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   public static final String INTEGER_MATCH="[0-9]*";
-  public static final String DOUBLE_MATCH="[0-9]*(\\.[0-9]*)?";
+  public static final String DOUBLE_MATCH="[0-9]*([.,][0-9]*)?";
   Control control;
   Label label;
   private TextField textField;
@@ -221,12 +221,7 @@ public class GenericControl implements ValueHolder {
     if (control instanceof TextField) {
       if (value != null) {
         String valueText = value.toString();
-        // workaround gson returning doubles in the map
-        if (("Integer".equals(field.getType()) || ("Long".equals(field.getType())) && (value instanceof Double))) {
-          Double d = (Double) value;
-          valueText = "" + d.longValue();
-        }
-        if ("Double".equals(field.getType()) && (value instanceof Double)) {
+        if ("Double".equals(field.getType())) {
           Double d = (Double) value;
           String format=field.getFormat();
           if (format==null)
@@ -248,7 +243,7 @@ public class GenericControl implements ValueHolder {
       if (value == null) {
         choiceBox.getSelectionModel().clearSelection();
       } else {
-        choiceBox.getSelectionModel().select((String) value);
+        choiceBox.getSelectionModel().select(value.toString());
       }
     }
   }
@@ -284,7 +279,8 @@ public class GenericControl implements ValueHolder {
       } else if ("Double".equals(field.getType())) {
         if (textField.getText().isEmpty())
           return null;
-        Double result = Double.parseDouble(textField.getText());
+        // workaround locale issues
+        Double result = Double.parseDouble(textField.getText().replace(',','.'));
         return result;
       } else {
         return textField.getText();
@@ -295,7 +291,8 @@ public class GenericControl implements ValueHolder {
       else
         return getCheckBox().isSelected();
     } else if (control instanceof ChoiceBox) {
-      return choiceBox.getSelectionModel().getSelectedItem();
+      String selection=choiceBox.getSelectionModel().getSelectedItem();
+      return selection;
     }
     return null;
   }
