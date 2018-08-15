@@ -25,6 +25,10 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.IntBuffer;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -49,7 +53,11 @@ import sun.awt.image.IntegerComponentRaster;
  * @author wf
  *
  */
+@SuppressWarnings("restriction")
 public abstract class WaitableApp extends Application implements Display {
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
+  public static boolean debug = false;
+  public static boolean testMode = false;
   protected Stage stage;
   static boolean toolkitStarted;
   File screenShot = null;
@@ -65,7 +73,6 @@ public abstract class WaitableApp extends Application implements Display {
   /**
    * allow startup without launch
    */
-  @SuppressWarnings("restriction")
   public static void toolkitInit() {
     if (!toolkitStarted) {
       toolkitStarted = true;
@@ -112,6 +119,14 @@ public abstract class WaitableApp extends Application implements Display {
     this.getHostServices().showDocument(url);
   }
 
+  public static int waitTimeOutSecs=10;
+  
+  public void abortWait() {
+    LOGGER.log(Level.WARNING,"wait aborted after "+waitTimeOutSecs+" secs");
+    if (!testMode)
+      System.exit(1);
+  }
+  
   /**
    * wait for close
    * 
@@ -119,14 +134,21 @@ public abstract class WaitableApp extends Application implements Display {
    */
   public void waitStatus(boolean open) {
     int sleep = 1000 / 50; // human eye reaction time
+    int timeout=0;
     try {
       if (open)
         while ((stage == null) || (!stage.isShowing())) {
           Thread.sleep(sleep);
+          timeout+=sleep;
+          if (timeout>=waitTimeOutSecs*1000) {
+            abortWait();
+            break;
+          }
         }
       else
         while (stage != null && stage.isShowing()) {
           Thread.sleep(sleep);
+          timeout+=sleep;
         }
     } catch (InterruptedException e) {
       ErrorHandler.handle(e);
@@ -146,11 +168,14 @@ public abstract class WaitableApp extends Application implements Display {
    */
   public void show() {
     // ignore multiple calls
-    if (stage != null)
+    if (stage != null) {
+      LOGGER.log(Level.WARNING,"show called with active stage "+stage);
       return;
+    }
     Platform.runLater(() -> {
       try {
-        this.start(new Stage());
+        Stage lStage = new Stage();
+        this.start(lStage);
       } catch (Exception e) {
         ErrorHandler.handle(e);
       }
@@ -158,12 +183,28 @@ public abstract class WaitableApp extends Application implements Display {
   }
 
   /**
+   * limit the show Time
+   * 
+   * @param showTimeSecs
+   */
+  public void limitShowTime(int showTimeSecs) {
+    new Timer().schedule(new TimerTask() {
+
+      @Override
+      public void run() {
+        close();
+      }
+    }, showTimeSecs * 1000);
+  }
+
+  /**
    * close this display
    */
   public void close() {
     Platform.runLater(() -> {
-      if (stage != null)
+      if (stage != null) {
         stage.close();
+      }
     });
     this.waitClose();
     // allow reopening

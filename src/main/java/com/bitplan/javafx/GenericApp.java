@@ -63,9 +63,7 @@ import javafx.util.Duration;
 @SuppressWarnings("restriction")
 public abstract class GenericApp extends WaitableApp
     implements ExceptionHandler, Linker, EventHandler<ActionEvent> {
-  public static boolean debug = false;
-  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-  public static boolean testMode = false;
+ 
   protected com.bitplan.gui.App app;
   protected SoftwareVersion softwareVersion;
   protected Map<String, GenericControl> controls;
