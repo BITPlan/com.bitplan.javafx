@@ -17,12 +17,15 @@ public class TranslucentImageViewTest extends TestApplication {
   public void start(Stage stage) throws Exception {
     ImageView imageView = getImageView(stage);
     imageView.setPreserveRatio(false);
+    
     Pane drawOnGlass=new Pane();
+    drawOnGlass.setStyle(
+        "-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
+    
     StackPane stackPane = new StackPane();
     StackPane.setAlignment(imageView, Pos.CENTER);
     stackPane.getChildren().addAll(imageView,drawOnGlass);
-    drawOnGlass.setStyle(
-        "-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
+    
     ChangeListener<Number> sizeListener = (observable, oldValue, newValue) ->{
       drawOnGlass.getChildren().clear();
       double w = drawOnGlass.getWidth();
@@ -49,10 +52,10 @@ public class TranslucentImageViewTest extends TestApplication {
     };
     drawOnGlass.widthProperty().addListener(sizeListener);
     drawOnGlass.heightProperty().addListener(sizeListener);
-    final StackPane layout = new StackPane();
-    layout.getChildren().addAll(imageView, stackPane);
-    layout.setStyle("-fx-background-color: silver; -fx-padding: 10;");
-    super.createSceneAndShowStage(stage, layout);
+    /*final StackPane layout = new StackPane();
+    layout.getChildren().addAll(stackPane);
+    layout.setStyle("-fx-background-color: silver; -fx-padding: 10;");*/
+    super.createSceneAndShowStage(stage, stackPane);
   }
   
   public static void main(String[] args) {
