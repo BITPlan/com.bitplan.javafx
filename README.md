@@ -11,7 +11,7 @@ javafx controls and utilities - with binding to platform independent gui declara
 ### Distribution
 Available at Maven Central see 
 
-http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.17|jar
+http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.18|jar
 
 Maven dependency:
 
@@ -19,7 +19,7 @@ Maven dependency:
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
-  <version>0.0.17</version>
+  <version>0.0.18</version>
 </dependency>
 ```
 
@@ -50,3 +50,4 @@ https://www.apache.org/licenses/LICENSE-2.0
 * 2018-08-10 0.0.15 - upgrades com.bitplan.gui to 0.0.10 to fix getInstance
 * 2018-08-12 0.0.16 - upgrades com.bitplan.gui to 0.0.11 to improve JsonAble
 * 2018-08-15 0.0.17 - refactors WaitableApp to allow showTime directly
+* 2018-08-12 0.0.18 - upgrades com.bitplan.gui to 0.0.12 to improve JsonAble
