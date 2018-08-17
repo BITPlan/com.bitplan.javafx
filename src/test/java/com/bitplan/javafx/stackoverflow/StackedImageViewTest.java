@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 public class StackedImageViewTest extends TestApplication {
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage)  {
     ImageView imageView = super.getImageView(primaryStage);
     StackPane pane = new StackPane();
     pane.getChildren().add(imageView);

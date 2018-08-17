@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public abstract class TestApplication extends Application {
   private Image image;
   private ImageView imageView;
-  private Scene scene;
+  protected Scene scene;
   private Stage stage;
 
   /**
