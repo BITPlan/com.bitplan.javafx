@@ -47,8 +47,6 @@ public class TranslucentImageViewTest extends TestApplication {
       label.setTranslateY(h/2+radius);
       label.setTextFill(Color.WHITE);
       drawOnGlass.getChildren().addAll(line,line2,circle,label);
-      
-        
     };
     drawOnGlass.widthProperty().addListener(sizeListener);
     drawOnGlass.heightProperty().addListener(sizeListener);
