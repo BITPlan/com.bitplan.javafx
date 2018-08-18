@@ -26,6 +26,7 @@ package com.bitplan.javafx.stackoverflow;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -37,17 +38,17 @@ import org.controlsfx.control.PopOver;
  * https://stackoverflow.com/a/47187898/1497139
  * @author Sedrick
  */
-public class PopOverTest extends Application {
+public class PopOverTest extends TestApplication {
 
     @Override
     public void start(Stage primaryStage) {
 
-
+        ImageView imageView=super.getImageView(primaryStage);
         //Build PopOver look and feel
         Label lblName = new Label("John Doe");
         Label lblStreet = new Label("123 Hello Street");
         Label lblCityStateZip = new Label("MadeUpCity, XX 55555");   
-        VBox vBox = new VBox(lblName, lblStreet, lblCityStateZip);
+        VBox vBox = new VBox(lblName, lblStreet, lblCityStateZip,imageView);
         //Create PopOver and add look and feel
         PopOver popOver = new PopOver(vBox);
 
