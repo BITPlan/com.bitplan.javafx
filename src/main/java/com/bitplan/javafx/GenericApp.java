@@ -2,7 +2,10 @@
  *
  * This file is part of the https://github.com/BITPlan/com.bitplan.javafx open source project
  *
- * Copyright 2017 BITPlan GmbH https://github.com/BITPlan
+ * The copyright and license below holds true
+ * for all files except the ones in the stackoverflow package
+ *
+ * Copyright 2017-2018 BITPlan GmbH https://github.com/BITPlan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
