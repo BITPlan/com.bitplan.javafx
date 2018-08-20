@@ -1,0 +1,789 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>OverviewDemo xref</title>
+<link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../apidocs/eu/hansolo/OverviewDemo.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * This file is part of the https://github.com/BITPlan/com.bitplan.javafx open source project</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * The copyright and license below holds true</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> * for all files except the ones in the stackoverflow package</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> * Copyright 2017-2018 BITPlan GmbH https://github.com/BITPlan</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * you may not use this file except in compliance with the License.</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> *  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> *  http:www.apache.org/licenses/LICENSE-2.0</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">package</strong> eu.hansolo;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.*;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.Clock;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.Clock.ClockSkinType;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.Gauge.NeedleSize;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.Gauge.ScaleDirection;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.Gauge.SkinType;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.GaugeDesign.GaugeBackground;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> eu.hansolo.medusa.Marker.MarkerType;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> javafx.animation.AnimationTimer;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> javafx.application.Application;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> javafx.collections.ObservableList;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> javafx.geometry.Insets;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> javafx.geometry.Orientation;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> javafx.scene.Node;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> javafx.scene.Parent;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> javafx.scene.Scene;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> javafx.scene.layout.Background;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> javafx.scene.layout.BackgroundFill;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> javafx.scene.layout.ColumnConstraints;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> javafx.scene.layout.CornerRadii;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <strong class="jxr_keyword">import</strong> javafx.scene.layout.GridPane;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <strong class="jxr_keyword">import</strong> javafx.scene.layout.RowConstraints;
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">import</strong> javafx.scene.paint.Color;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">import</strong> javafx.scene.paint.Stop;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">import</strong> javafx.stage.Stage;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <strong class="jxr_keyword">import</strong> java.time.*;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">import</strong> java.util.Random;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> * Created by hansolo on 11.12.15.</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../eu/hansolo/OverviewDemo.html">OverviewDemo</a> <strong class="jxr_keyword">extends</strong> Application {
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Random RND            = <strong class="jxr_keyword">new</strong> Random();
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> MIN_CELL_SIZE  = 80;
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> PREF_CELL_SIZE = 120;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> MAX_CELL_SIZE  = 150;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong>       <strong class="jxr_keyword">int</strong>    noOfNodes      = 0;
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">private</strong> FGauge         framedGauge1;
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge1;
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">private</strong> FGauge         framedGauge2;
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge2;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge3;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge4;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge5;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge6;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge7;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge8;
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge9;
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge10;
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge11;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge12;
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge13;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge14;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge15;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge16;
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge17;
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge18;
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge19;
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge20;
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge21;
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge22;
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge23;
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge24;
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge25;
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge26;
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge27;
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge28;
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge29;
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge30;
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">private</strong> Gauge          gauge31;
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>      <strong class="jxr_keyword">private</strong> Clock          clock1;
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>      <strong class="jxr_keyword">private</strong> Clock          clock2;
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <strong class="jxr_keyword">private</strong> Clock          clock3;
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     <strong class="jxr_keyword">private</strong> Clock          clock4;
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>     <strong class="jxr_keyword">private</strong> Clock          clock5;
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>     <strong class="jxr_keyword">private</strong> Clock          clock6;
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>     <strong class="jxr_keyword">private</strong> Clock          clock7;
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>     <strong class="jxr_keyword">private</strong> Clock          clock8;
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     <strong class="jxr_keyword">private</strong> Clock          clock9;
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">private</strong> Clock          clock10;
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>     <strong class="jxr_keyword">private</strong> Clock          clock11;
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>     <strong class="jxr_keyword">private</strong> Clock          clock12;
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong>           lastTimerCall;
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>     <strong class="jxr_keyword">private</strong> AnimationTimer timer;
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>     @Override <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> init() {
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>         gauge1 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>                              .minValue(0)
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>                              .maxValue(1)
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>                              .tickLabelDecimals(1)
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>                              .decimals(2)
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>                              .autoScale(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>                              <em class="jxr_comment">//.backgroundPaint(Color.TRANSPARENT)</em>
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>                              <em class="jxr_comment">//.borderPaint(Color.LIGHTGRAY)</em>
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>                              <em class="jxr_comment">//.knobColor(Color.rgb(0, 90, 120))</em>
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>                              .shadowsEnabled(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>                              <em class="jxr_comment">//.tickLabelColor(Color.rgb(0, 175, 248))</em>
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>                              <em class="jxr_comment">//.ledColor(Color.rgb(0, 175, 248))</em>
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>                              .ledVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>                              .ledBlinking(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                              .sectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>                              .sections(<strong class="jxr_keyword">new</strong> Section(0.5, 0.75, Color.rgb(139, 195, 102, 0.5)))
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>                              .areasVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>                              .areas(<strong class="jxr_keyword">new</strong> Section(0.75, 1.0, Color.rgb(234, 83, 79, 0.5)))
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>                              .majorTickMarkColor(Color.MAGENTA)
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>                              <em class="jxr_comment">//.minorTickMarkColor(Color.rgb(0, 175, 248))</em>
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>                              .majorTickMarkType(TickMarkType.TRAPEZOID)
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>                              .mediumTickMarkType(TickMarkType.DOT)
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>                              .minorTickMarkType(TickMarkType.LINE)
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>                              .tickLabelOrientation(TickLabelOrientation.ORTHOGONAL)
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>                              .tickMarkSections(<strong class="jxr_keyword">new</strong> Section(0.25, 0.5, Color.rgb(241, 161, 71)))
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>                              .tickMarkSectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>                              .markers(<strong class="jxr_keyword">new</strong> Marker(0.5, <span class="jxr_string">""</span>, Color.CYAN, MarkerType.TRIANGLE))
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>                              .markersVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>                              <em class="jxr_comment">//.majorTickMarksVisible(true)</em>
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>                              <em class="jxr_comment">//.minorTickMarksVisible(true)</em>
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>                              .tickLabelLocation(TickLabelLocation.INSIDE)
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>                              <em class="jxr_comment">//.tickLabelsVisible(true)</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>                              .tickLabelSections(<strong class="jxr_keyword">new</strong> Section(0.1, 0.3, Color.rgb(0, 175, 248)))
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>                              <em class="jxr_comment">//.tickLabelSectionsVisible(true)</em>
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>                              .title(<span class="jxr_string">"Pressure"</span>)
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>                              <em class="jxr_comment">//.titleColor(Color.rgb(223, 223, 223))</em>
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>                              .unit(<span class="jxr_string">"bar"</span>)
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>                              .lcdDesign(LcdDesign.SECTIONS)
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>                              .lcdVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>                              .lcdFont(LcdFont.STANDARD)
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>                              <em class="jxr_comment">//.unitColor(Color.rgb(223, 223, 223))</em>
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>                              .needleSize(NeedleSize.THICK)
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>                              .build();
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>         gauge2 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>                              .minValue(0)
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>                              .maxValue(10)
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>                              .autoScale(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>                              .shadowsEnabled(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>                              .ledColor(Color.rgb(250, 50, 0))
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>                              .gradientBarEnabled(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>                              .gradientBarStops(<strong class="jxr_keyword">new</strong> Stop(0.0, Color.rgb(0, 0, 255, 0.7)),
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>                                                <strong class="jxr_keyword">new</strong> Stop(0.5, Color.rgb(0, 200, 255, 0.7)),
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>                                                <strong class="jxr_keyword">new</strong> Stop(1.0, Color.rgb(0, 255, 0, 0.7)))
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>                              .majorTickMarkType(TickMarkType.TRAPEZOID)
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>                              .majorTickMarksVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>                              .mediumTickMarkType(TickMarkType.TRAPEZOID)
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>                              .mediumTickMarksVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>                              .minorTickMarkType(TickMarkType.LINE)
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>                              .minorTickMarksVisible(false)
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>                              .tickLabelsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>                              .tickLabelOrientation(TickLabelOrientation.HORIZONTAL)
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>                              .tickLabelLocation(TickLabelLocation.INSIDE)
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>                              .title(<span class="jxr_string">"Title"</span>)
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>                              .unit(<span class="jxr_string">"Unit"</span>)
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>                              .foregroundBaseColor(Gauge.BRIGHT_COLOR)
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>                              .build();
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>         gauge3 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>                              .skinType(SkinType.SIMPLE)
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>                              .sections(<strong class="jxr_keyword">new</strong> Section(0, 16.66666, <span class="jxr_string">"0"</span>, Color.web(<span class="jxr_string">"#11632f"</span>)),
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>                                        <strong class="jxr_keyword">new</strong> Section(16.66666, 33.33333, <span class="jxr_string">"1"</span>, Color.web(<span class="jxr_string">"#36843d"</span>)),
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>                                        <strong class="jxr_keyword">new</strong> Section(33.33333, 50.0, <span class="jxr_string">"2"</span>, Color.web(<span class="jxr_string">"#67a328"</span>)),
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>                                        <strong class="jxr_keyword">new</strong> Section(50.0, 66.66666, <span class="jxr_string">"3"</span>, Color.web(<span class="jxr_string">"#80b940"</span>)),
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>                                        <strong class="jxr_keyword">new</strong> Section(66.66666, 83.33333, <span class="jxr_string">"4"</span>, Color.web(<span class="jxr_string">"#95c262"</span>)),
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>                                        <strong class="jxr_keyword">new</strong> Section(83.33333, 100.0, <span class="jxr_string">"5"</span>, Color.web(<span class="jxr_string">"#badf8d"</span>)))
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>                              .sectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>                              .title(<span class="jxr_string">"Simple"</span>)
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>                              .threshold(50)
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>                              .build();
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>         gauge4 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>                              .skinType(SkinType.BULLET_CHART)
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>                              .sections(<strong class="jxr_keyword">new</strong> Section(0, 16.66666, <span class="jxr_string">"0"</span>, Color.web(<span class="jxr_string">"#11632f"</span>)),
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>                                        <strong class="jxr_keyword">new</strong> Section(16.66666, 33.33333, <span class="jxr_string">"1"</span>, Color.web(<span class="jxr_string">"#36843d"</span>)),
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>                                        <strong class="jxr_keyword">new</strong> Section(33.33333, 50.0, <span class="jxr_string">"2"</span>, Color.web(<span class="jxr_string">"#67a328"</span>)),
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>                                        <strong class="jxr_keyword">new</strong> Section(50.0, 66.66666, <span class="jxr_string">"3"</span>, Color.web(<span class="jxr_string">"#80b940"</span>)),
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>                                        <strong class="jxr_keyword">new</strong> Section(66.66666, 83.33333, <span class="jxr_string">"4"</span>, Color.web(<span class="jxr_string">"#95c262"</span>)),
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>                                        <strong class="jxr_keyword">new</strong> Section(83.33333, 100.0, <span class="jxr_string">"5"</span>, Color.web(<span class="jxr_string">"#badf8d"</span>)))
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>                              .title(<span class="jxr_string">"BulletChart"</span>)
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>                              .unit(<span class="jxr_string">"US$ in thousands"</span>)
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>                              .threshold(50)
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>                              .orientation(Orientation.VERTICAL)
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>                              .titleColor(Color.WHITE)
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>                              .unitColor(Color.WHITE)
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>                              .tickLabelColor(Color.WHITE)
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>                              .tickMarkColor(Color.WHITE)
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>                              .build();
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>         gauge5 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>                              .skinType(SkinType.DASHBOARD)
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>                              .title(<span class="jxr_string">"Dashboard"</span>)
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>                              .unit(<span class="jxr_string">"\u00B0C"</span>)
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>                              .maxValue(40)
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>                              .barColor(Color.CRIMSON)
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>                              .valueColor(Color.WHITE)
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>                              .titleColor(Color.WHITE)
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>                              .unitColor(Color.WHITE)
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>                              .thresholdVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>                              .threshold(35)
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>                              .shadowsEnabled(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>                              .gradientBarEnabled(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>                              .gradientBarStops(<strong class="jxr_keyword">new</strong> Stop(0.00, Color.BLUE),
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>                                                <strong class="jxr_keyword">new</strong> Stop(0.25, Color.CYAN),
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>                                                <strong class="jxr_keyword">new</strong> Stop(0.50, Color.LIME),
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>                                                <strong class="jxr_keyword">new</strong> Stop(0.75, Color.YELLOW),
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>                                                <strong class="jxr_keyword">new</strong> Stop(1.00, Color.RED))
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>                              .build();
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> 
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>         gauge6 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>                              .skinType(SkinType.SPACE_X)
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>                              .decimals(0)
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>                              .title(<span class="jxr_string">"SpaceX"</span>)
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>                              .unit(<span class="jxr_string">"km/h"</span>)
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>                              .maxValue(30000)
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>                              .threshold(25000)
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>                              .build();
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> 
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>         gauge7 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>                              .skinType(SkinType.AMP)
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>                              .prefSize(250, 210)
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>                              .minValue(-1)
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>                              .maxValue(1)
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>                              .tickLabelDecimals(1)
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>                              .decimals(2)
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>                              .startFromZero(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>                              .title(<span class="jxr_string">"Amp"</span>)
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>                              .unit(<span class="jxr_string">"db"</span>)
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>                              .sections(<strong class="jxr_keyword">new</strong> Section(80, 100, Color.CRIMSON))
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>                              .sectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>                              .build();
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         gauge8 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>                              .skinType(SkinType.MODERN)
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>                              .prefSize(400, 400)
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>                              .sections(<strong class="jxr_keyword">new</strong> Section(85, 90, <span class="jxr_string">""</span>, Color.rgb(204, 0, 0, 0.5)),
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>                                        <strong class="jxr_keyword">new</strong> Section(90, 95, <span class="jxr_string">""</span>, Color.rgb(204, 0, 0, 0.75)),
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>                                        <strong class="jxr_keyword">new</strong> Section(95, 100, <span class="jxr_string">""</span>, Color.rgb(204, 0, 0)))
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>                              .sectionTextVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>                              .title(<span class="jxr_string">"MODERN"</span>)
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>                              .unit(<span class="jxr_string">"UNIT"</span>)
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>                              .threshold(85)
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>                              .thresholdVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>                              .build();
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>         gauge9 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>                              .minValue(-1)
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>                              .maxValue(2)
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>                              .tickLabelDecimals(1)
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>                              .autoScale(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>                              .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>                              .startAngle(0)
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>                              .angleRange(270)
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>                              .threshold(0.5)
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>                              .thresholdVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>                              .majorTickMarkType(TickMarkType.TRAPEZOID)
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>                              .mediumTickMarkType(TickMarkType.TRAPEZOID)
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>                              .tickLabelColor(Color.WHITE)
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>                              .tickMarkColor(Color.WHITE)
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>                              .titleColor(Color.WHITE)
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>                              .subTitleColor(Color.WHITE)
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>                              .unitColor(Color.WHITE)
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>                              .zeroColor(Color.LIGHTSKYBLUE)
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>                              .lcdVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>                              .lcdDesign(LcdDesign.FLAT_CUSTOM)
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>                              .title(<span class="jxr_string">"Title"</span>)
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>                              .subTitle(<span class="jxr_string">"SubTitle"</span>)
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>                              .unit(<span class="jxr_string">"Unit"</span>)
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>                              .interactive(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>                              .buttonTooltipText(<span class="jxr_string">"Test"</span>)
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>                              .needleSize(NeedleSize.THIN)
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>                              .tickLabelLocation(TickLabelLocation.OUTSIDE)
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>                              .onButtonPressed(event -&gt; System.out.println(<span class="jxr_string">"Button pressed"</span>))
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>                              .onButtonReleased(event -&gt; System.out.println(<span class="jxr_string">"Button released"</span>))
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>                              .scaleDirection(ScaleDirection.COUNTER_CLOCKWISE)
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>                              .sectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>                              .sections(<strong class="jxr_keyword">new</strong> Section(0, 1, Color.rgb(200, 150, 0, 0.5)))
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>                              .areasVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>                              .highlightAreas(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>                              .areas(<strong class="jxr_keyword">new</strong> Section(1.5, 2, Color.rgb(200, 0, 0, 0.1), Color.rgb(255, 0, 0)))
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>                              .markersVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>                              <em class="jxr_comment">//.markersInterActive(true)</em>
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>                              .markers(<strong class="jxr_keyword">new</strong> Marker(1.75, Color.LIME))
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>                              .needleColor(Color.CYAN)
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>                              .build();
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         gauge10 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>                               .skinType(SkinType.FLAT)
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>                               .title(<span class="jxr_string">"Flat"</span>)
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>                               .unit(<span class="jxr_string">"Unit"</span>)
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>                               .foregroundBaseColor(Color.WHITE)
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>                               .build();
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>         gauge11 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>                               .skinType(SkinType.SLIM)
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>                               .maxValue(10000)
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>                               .decimals(0)
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>                               .unit(<span class="jxr_string">"STEPS"</span>)
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>                               .build();
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>         gauge12 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>                               .skinType(SkinType.KPI)
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>                               .foregroundBaseColor(Color.WHITE)
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>                               .needleColor(Color.WHITE)
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>                               .threshold(75)
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>                               .title(<span class="jxr_string">"TITLE"</span>)
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>                               .build();
+<a class="jxr_linenumber" name="L342" href="#L342">342</a> 
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>         gauge13 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>                               .skinType(SkinType.INDICATOR)
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>                               .build();
+<a class="jxr_linenumber" name="L347" href="#L347">347</a> 
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>         gauge14 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>                               .skinType(SkinType.QUARTER)
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>                               .foregroundBaseColor(Color.WHITE)
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>                               .build();
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> 
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>         gauge15 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>                               .skinType(SkinType.HORIZONTAL)
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>                               .foregroundBaseColor(Color.WHITE)
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>                               .build();
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> 
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>         gauge16 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>                               .skinType(SkinType.VERTICAL)
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>                               .foregroundBaseColor(Color.WHITE)
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>                               .build();
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> 
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>         gauge17 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>                               .skinType(SkinType.LCD)
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>                               .title(<span class="jxr_string">"Temperature"</span>)
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>                               .subTitle(<span class="jxr_string">"Office"</span>)
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>                               .unit(<span class="jxr_string">"\u00B0C"</span>)
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>                               .lcdDesign(LcdDesign.BLUE_LIGHTBLUE2)
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>                               .thresholdVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>                               .threshold(25)
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>                               .build();
+<a class="jxr_linenumber" name="L376" href="#L376">376</a> 
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>         gauge18 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>                               .skinType(SkinType.TINY)
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L380" href="#L380">380</a>                               .minValue(0)
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>                               .sections(<strong class="jxr_keyword">new</strong> Section(0, 33, Color.rgb(0, 200, 0, 0.75)),
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>                                         <strong class="jxr_keyword">new</strong> Section(33, 66, Color.rgb(200, 200, 0, 0.75)),
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>                                         <strong class="jxr_keyword">new</strong> Section(66, 100, Color.rgb(200, 0, 0, 0.75)))
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>                               .build();
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> 
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>         gauge19 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>                               .skinType(SkinType.BATTERY)
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>                               .sectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>                               .sections(<strong class="jxr_keyword">new</strong> Section(0, 10, Color.rgb(200, 0, 0, 0.8)),
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>                                         <strong class="jxr_keyword">new</strong> Section(10, 30, Color.rgb(200, 200, 0, 0.8)),
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>                                         <strong class="jxr_keyword">new</strong> Section(30, 100, Color.rgb(0, 200, 0, 0.8)))
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>                               .build();
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> 
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>         gauge20 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>                               .skinType(SkinType.LEVEL)
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>                               .title(<span class="jxr_string">"Capacity"</span>)
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>                               .titleColor(Color.WHITE)
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>                               .gradientBarEnabled(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>                               .gradientBarStops(<strong class="jxr_keyword">new</strong> Stop(0.0, Color.RED),
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>                                                 <strong class="jxr_keyword">new</strong> Stop(0.25, Color.ORANGE),
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>                                                 <strong class="jxr_keyword">new</strong> Stop(0.5, Color.YELLOW),
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>                                                 <strong class="jxr_keyword">new</strong> Stop(0.75, Color.YELLOWGREEN),
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>                                                 <strong class="jxr_keyword">new</strong> Stop(1.0, Color.LIME))
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>                               .build();
+<a class="jxr_linenumber" name="L407" href="#L407">407</a> 
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>         gauge21 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>                               .skinType(SkinType.LINEAR)
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>                               .title(<span class="jxr_string">"Linear"</span>)
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>                               .orientation(Orientation.HORIZONTAL)
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>                               .sectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>                               .foregroundBaseColor(Color.WHITE)
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>                               .barColor(Color.LIGHTSKYBLUE)
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>                               .sections(<strong class="jxr_keyword">new</strong> Section(0, 20, Color.BLUE),
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>                                         <strong class="jxr_keyword">new</strong> Section(80, 100, Color.RED))
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>                               .build();
+<a class="jxr_linenumber" name="L418" href="#L418">418</a> 
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>         gauge22 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L420" href="#L420">420</a>                               .skinType(SkinType.DIGITAL)
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>                               .foregroundBaseColor(Color.rgb(0, 222, 249))
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>                               .barColor(Color.rgb(0, 222, 249))
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>                               .title(<span class="jxr_string">"SLIM"</span>)
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>                               .unit(<span class="jxr_string">"UNIT"</span>)
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>                               .build();
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> 
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>         gauge23 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>                               .skinType(SkinType.SIMPLE_DIGITAL)
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>                               .foregroundBaseColor(Color.rgb(0, 249, 222))
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>                               .barColor(Color.rgb(0, 249, 222))
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>                               .title(<span class="jxr_string">"Simple Digital"</span>)
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>                               .unit(<span class="jxr_string">"KPH"</span>)
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>                               .build();
+<a class="jxr_linenumber" name="L436" href="#L436">436</a> 
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>         gauge24 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>                               .skinType(SkinType.SECTION)
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>                               .needleColor(Color.ORANGE)
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>                               .minValue(0)
+<a class="jxr_linenumber" name="L441" href="#L441">441</a>                               .maxValue(105)
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>                               .highlightSections(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>                               .sections(
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>                                   SectionBuilder.create()
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>                                                 .start(0)
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>                                                 .stop(15)
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>                                                 .text(<span class="jxr_string">"EXCELLENT"</span>)
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>                                                 .color(Color.rgb(223, 223, 223))
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>                                                 .highlightColor(Color.rgb(18, 158, 81))
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>                                                 .textColor(Gauge.DARK_COLOR)
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>                                                 .build(),
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>                                   SectionBuilder.create()
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>                                                 .start(15)
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>                                                 .stop(30)
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>                                                 .text(<span class="jxr_string">"VERY\nGOOD"</span>)
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>                                                 .color(Color.rgb(223, 223, 223))
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>                                                 .highlightColor(Color.rgb(151, 208, 77))
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>                                                 .textColor(Gauge.DARK_COLOR)
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>                                                 .build(),
+<a class="jxr_linenumber" name="L461" href="#L461">461</a>                                   SectionBuilder.create()
+<a class="jxr_linenumber" name="L462" href="#L462">462</a>                                                 .start(30)
+<a class="jxr_linenumber" name="L463" href="#L463">463</a>                                                 .stop(45)
+<a class="jxr_linenumber" name="L464" href="#L464">464</a>                                                 .text(<span class="jxr_string">"GOOD"</span>)
+<a class="jxr_linenumber" name="L465" href="#L465">465</a>                                                 .color(Color.rgb(223, 223, 223))
+<a class="jxr_linenumber" name="L466" href="#L466">466</a>                                                 .highlightColor(Color.rgb(197, 223, 0))
+<a class="jxr_linenumber" name="L467" href="#L467">467</a>                                                 .textColor(Gauge.DARK_COLOR)
+<a class="jxr_linenumber" name="L468" href="#L468">468</a>                                                 .build(),
+<a class="jxr_linenumber" name="L469" href="#L469">469</a>                                   SectionBuilder.create()
+<a class="jxr_linenumber" name="L470" href="#L470">470</a>                                                 .start(45)
+<a class="jxr_linenumber" name="L471" href="#L471">471</a>                                                 .stop(60)
+<a class="jxr_linenumber" name="L472" href="#L472">472</a>                                                 .text(<span class="jxr_string">"FAIRLY\nGOOD"</span>)
+<a class="jxr_linenumber" name="L473" href="#L473">473</a>                                                 .color(Color.rgb(223, 223, 223))
+<a class="jxr_linenumber" name="L474" href="#L474">474</a>                                                 .highlightColor(Color.rgb(251, 245, 0))
+<a class="jxr_linenumber" name="L475" href="#L475">475</a>                                                 .textColor(Gauge.DARK_COLOR)
+<a class="jxr_linenumber" name="L476" href="#L476">476</a>                                                 .build(),
+<a class="jxr_linenumber" name="L477" href="#L477">477</a>                                   SectionBuilder.create()
+<a class="jxr_linenumber" name="L478" href="#L478">478</a>                                                 .start(60)
+<a class="jxr_linenumber" name="L479" href="#L479">479</a>                                                 .stop(75)
+<a class="jxr_linenumber" name="L480" href="#L480">480</a>                                                 .text(<span class="jxr_string">"AVERAGE"</span>)
+<a class="jxr_linenumber" name="L481" href="#L481">481</a>                                                 .color(Color.rgb(223, 223, 223))
+<a class="jxr_linenumber" name="L482" href="#L482">482</a>                                                 .highlightColor(Color.rgb(247, 206, 0))
+<a class="jxr_linenumber" name="L483" href="#L483">483</a>                                                 .textColor(Gauge.DARK_COLOR)
+<a class="jxr_linenumber" name="L484" href="#L484">484</a>                                                 .build(),
+<a class="jxr_linenumber" name="L485" href="#L485">485</a>                                   SectionBuilder.create()
+<a class="jxr_linenumber" name="L486" href="#L486">486</a>                                                 .start(75)
+<a class="jxr_linenumber" name="L487" href="#L487">487</a>                                                 .stop(90)
+<a class="jxr_linenumber" name="L488" href="#L488">488</a>                                                 .text(<span class="jxr_string">"BELOW\nAVERAGE"</span>)
+<a class="jxr_linenumber" name="L489" href="#L489">489</a>                                                 .color(Color.rgb(223, 223, 223))
+<a class="jxr_linenumber" name="L490" href="#L490">490</a>                                                 .highlightColor(Color.rgb(227, 124, 1))
+<a class="jxr_linenumber" name="L491" href="#L491">491</a>                                                 .textColor(Gauge.DARK_COLOR)
+<a class="jxr_linenumber" name="L492" href="#L492">492</a>                                                 .build(),
+<a class="jxr_linenumber" name="L493" href="#L493">493</a>                                   SectionBuilder.create()
+<a class="jxr_linenumber" name="L494" href="#L494">494</a>                                                 .start(90)
+<a class="jxr_linenumber" name="L495" href="#L495">495</a>                                                 .stop(105)
+<a class="jxr_linenumber" name="L496" href="#L496">496</a>                                                 .text(<span class="jxr_string">"POOR"</span>)
+<a class="jxr_linenumber" name="L497" href="#L497">497</a>                                                 .color(Color.rgb(223, 223, 223))
+<a class="jxr_linenumber" name="L498" href="#L498">498</a>                                                 .highlightColor(Color.rgb(223, 49, 23))
+<a class="jxr_linenumber" name="L499" href="#L499">499</a>                                                 .textColor(Gauge.DARK_COLOR)
+<a class="jxr_linenumber" name="L500" href="#L500">500</a>                                                 .build())
+<a class="jxr_linenumber" name="L501" href="#L501">501</a>                               .build();
+<a class="jxr_linenumber" name="L502" href="#L502">502</a> 
+<a class="jxr_linenumber" name="L503" href="#L503">503</a>         gauge25 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L504" href="#L504">504</a>                               .skinType(SkinType.BAR)
+<a class="jxr_linenumber" name="L505" href="#L505">505</a>                               .barColor(Color.rgb(237, 22, 72))
+<a class="jxr_linenumber" name="L506" href="#L506">506</a>                               .valueColor(Color.WHITE)
+<a class="jxr_linenumber" name="L507" href="#L507">507</a>                               .unitColor(Color.WHITE)
+<a class="jxr_linenumber" name="L508" href="#L508">508</a>                               .unit(<span class="jxr_string">"KPH"</span>)
+<a class="jxr_linenumber" name="L509" href="#L509">509</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L510" href="#L510">510</a>                               .build();
+<a class="jxr_linenumber" name="L511" href="#L511">511</a> 
+<a class="jxr_linenumber" name="L512" href="#L512">512</a>         gauge26 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L513" href="#L513">513</a>                               .skinType(SkinType.WHITE)
+<a class="jxr_linenumber" name="L514" href="#L514">514</a>                               .unit(<span class="jxr_string">""</span>)
+<a class="jxr_linenumber" name="L515" href="#L515">515</a>                               .build();
+<a class="jxr_linenumber" name="L516" href="#L516">516</a> 
+<a class="jxr_linenumber" name="L517" href="#L517">517</a>         gauge27 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L518" href="#L518">518</a>                               .skinType(SkinType.CHARGE)
+<a class="jxr_linenumber" name="L519" href="#L519">519</a>                               .build();
+<a class="jxr_linenumber" name="L520" href="#L520">520</a>         GridPane.setColumnSpan(gauge27, 2);
+<a class="jxr_linenumber" name="L521" href="#L521">521</a> 
+<a class="jxr_linenumber" name="L522" href="#L522">522</a>         gauge28 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L523" href="#L523">523</a>                               .skinType(SkinType.SIMPLE_SECTION)
+<a class="jxr_linenumber" name="L524" href="#L524">524</a>                               .title(<span class="jxr_string">"Title"</span>)
+<a class="jxr_linenumber" name="L525" href="#L525">525</a>                               .unit(<span class="jxr_string">"unit"</span>)
+<a class="jxr_linenumber" name="L526" href="#L526">526</a>                               .titleColor(Color.WHITE)
+<a class="jxr_linenumber" name="L527" href="#L527">527</a>                               .unitColor(Color.WHITE)
+<a class="jxr_linenumber" name="L528" href="#L528">528</a>                               .valueColor(Color.WHITE)
+<a class="jxr_linenumber" name="L529" href="#L529">529</a>                               .sections(<strong class="jxr_keyword">new</strong> Section(0, 33, Color.LIME),
+<a class="jxr_linenumber" name="L530" href="#L530">530</a>                                         <strong class="jxr_keyword">new</strong> Section(33, 66, Color.YELLOW),
+<a class="jxr_linenumber" name="L531" href="#L531">531</a>                                         <strong class="jxr_keyword">new</strong> Section(66, 100, Color.CRIMSON))
+<a class="jxr_linenumber" name="L532" href="#L532">532</a>                               .build();
+<a class="jxr_linenumber" name="L533" href="#L533">533</a> 
+<a class="jxr_linenumber" name="L534" href="#L534">534</a>         gauge29 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L535" href="#L535">535</a>                               .skinType(SkinType.TILE_KPI)
+<a class="jxr_linenumber" name="L536" href="#L536">536</a>                               .threshold(75)
+<a class="jxr_linenumber" name="L537" href="#L537">537</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L538" href="#L538">538</a>                               .build();
+<a class="jxr_linenumber" name="L539" href="#L539">539</a> 
+<a class="jxr_linenumber" name="L540" href="#L540">540</a>         gauge30 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L541" href="#L541">541</a>                               .skinType(SkinType.TILE_TEXT_KPI)
+<a class="jxr_linenumber" name="L542" href="#L542">542</a>                               .animated(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L543" href="#L543">543</a>                               .build();
+<a class="jxr_linenumber" name="L544" href="#L544">544</a> 
+<a class="jxr_linenumber" name="L545" href="#L545">545</a>         gauge31 = GaugeBuilder.create()
+<a class="jxr_linenumber" name="L546" href="#L546">546</a>                               .skinType(SkinType.TILE_SPARK_LINE)
+<a class="jxr_linenumber" name="L547" href="#L547">547</a>                               .averageVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L548" href="#L548">548</a>                               .build();
+<a class="jxr_linenumber" name="L549" href="#L549">549</a> 
+<a class="jxr_linenumber" name="L550" href="#L550">550</a>         clock1 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L551" href="#L551">551</a>                              .skinType(ClockSkinType.YOTA2)
+<a class="jxr_linenumber" name="L552" href="#L552">552</a>                              .sectionsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L553" href="#L553">553</a>                              .sections(<strong class="jxr_keyword">new</strong> TimeSection(LocalTime.of(8, 0, 0), LocalTime.of(12, 0, 0), Color.rgb(0, 200, 0, 0.5)),
+<a class="jxr_linenumber" name="L554" href="#L554">554</a>                                        <strong class="jxr_keyword">new</strong> TimeSection(LocalTime.of(13, 0, 0), LocalTime.of(17, 0, 0), Color.rgb(0, 200, 0, 0.5)))
+<a class="jxr_linenumber" name="L555" href="#L555">555</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L556" href="#L556">556</a>                              .build();
+<a class="jxr_linenumber" name="L557" href="#L557">557</a> 
+<a class="jxr_linenumber" name="L558" href="#L558">558</a>         clock2 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L559" href="#L559">559</a>                              .skinType(ClockSkinType.LCD)
+<a class="jxr_linenumber" name="L560" href="#L560">560</a>                              .lcdDesign(LcdDesign.GRAY)
+<a class="jxr_linenumber" name="L561" href="#L561">561</a>                              .title(<span class="jxr_string">"Muenster"</span>)
+<a class="jxr_linenumber" name="L562" href="#L562">562</a>                              .titleVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L563" href="#L563">563</a>                              .secondsVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L564" href="#L564">564</a>                              .alarmsEnabled(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L565" href="#L565">565</a>                              .dateVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L566" href="#L566">566</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L567" href="#L567">567</a>                              .build();
+<a class="jxr_linenumber" name="L568" href="#L568">568</a> 
+<a class="jxr_linenumber" name="L569" href="#L569">569</a>         clock3 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L570" href="#L570">570</a>                              .skinType(ClockSkinType.PEAR)
+<a class="jxr_linenumber" name="L571" href="#L571">571</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L572" href="#L572">572</a>                              .build();
+<a class="jxr_linenumber" name="L573" href="#L573">573</a> 
+<a class="jxr_linenumber" name="L574" href="#L574">574</a>         clock4 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L575" href="#L575">575</a>                              .skinType(ClockSkinType.PLAIN)
+<a class="jxr_linenumber" name="L576" href="#L576">576</a>                              .areasVisible(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L577" href="#L577">577</a>                              .areas(<strong class="jxr_keyword">new</strong> TimeSection(LocalTime.of(9, 0, 0), LocalTime.of(12, 0, 0), Color.rgb(255, 0, 255, 0.3)))
+<a class="jxr_linenumber" name="L578" href="#L578">578</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L579" href="#L579">579</a>                              .build();
+<a class="jxr_linenumber" name="L580" href="#L580">580</a> 
+<a class="jxr_linenumber" name="L581" href="#L581">581</a>         clock5 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L582" href="#L582">582</a>                              .skinType(ClockSkinType.DB)
+<a class="jxr_linenumber" name="L583" href="#L583">583</a>                              .backgroundPaint(Color.WHITE)
+<a class="jxr_linenumber" name="L584" href="#L584">584</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L585" href="#L585">585</a>                              .build();
+<a class="jxr_linenumber" name="L586" href="#L586">586</a> 
+<a class="jxr_linenumber" name="L587" href="#L587">587</a>         clock6 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L588" href="#L588">588</a>                              .skinType(ClockSkinType.FAT)
+<a class="jxr_linenumber" name="L589" href="#L589">589</a>                              .backgroundPaint(Color.WHITE)
+<a class="jxr_linenumber" name="L590" href="#L590">590</a>                              .hourTickMarkColor(Color.rgb(200, 200, 200))
+<a class="jxr_linenumber" name="L591" href="#L591">591</a>                              .minuteTickMarkColor(Color.rgb(200, 200, 200))
+<a class="jxr_linenumber" name="L592" href="#L592">592</a>                              .tickLabelColor(Color.rgb(200, 200, 200))
+<a class="jxr_linenumber" name="L593" href="#L593">593</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L594" href="#L594">594</a>                              .build();
+<a class="jxr_linenumber" name="L595" href="#L595">595</a> 
+<a class="jxr_linenumber" name="L596" href="#L596">596</a>         clock7 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L597" href="#L597">597</a>                              .skinType(ClockSkinType.ROUND_LCD)
+<a class="jxr_linenumber" name="L598" href="#L598">598</a>                              .hourColor(Color.rgb(38, 166, 154))
+<a class="jxr_linenumber" name="L599" href="#L599">599</a>                              .minuteColor(Color.rgb(77, 182, 172))
+<a class="jxr_linenumber" name="L600" href="#L600">600</a>                              .secondColor(Color.rgb(128, 203, 196))
+<a class="jxr_linenumber" name="L601" href="#L601">601</a>                              .textColor(Color.rgb(128, 203, 196))
+<a class="jxr_linenumber" name="L602" href="#L602">602</a>                              .dateColor(Color.rgb(128, 203, 196))
+<a class="jxr_linenumber" name="L603" href="#L603">603</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L604" href="#L604">604</a>                              .build();
+<a class="jxr_linenumber" name="L605" href="#L605">605</a> 
+<a class="jxr_linenumber" name="L606" href="#L606">606</a>         clock8 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L607" href="#L607">607</a>                              .skinType(ClockSkinType.SLIM)
+<a class="jxr_linenumber" name="L608" href="#L608">608</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L609" href="#L609">609</a>                              .build();
+<a class="jxr_linenumber" name="L610" href="#L610">610</a> 
+<a class="jxr_linenumber" name="L611" href="#L611">611</a>         clock9 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L612" href="#L612">612</a>                              .skinType(ClockSkinType.DIGITAL)
+<a class="jxr_linenumber" name="L613" href="#L613">613</a>                              .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L614" href="#L614">614</a>                              .textColor(Color.WHITE)
+<a class="jxr_linenumber" name="L615" href="#L615">615</a>                              .dateColor(Color.LIGHTGRAY)
+<a class="jxr_linenumber" name="L616" href="#L616">616</a>                              .build();
+<a class="jxr_linenumber" name="L617" href="#L617">617</a> 
+<a class="jxr_linenumber" name="L618" href="#L618">618</a>         clock10 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L619" href="#L619">619</a>                               .skinType(ClockSkinType.DESIGN)
+<a class="jxr_linenumber" name="L620" href="#L620">620</a>                               .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L621" href="#L621">621</a>                               .build();
+<a class="jxr_linenumber" name="L622" href="#L622">622</a> 
+<a class="jxr_linenumber" name="L623" href="#L623">623</a>         clock11 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L624" href="#L624">624</a>                               .skinType(ClockSkinType.INDUSTRIAL)
+<a class="jxr_linenumber" name="L625" href="#L625">625</a>                               .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L626" href="#L626">626</a>                               .build();
+<a class="jxr_linenumber" name="L627" href="#L627">627</a> 
+<a class="jxr_linenumber" name="L628" href="#L628">628</a>         clock12 = ClockBuilder.create()
+<a class="jxr_linenumber" name="L629" href="#L629">629</a>                               .skinType(ClockSkinType.TILE)
+<a class="jxr_linenumber" name="L630" href="#L630">630</a>                               .running(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L631" href="#L631">631</a>                               .build();
+<a class="jxr_linenumber" name="L632" href="#L632">632</a> 
+<a class="jxr_linenumber" name="L633" href="#L633">633</a>         framedGauge1 = <strong class="jxr_keyword">new</strong> FGauge(gauge1, GaugeDesign.ENZO, GaugeBackground.DARK_GRAY);
+<a class="jxr_linenumber" name="L634" href="#L634">634</a> 
+<a class="jxr_linenumber" name="L635" href="#L635">635</a>         framedGauge2 = <strong class="jxr_keyword">new</strong> FGauge(gauge2, GaugeDesign.METAL);
+<a class="jxr_linenumber" name="L636" href="#L636">636</a> 
+<a class="jxr_linenumber" name="L637" href="#L637">637</a>         lastTimerCall = System.nanoTime();
+<a class="jxr_linenumber" name="L638" href="#L638">638</a>         timer = <strong class="jxr_keyword">new</strong> AnimationTimer() {
+<a class="jxr_linenumber" name="L639" href="#L639">639</a>             @Override <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> handle(<strong class="jxr_keyword">long</strong> now) {
+<a class="jxr_linenumber" name="L640" href="#L640">640</a>                 <strong class="jxr_keyword">if</strong> (now &gt; lastTimerCall + 3_000_000_000l) {
+<a class="jxr_linenumber" name="L641" href="#L641">641</a>                     framedGauge1.getGauge().setValue(RND.nextDouble() * gauge1.getRange() + gauge1.getMinValue());
+<a class="jxr_linenumber" name="L642" href="#L642">642</a>                     framedGauge2.getGauge().setValue(RND.nextDouble() * gauge2.getRange() + gauge2.getMinValue());
+<a class="jxr_linenumber" name="L643" href="#L643">643</a>                     gauge3.setValue(RND.nextDouble() * gauge3.getRange() + gauge3.getMinValue());
+<a class="jxr_linenumber" name="L644" href="#L644">644</a>                     gauge4.setValue(RND.nextDouble() * gauge4.getRange() + gauge4.getMinValue());
+<a class="jxr_linenumber" name="L645" href="#L645">645</a>                     gauge5.setValue(RND.nextDouble() * gauge5.getRange() + gauge5.getMinValue());
+<a class="jxr_linenumber" name="L646" href="#L646">646</a>                     gauge6.setValue(RND.nextDouble() * gauge6.getRange() + gauge6.getMinValue());
+<a class="jxr_linenumber" name="L647" href="#L647">647</a>                     gauge7.setValue(RND.nextDouble() * gauge7.getRange() + gauge7.getMinValue());
+<a class="jxr_linenumber" name="L648" href="#L648">648</a>                     gauge8.setValue(RND.nextDouble() * gauge8.getRange() + gauge8.getMinValue());
+<a class="jxr_linenumber" name="L649" href="#L649">649</a>                     gauge9.setValue(RND.nextDouble() * gauge9.getRange() + gauge9.getMinValue());
+<a class="jxr_linenumber" name="L650" href="#L650">650</a>                     gauge10.setValue(RND.nextDouble() * gauge10.getRange() + gauge10.getMinValue());
+<a class="jxr_linenumber" name="L651" href="#L651">651</a>                     gauge11.setValue(RND.nextDouble() * gauge11.getRange() + gauge11.getMinValue());
+<a class="jxr_linenumber" name="L652" href="#L652">652</a>                     gauge12.setValue(RND.nextDouble() * gauge12.getRange() + gauge12.getMinValue());
+<a class="jxr_linenumber" name="L653" href="#L653">653</a>                     gauge13.setValue(RND.nextDouble() * gauge13.getRange() + gauge13.getMinValue());
+<a class="jxr_linenumber" name="L654" href="#L654">654</a>                     gauge14.setValue(RND.nextDouble() * gauge14.getRange() + gauge14.getMinValue());
+<a class="jxr_linenumber" name="L655" href="#L655">655</a>                     gauge15.setValue(RND.nextDouble() * gauge15.getRange() + gauge15.getMinValue());
+<a class="jxr_linenumber" name="L656" href="#L656">656</a>                     gauge16.setValue(RND.nextDouble() * gauge16.getRange() + gauge16.getMinValue());
+<a class="jxr_linenumber" name="L657" href="#L657">657</a>                     gauge17.setValue(RND.nextDouble() * gauge17.getRange() + gauge17.getMinValue());
+<a class="jxr_linenumber" name="L658" href="#L658">658</a>                     gauge18.setValue(RND.nextDouble() * gauge18.getRange() + gauge18.getMinValue());
+<a class="jxr_linenumber" name="L659" href="#L659">659</a>                     gauge19.setValue(RND.nextDouble() * gauge19.getRange() + gauge19.getMinValue());
+<a class="jxr_linenumber" name="L660" href="#L660">660</a>                     gauge20.setValue(RND.nextDouble() * gauge20.getRange() + gauge20.getMinValue());
+<a class="jxr_linenumber" name="L661" href="#L661">661</a>                     gauge21.setValue(RND.nextDouble() * gauge21.getRange() + gauge21.getMinValue());
+<a class="jxr_linenumber" name="L662" href="#L662">662</a>                     gauge22.setValue(RND.nextDouble() * gauge22.getRange() + gauge22.getMinValue());
+<a class="jxr_linenumber" name="L663" href="#L663">663</a>                     gauge23.setValue(RND.nextDouble() * gauge23.getRange() + gauge23.getMinValue());
+<a class="jxr_linenumber" name="L664" href="#L664">664</a>                     gauge24.setValue(RND.nextDouble() * gauge24.getRange() + gauge24.getMinValue());
+<a class="jxr_linenumber" name="L665" href="#L665">665</a>                     gauge25.setValue(RND.nextDouble() * gauge25.getRange() + gauge25.getMinValue());
+<a class="jxr_linenumber" name="L666" href="#L666">666</a>                     gauge26.setValue(RND.nextDouble() * gauge26.getRange() + gauge26.getMinValue());
+<a class="jxr_linenumber" name="L667" href="#L667">667</a>                     gauge27.setValue(RND.nextDouble() * gauge27.getRange() + gauge27.getMinValue());
+<a class="jxr_linenumber" name="L668" href="#L668">668</a>                     gauge28.setValue(RND.nextDouble() * gauge28.getRange() + gauge28.getMinValue());
+<a class="jxr_linenumber" name="L669" href="#L669">669</a>                     gauge29.setValue(RND.nextDouble() * gauge29.getRange() + gauge29.getMinValue());
+<a class="jxr_linenumber" name="L670" href="#L670">670</a>                     gauge30.setValue(RND.nextDouble() * gauge30.getRange() + gauge30.getMinValue());
+<a class="jxr_linenumber" name="L671" href="#L671">671</a>                     gauge31.setValue(RND.nextDouble() * gauge31.getRange() + gauge31.getMinValue());
+<a class="jxr_linenumber" name="L672" href="#L672">672</a>                     lastTimerCall = now;
+<a class="jxr_linenumber" name="L673" href="#L673">673</a>                 }
+<a class="jxr_linenumber" name="L674" href="#L674">674</a>             }
+<a class="jxr_linenumber" name="L675" href="#L675">675</a>         };
+<a class="jxr_linenumber" name="L676" href="#L676">676</a>     }
+<a class="jxr_linenumber" name="L677" href="#L677">677</a> 
+<a class="jxr_linenumber" name="L678" href="#L678">678</a>     @Override <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> start(Stage stage) {
+<a class="jxr_linenumber" name="L679" href="#L679">679</a>       GridPane demoPane = getDemoPane();
+<a class="jxr_linenumber" name="L680" href="#L680">680</a>       Scene scene = <strong class="jxr_keyword">new</strong> Scene(demoPane);
+<a class="jxr_linenumber" name="L681" href="#L681">681</a> 
+<a class="jxr_linenumber" name="L682" href="#L682">682</a>       stage.setTitle(<span class="jxr_string">"Medusa Gauges and Clocks"</span>);
+<a class="jxr_linenumber" name="L683" href="#L683">683</a>       stage.setScene(scene);
+<a class="jxr_linenumber" name="L684" href="#L684">684</a>       stage.show();
+<a class="jxr_linenumber" name="L685" href="#L685">685</a>       startTimer(demoPane);
+<a class="jxr_linenumber" name="L686" href="#L686">686</a>     }
+<a class="jxr_linenumber" name="L687" href="#L687">687</a>     
+<a class="jxr_linenumber" name="L688" href="#L688">688</a>     <strong class="jxr_keyword">public</strong> GridPane getDemoPane() {
+<a class="jxr_linenumber" name="L689" href="#L689">689</a>         GridPane pane = <strong class="jxr_keyword">new</strong> GridPane();
+<a class="jxr_linenumber" name="L690" href="#L690">690</a>         pane.add(framedGauge1, 0, 0);
+<a class="jxr_linenumber" name="L691" href="#L691">691</a>         pane.add(framedGauge2, 1, 0);
+<a class="jxr_linenumber" name="L692" href="#L692">692</a>         pane.add(gauge3, 2, 0);
+<a class="jxr_linenumber" name="L693" href="#L693">693</a>         pane.add(gauge4, 3, 0);
+<a class="jxr_linenumber" name="L694" href="#L694">694</a>         pane.add(gauge5, 4, 0);
+<a class="jxr_linenumber" name="L695" href="#L695">695</a>         pane.add(clock1, 5, 0);
+<a class="jxr_linenumber" name="L696" href="#L696">696</a>         pane.add(clock5, 6, 0);
+<a class="jxr_linenumber" name="L697" href="#L697">697</a>         pane.add(gauge22, 7, 0);
+<a class="jxr_linenumber" name="L698" href="#L698">698</a>         pane.add(gauge29, 8, 0);
+<a class="jxr_linenumber" name="L699" href="#L699">699</a> 
+<a class="jxr_linenumber" name="L700" href="#L700">700</a>         pane.add(gauge6, 0, 1);
+<a class="jxr_linenumber" name="L701" href="#L701">701</a>         pane.add(gauge7, 1, 1);
+<a class="jxr_linenumber" name="L702" href="#L702">702</a>         pane.add(gauge8, 2, 1);
+<a class="jxr_linenumber" name="L703" href="#L703">703</a>         pane.add(gauge9, 3, 1);
+<a class="jxr_linenumber" name="L704" href="#L704">704</a>         pane.add(gauge10, 4, 1);
+<a class="jxr_linenumber" name="L705" href="#L705">705</a>         pane.add(clock2, 5, 1);
+<a class="jxr_linenumber" name="L706" href="#L706">706</a>         pane.add(gauge21, 6, 1);
+<a class="jxr_linenumber" name="L707" href="#L707">707</a>         pane.add(gauge23, 7, 1);
+<a class="jxr_linenumber" name="L708" href="#L708">708</a>         pane.add(gauge30, 8, 1);
+<a class="jxr_linenumber" name="L709" href="#L709">709</a> 
+<a class="jxr_linenumber" name="L710" href="#L710">710</a>         pane.add(gauge11, 0, 2);
+<a class="jxr_linenumber" name="L711" href="#L711">711</a>         pane.add(gauge12, 1, 2);
+<a class="jxr_linenumber" name="L712" href="#L712">712</a>         pane.add(gauge13, 2, 2);
+<a class="jxr_linenumber" name="L713" href="#L713">713</a>         pane.add(gauge14, 3, 2);
+<a class="jxr_linenumber" name="L714" href="#L714">714</a>         pane.add(gauge15, 4, 2);
+<a class="jxr_linenumber" name="L715" href="#L715">715</a>         pane.add(clock3, 5, 2);
+<a class="jxr_linenumber" name="L716" href="#L716">716</a>         pane.add(clock6, 6, 2);
+<a class="jxr_linenumber" name="L717" href="#L717">717</a>         pane.add(clock8, 7, 2);
+<a class="jxr_linenumber" name="L718" href="#L718">718</a>         pane.add(gauge31, 8, 2);
+<a class="jxr_linenumber" name="L719" href="#L719">719</a> 
+<a class="jxr_linenumber" name="L720" href="#L720">720</a>         pane.add(gauge16, 0, 3);
+<a class="jxr_linenumber" name="L721" href="#L721">721</a>         pane.add(gauge17, 1, 3);
+<a class="jxr_linenumber" name="L722" href="#L722">722</a>         pane.add(gauge18, 2, 3);
+<a class="jxr_linenumber" name="L723" href="#L723">723</a>         pane.add(gauge19, 3, 3);
+<a class="jxr_linenumber" name="L724" href="#L724">724</a>         pane.add(gauge20, 4, 3);
+<a class="jxr_linenumber" name="L725" href="#L725">725</a>         pane.add(clock4, 5, 3);
+<a class="jxr_linenumber" name="L726" href="#L726">726</a>         pane.add(clock7, 6, 3);
+<a class="jxr_linenumber" name="L727" href="#L727">727</a>         pane.add(gauge24, 7, 3);
+<a class="jxr_linenumber" name="L728" href="#L728">728</a>         pane.add(clock12, 8, 3);
+<a class="jxr_linenumber" name="L729" href="#L729">729</a> 
+<a class="jxr_linenumber" name="L730" href="#L730">730</a>         pane.add(gauge25, 0, 4);
+<a class="jxr_linenumber" name="L731" href="#L731">731</a>         pane.add(gauge26, 1, 4);
+<a class="jxr_linenumber" name="L732" href="#L732">732</a>         pane.add(gauge27, 2, 4);
+<a class="jxr_linenumber" name="L733" href="#L733">733</a>         pane.add(gauge28, 4, 4);
+<a class="jxr_linenumber" name="L734" href="#L734">734</a>         pane.add(clock9, 5, 4);
+<a class="jxr_linenumber" name="L735" href="#L735">735</a>         pane.add(clock10, 6, 4);
+<a class="jxr_linenumber" name="L736" href="#L736">736</a>         pane.add(clock11, 7, 4);
+<a class="jxr_linenumber" name="L737" href="#L737">737</a>         pane.setHgap(10);
+<a class="jxr_linenumber" name="L738" href="#L738">738</a>         pane.setVgap(10);
+<a class="jxr_linenumber" name="L739" href="#L739">739</a>         pane.setPadding(<strong class="jxr_keyword">new</strong> Insets(10));
+<a class="jxr_linenumber" name="L740" href="#L740">740</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0 ; i &lt; 9 ; i++) {
+<a class="jxr_linenumber" name="L741" href="#L741">741</a>             pane.getColumnConstraints().add(<strong class="jxr_keyword">new</strong> ColumnConstraints(MIN_CELL_SIZE, PREF_CELL_SIZE, MAX_CELL_SIZE));
+<a class="jxr_linenumber" name="L742" href="#L742">742</a>         }
+<a class="jxr_linenumber" name="L743" href="#L743">743</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0 ; i &lt; 5 ; i++) {
+<a class="jxr_linenumber" name="L744" href="#L744">744</a>             pane.getRowConstraints().add(<strong class="jxr_keyword">new</strong> RowConstraints(MIN_CELL_SIZE, PREF_CELL_SIZE, MAX_CELL_SIZE));
+<a class="jxr_linenumber" name="L745" href="#L745">745</a>         }
+<a class="jxr_linenumber" name="L746" href="#L746">746</a>         pane.setBackground(<strong class="jxr_keyword">new</strong> Background(<strong class="jxr_keyword">new</strong> BackgroundFill(Color.rgb(90, 90, 90), CornerRadii.EMPTY, Insets.EMPTY)));
+<a class="jxr_linenumber" name="L747" href="#L747">747</a>         <strong class="jxr_keyword">return</strong> pane;
+<a class="jxr_linenumber" name="L748" href="#L748">748</a>     }
+<a class="jxr_linenumber" name="L749" href="#L749">749</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> startTimer(GridPane pane) {
+<a class="jxr_linenumber" name="L750" href="#L750">750</a>         timer.start();
+<a class="jxr_linenumber" name="L751" href="#L751">751</a> 
+<a class="jxr_linenumber" name="L752" href="#L752">752</a>         <em class="jxr_comment">// Calculate number of nodes</em>
+<a class="jxr_linenumber" name="L753" href="#L753">753</a>         calcNoOfNodes(pane);
+<a class="jxr_linenumber" name="L754" href="#L754">754</a>         System.out.println(noOfNodes + <span class="jxr_string">" Nodes in SceneGraph"</span>);
+<a class="jxr_linenumber" name="L755" href="#L755">755</a>     }
+<a class="jxr_linenumber" name="L756" href="#L756">756</a> 
+<a class="jxr_linenumber" name="L757" href="#L757">757</a>     @Override <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> stop() {
+<a class="jxr_linenumber" name="L758" href="#L758">758</a>         System.exit(0);
+<a class="jxr_linenumber" name="L759" href="#L759">759</a>     }
+<a class="jxr_linenumber" name="L760" href="#L760">760</a> 
+<a class="jxr_linenumber" name="L761" href="#L761">761</a> 
+<a class="jxr_linenumber" name="L762" href="#L762">762</a>     <em class="jxr_comment">// ******************** Misc **********************************************</em>
+<a class="jxr_linenumber" name="L763" href="#L763">763</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> calcNoOfNodes(Node node) {
+<a class="jxr_linenumber" name="L764" href="#L764">764</a>         <strong class="jxr_keyword">if</strong> (node instanceof Parent) {
+<a class="jxr_linenumber" name="L765" href="#L765">765</a>             <strong class="jxr_keyword">if</strong> (((Parent) node).getChildrenUnmodifiable().size() != 0) {
+<a class="jxr_linenumber" name="L766" href="#L766">766</a>                 ObservableList&lt;Node&gt; tempChildren = ((Parent) node).getChildrenUnmodifiable();
+<a class="jxr_linenumber" name="L767" href="#L767">767</a>                 noOfNodes += tempChildren.size();
+<a class="jxr_linenumber" name="L768" href="#L768">768</a>                 <strong class="jxr_keyword">for</strong> (Node n : tempChildren) { calcNoOfNodes(n); }
+<a class="jxr_linenumber" name="L769" href="#L769">769</a>             }
+<a class="jxr_linenumber" name="L770" href="#L770">770</a>         }
+<a class="jxr_linenumber" name="L771" href="#L771">771</a>     }
+<a class="jxr_linenumber" name="L772" href="#L772">772</a> 
+<a class="jxr_linenumber" name="L773" href="#L773">773</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) {
+<a class="jxr_linenumber" name="L774" href="#L774">774</a>         launch(args);
+<a class="jxr_linenumber" name="L775" href="#L775">775</a>     }
+<a class="jxr_linenumber" name="L776" href="#L776">776</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2018 <a href="http://www.bitplan.com">BITPlan GmbH</a>. All rights reserved.</div>
+</body>
+</html>
