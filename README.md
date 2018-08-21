@@ -8,8 +8,11 @@
 [![GitHub](https://img.shields.io/github/license/BITPlan/com.bitplan.javafx.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/3/38/BITPlanLogoFontLessTransparent.png/198px-BITPlanLogoFontLessTransparent.png)](http://www.bitplan.com)
 
-### Project pages
-[com.bitplan.javafx](https://BITPlan.github.io/com.bitplan.javafx)
+### Documentation
+* [Wiki](http://www.bitplan.com/Com.bitplan.javafx)
+* [com.bitplan.javafx Project pages](https://BITPlan.github.io/com.bitplan.javafx)
+* [Javadoc](https://BITPlan.github.io/com.bitplan.javafx/apidocs/index.html)
+* [Test-Report](https://BITPlan.github.io/com.bitplan.javafx/surefire-report.html)
 
 ### Maven dependency
 
