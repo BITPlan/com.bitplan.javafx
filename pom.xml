@@ -12,10 +12,12 @@
 	<artifactId>com.bitplan.javafx</artifactId>
 	<version>0.0.18</version>
 	<name>com.bitplan.javafx</name>
-	<description>javafx controls and utilities</description>
+	<description>javafx controls and utilities - with binding to platform independent gui declaration</description>
 	<properties>
 		<!-- for parent pom to work -->
 		<github.project>com.bitplan.javafx</github.project>
+		<!--  for readme generation -->
+		<documentation.wiki>http://www.bitplan.com/Com.bitplan.javafx</documentation.wiki>
 		<!-- Dependency versions -->
 		<junit4.version>4.12</junit4.version>
 		<args4j.version>2.0.29</args4j.version>

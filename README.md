@@ -1,20 +1,19 @@
-# com.bitplan.javafx
-javafx controls and utilities - with binding to platform independent gui declaration
+### com.bitplan.javafx
+[javafx controls and utilities - with binding to platform independent gui declaration](http://www.bitplan.com/Com.bitplan.javafx) 
 
-[![Build Status](https://travis-ci.org/BITPlan/com.bitplan.javafx.svg?branch=master)](https://travis-ci.org/BITPlan/com.bitplan.javafx)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.bitplan.gui/com.bitplan.javafx/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.bitplan.gui/com.bitplan.javafx)
+[![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.javafx.svg)](https://travis-ci.org/BITPlan/com.bitplan.javafx)
+[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.gui/com.bitplan.javafx.svg)](https://search.maven.org/artifact/com.bitplan.gui/com.bitplan.javafx/0.0.18/jar)
+[![GitHub issues](https://img.shields.io/github/issues/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues)
+[![GitHub issues](https://img.shields.io/github/issues-closed/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues/?q=is%3Aissue+is%3Aclosed)
+[![GitHub](https://img.shields.io/github/license/BITPlan/com.bitplan.javafx.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/3/38/BITPlanLogoFontLessTransparent.png/198px-BITPlanLogoFontLessTransparent.png)](http://www.bitplan.com)
 
-### github repository
-* repository: https://github.com/BITPlan/com.bitplan.javafx
-* issues: https://github.com/BITPlan/com.bitplan.javafx/issues
+### Project pages
+[com.bitplan.javafx](https://BITPlan.github.io/com.bitplan.javafx)
 
-### Distribution
-Available at Maven Central see 
+### Maven dependency
 
-http://search.maven.org/#artifactdetails|com.bitplan.gui|com.bitplan.javafx|0.0.18|jar
-
-Maven dependency:
-
+Maven dependency
 ```xml
 <dependency>
   <groupId>com.bitplan.gui</groupId>
@@ -23,15 +22,14 @@ Maven dependency:
 </dependency>
 ```
 
-### Documentation 
-see http://wiki.bitplan.com/index.php/com.bitplan.javafx
+[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/gui/com.bitplan.javafx/0.0.18/)
 
-### License
-https://www.apache.org/licenses/LICENSE-2.0
-
-### Creator 
-[![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/8/87/BITPlanLogo2012.svg/200px-BITPlanLogo2012.svg.png)](http://web.bitplan.com)
-
+### How to build
+```
+git clone https://github.com/BITPlan/com.bitplan.javafx
+cd com.bitplan.javafx
+mvn install
+```
 ### Version History
 * 2017-08-20 0.0.1  - initial release
 * 2017-08-21 0.0.2  - adds XYTabPane
