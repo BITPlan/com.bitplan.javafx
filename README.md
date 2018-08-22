@@ -10,6 +10,9 @@
 
 ### Documentation
 * [Wiki](http://www.bitplan.com/Com.bitplan.javafx)
+* [com.bitplan.javafx Project pages](https://BITPlan.github.io/com.bitplan.javafx)
+* [Javadoc](https://BITPlan.github.io/com.bitplan.javafx/apidocs/index.html)
+* [Test-Report](https://BITPlan.github.io/com.bitplan.javafx/surefire-report.html)
 ### Maven dependency
 
 Maven dependency
