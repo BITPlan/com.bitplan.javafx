@@ -22,7 +22,8 @@
  * limitations under the License.
  */
 /**
- * core com.bitplan.javafx library classes with e.g. WaitableApp, SampleApp GenericApp, GenericDialog, GenericPanel, GenericControl
+ * core com.bitplan.javafx library classes with e.g. 
+ * @see WaitableApp @see SampleApp @see GenericApp @see GenericDialog @see GenericPanel @see GenericControl
  * 
  */
 package com.bitplan.javafx;

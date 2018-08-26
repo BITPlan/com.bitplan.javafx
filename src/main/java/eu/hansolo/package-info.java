@@ -22,7 +22,7 @@
  * limitations under the License.
  */
 /**
- * extensions to the Medusa JavaFX library for Gauges https://github.com/HanSolo/Medusa 
+ * extensions to the @see <a href='https://github.com/HanSolo/Medusa'>Medusa JavaFX library for Gauges</a>  
  * 
  */
 package eu.hansolo;
