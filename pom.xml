@@ -18,9 +18,8 @@
 		<github.project>com.bitplan.javafx</github.project>
 		<!--  for readme generation -->
 		<documentation.wiki>http://www.bitplan.com/Com.bitplan.javafx</documentation.wiki>
-		<!-- Dependency versions -->
-		<junit4.version>4.12</junit4.version>
-		<args4j.version>2.0.29</args4j.version>
+		<!-- unfortunately this line needs to be copied with cut&paste -->
+		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 	<repositories>
 		<repository>

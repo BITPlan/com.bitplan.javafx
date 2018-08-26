@@ -26,7 +26,6 @@ package com.bitplan.javafx;
 import java.util.logging.Logger;
 
 import org.junit.Ignore;
-import org.junit.Test;
 
 import javafx.application.Application;
 import javafx.application.Platform;

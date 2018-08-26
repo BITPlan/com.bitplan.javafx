@@ -82,9 +82,11 @@ public class LcdGauge {
 
   /**
    * create a localized gauge
+   * 
    * @param title
    * @param unit
-   * @param resetAble - should the gauge be resetable?
+   * @param resetAble
+   *          - should the gauge be resetable?
    * @return - the gauge
    */
   public static Gauge createGaugeLocalized(String title, String unit,
@@ -183,7 +185,7 @@ public class LcdGauge {
           DoubleProperty vp = ResetableGauge.this.valueProperty();
           if (vp.isBound()) {
             // a bound value can not be set
-            
+
           } else {
             setValue(0);
           }
@@ -205,7 +207,8 @@ public class LcdGauge {
   /**
    * create a clock with the given title
    * 
-   * @param title
+   * @param i18nTitle - the title (to run thru I18n  before use)
+   *
    * @return - the created clock
    */
   public static Clock createClock(String i18nTitle) {

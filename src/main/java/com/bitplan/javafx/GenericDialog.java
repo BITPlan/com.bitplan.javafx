@@ -62,7 +62,6 @@ import javafx.stage.Stage;
  * 
  * @author wf
  */
-@SuppressWarnings("restriction")
 public class GenericDialog {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   private Form form;

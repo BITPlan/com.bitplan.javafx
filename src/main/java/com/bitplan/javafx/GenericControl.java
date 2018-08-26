@@ -54,7 +54,6 @@ import javafx.stage.Stage;
  * @author wf
  *
  */
-@SuppressWarnings("restriction")
 public class GenericControl implements ValueHolder {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   public static final String INTEGER_MATCH="[0-9]*";

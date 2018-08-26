@@ -25,7 +25,6 @@ package com.bitplan.javafx;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.controlsfx.control.Notifications;
 import org.controlsfx.glyphfont.FontAwesome;
@@ -63,7 +62,6 @@ import javafx.util.Duration;
  * @author wf
  *
  */
-@SuppressWarnings("restriction")
 public abstract class GenericApp extends WaitableApp
     implements ExceptionHandler, Linker, EventHandler<ActionEvent> {
  

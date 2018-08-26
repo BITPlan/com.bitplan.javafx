@@ -38,20 +38,21 @@ import org.controlsfx.glyphfont.GlyphFontRegistry;
 
 import javafx.geometry.Side;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.VBox;
-import javafx.scene.image.*;
+import javafx.scene.paint.Color;
 
 /**
  * this is a pane that has a tabular setup for TabPanes - a vertical one to
@@ -64,7 +65,6 @@ import javafx.scene.image.*;
  * @author wf
  *
  */
-@SuppressWarnings("restriction")
 public class XYTabPane extends Pane {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
   boolean debug = false;
@@ -201,12 +201,13 @@ public class XYTabPane extends Pane {
   }
   
   /**
-   * reColor the given InputImage to the given color
+   * reColor the given InputImage from oldColor to the given newColor
    * inspired by https://stackoverflow.com/a/12945629/1497139
-   * @param inputImage
-   * @param color 
-   * @return reColored Image
    * 
+   * @param inputImage
+   * @param oldColor
+   * @param newColor
+   * @return the reColored output Image
    */
   public static Image reColor(Image inputImage, Color oldColor, Color newColor) {
     int W = (int) inputImage.getWidth();

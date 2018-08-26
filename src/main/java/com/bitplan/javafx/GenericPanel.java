@@ -42,7 +42,6 @@ import javafx.event.ActionEvent;
  * @author wf
  *
  */
-@SuppressWarnings("restriction")
 public class GenericPanel extends GridPane implements ValueMap {
   protected Form form;
   Map<String, GenericControl> controls = new HashMap<String, GenericControl>();

@@ -58,7 +58,6 @@ import javafx.scene.layout.Pane;
  * @author wf
  *
  */
-@SuppressWarnings("restriction")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGUI {
   static int SHOW_TIME = 4000;
