@@ -23,6 +23,7 @@
  */
 package com.bitplan.javafx;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -56,6 +57,7 @@ public abstract class Main implements SoftwareVersion {
   public static String VERSION="0.0.1";
   private String name=this.getClass().getSimpleName();
   String github;
+  protected String[] args;
 
   /**
    * show the Version
@@ -117,6 +119,17 @@ public abstract class Main implements SoftwareVersion {
   }
   
   /**
+   * parse the given Arguments
+   * @param args
+   * @throws CmdLineException
+   */
+  public void parseArguments(String[] args) throws CmdLineException {
+    parser = new CmdLineParser(this);
+    this.args=args;
+    parser.parseArgument(args);
+  }
+  
+  /**
    * main routine
    * 
    * @param args
@@ -125,9 +138,8 @@ public abstract class Main implements SoftwareVersion {
    * 
    */
   public int maininstance(String[] args) {
-    parser = new CmdLineParser(this);
     try {
-      parser.parseArgument(args);
+      parseArguments(args);
       work();
       exitCode = 0;
     } catch (CmdLineException e) {

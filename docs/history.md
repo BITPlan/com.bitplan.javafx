@@ -20,3 +20,4 @@
 | 2018-08-15 | 0.0.17  | refactors WaitableApp to allow showTime directly
 | 2018-08-22 | 0.0.18  | upgrades com.bitplan.gui to 0.0.12 to improve JsonAble
 | 2018-08-25 | 0.0.19  | saveAsPng for nodes - fixes #1 
+| 2018-08-26 | 0.0.20  | fixes #2 - makes args available in Main
