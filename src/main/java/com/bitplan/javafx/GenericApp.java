@@ -39,6 +39,7 @@ import com.bitplan.i18n.I18n;
 import com.bitplan.i18n.Translator;
 
 import javafx.application.Platform;
+import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -252,10 +253,11 @@ public abstract class GenericApp extends WaitableApp
     // add the xyTabPane
     getRoot().getChildren().add(xyTabPane);
     // make sure it shrinks and grows with the scene
+    NumberBinding heightAdjust=getStage().heightProperty().add(menuBar.heightProperty());
     xyTabPane.getvTabPane().prefHeightProperty()
-        .bind(getStage().heightProperty().add(-xyTabPane.getTabSize()));
+        .bind(heightAdjust.add(-xyTabPane.getTabSize()));
     xyTabPane.getvTabPane().prefWidthProperty()
-        .bind(getStage().widthProperty().add(-xyTabPane.getTabSize()));
+        .bind(getStage().widthProperty().add(0)); // -xyTabPane.getTabSize()
   }
 
   /**

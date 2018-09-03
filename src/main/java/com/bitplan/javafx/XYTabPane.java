@@ -114,6 +114,10 @@ public class XYTabPane extends Pane {
     this.topLeftButton = topLeftButton;
   }
 
+  /**
+   * get the tab Size
+   * @return - the size of the tabs
+   */
   public int getTabSize() {
     return iconSize * 5 / 4;
   }

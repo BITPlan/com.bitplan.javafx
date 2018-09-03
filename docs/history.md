@@ -21,3 +21,4 @@
 | 2018-08-22 | 0.0.18  | upgrades com.bitplan.gui to 0.0.12 to improve JsonAble
 | 2018-08-25 | 0.0.19  | saveAsPng for nodes - fixes #1 
 | 2018-08-26 | 0.0.20  | fixes #2 - makes args available in Main
+| 2018-09-03 | 0.0.21  | fixes #3 - adds example for Insets
