@@ -106,7 +106,7 @@ public class TestGUI {
     OverviewDemo demo = new OverviewDemo();
     demo.init();
     GridPane demoPane = demo.getDemoPane();
-    SampleApp.createAndShow("Controls", demoPane, SHOW_TIME*10);
+    SampleApp.createAndShow("Controls", demoPane, SHOW_TIME*2);
   }
 
   @Test
