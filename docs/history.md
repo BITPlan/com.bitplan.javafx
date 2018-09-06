@@ -22,4 +22,4 @@
 | 2018-08-25 | 0.0.19  | saveAsPng for nodes - fixes #1 
 | 2018-08-26 | 0.0.20  | fixes #2 - makes args available in Main
 | 2018-09-03 | 0.0.21  | fixes #3 - adds example for Insets
-| 2018-09-06 | 0.0.23  | fixes #4 - fixes translation issue 
+| 2018-09-06 | 0.0.22  | fixes #4 - fixes translation issue 
