@@ -125,7 +125,7 @@ public abstract class WaitableApp extends Application implements Display {
 		this.getHostServices().showDocument(url);
 	}
 
-	public static int waitTimeOutSecs = 10;
+	public static int waitTimeOutSecs = 120;
 
 	public void abortWait() {
 		LOGGER.log(Level.WARNING, "wait aborted after " + waitTimeOutSecs + " secs");

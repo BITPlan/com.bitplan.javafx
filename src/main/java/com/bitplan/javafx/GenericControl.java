@@ -117,8 +117,10 @@ public class GenericControl implements ValueHolder {
     this.stage = stage;
     this.field = field;
     String i18n=field.getLabel();
-    String ti18n=I18n.get(field.getI18nId());
-    if (ti18n!=null  && !"".equals(ti18n) && !field.getId().equals(ti18n))
+    String i18nId=field.getI18nId();
+    String ti18n=I18n.get(i18nId);
+    
+    if (ti18n!=null  && !"".equals(ti18n) && !i18nId.equals(ti18n))
        i18n=ti18n;
     String fieldType = field.getType();
     if (fieldType == null || "Integer".equals(fieldType) || "Long".equals(fieldType)
