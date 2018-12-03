@@ -23,7 +23,6 @@
  */
 package com.bitplan.javafx;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.kohsuke.args4j.CmdLineException;

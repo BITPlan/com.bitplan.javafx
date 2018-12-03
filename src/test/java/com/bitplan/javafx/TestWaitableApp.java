@@ -41,10 +41,10 @@ import javafx.stage.Stage;
  *
  */
 public class TestWaitableApp {
-  public static class MainApp extends WaitableApp {
+  public static class DisplayApp extends WaitableApp {
     protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-    public static MainApp instance;
-    public MainApp() {
+    public static DisplayApp instance;
+    public DisplayApp() {
       // LOGGER.log(Level.INFO,"constructor called");
       instance=this;
     }
@@ -71,11 +71,11 @@ public class TestWaitableApp {
   // makes travis choke ...
   public void testMainLaunch() throws Exception {
     String args[] = {};
-    new Thread(() -> Application.launch(MainApp.class, args)).start();
+    new Thread(() -> Application.launch(DisplayApp.class, args)).start();
     System.out.println("application started");
-    while (MainApp.instance==null)
+    while (DisplayApp.instance==null)
       Thread.sleep(10);
-    MainApp mainApp = MainApp.instance;
+    DisplayApp mainApp = DisplayApp.instance;
     mainApp.waitOpen();
     System.out.println("application open");
     Thread.sleep(1000);
