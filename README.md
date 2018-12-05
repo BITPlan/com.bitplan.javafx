@@ -1,5 +1,5 @@
 ### com.bitplan.javafx
-[javafx controls and utilities - with binding to platform independent gui declaration](http://www.bitplan.com/Com.bitplan.javafx) 
+[javafx controls and utilities - with binding to platform independent gui declaration](http://www.bitplan.com/Com.bitplan.javafx)
 
 [![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.javafx.svg)](https://travis-ci.org/BITPlan/com.bitplan.javafx)
 [![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.gui/com.bitplan.javafx.svg)](https://search.maven.org/artifact/com.bitplan.gui/com.bitplan.javafx/0.0.22/jar)
@@ -17,6 +17,7 @@
 
 Maven dependency
 ```xml
+<!-- javafx controls and utilities - with binding to platform independent gui declaration http://www.bitplan.com/Com.bitplan.javafx -->
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
