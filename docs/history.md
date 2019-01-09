@@ -24,3 +24,4 @@
 | 2018-09-06 | 0.0.22  | fixes #4 - fixes translation issue
 | 2018-12-05 | 0.0.23  | fixes #5 - adds Link
 | 2019-01-09 | 0.0.24  | upgrades com.bitplan.gui to 0.0.13
+| 2019-01-09 | 0.0.25  | re-releases due to pom config errors 
