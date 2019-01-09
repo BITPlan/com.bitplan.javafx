@@ -23,7 +23,6 @@
  */
 package com.bitplan.javafx;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -54,7 +53,7 @@ public abstract class Main implements SoftwareVersion {
       "--version" }, usage = "showVersion\nshow current version if this switch is used")
   protected  boolean showVersion = false;
 
-  public static String VERSION="0.0.1";
+  public static String VERSION="0.0.2";
   private String name=this.getClass().getSimpleName();
   String github;
   protected String[] args;

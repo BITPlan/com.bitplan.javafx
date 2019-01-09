@@ -65,7 +65,7 @@ import javafx.util.Duration;
  */
 public abstract class GenericApp extends WaitableApp
     implements ExceptionHandler, Linker, EventHandler<ActionEvent> {
- 
+
   protected com.bitplan.gui.App app;
   protected SoftwareVersion softwareVersion;
   protected Map<String, GenericControl> controls;
@@ -253,7 +253,8 @@ public abstract class GenericApp extends WaitableApp
     // add the xyTabPane
     getRoot().getChildren().add(xyTabPane);
     // make sure it shrinks and grows with the scene
-    NumberBinding heightAdjust=getStage().heightProperty().add(menuBar.heightProperty());
+    NumberBinding heightAdjust = getStage().heightProperty()
+        .add(menuBar.heightProperty());
     xyTabPane.getvTabPane().prefHeightProperty()
         .bind(heightAdjust.add(-xyTabPane.getTabSize()));
     xyTabPane.getvTabPane().prefWidthProperty()
@@ -319,9 +320,19 @@ public abstract class GenericApp extends WaitableApp
    */
   @Override
   public void close() {
-    if (stage != null)
-      Platform.runLater(() -> stage.close());
+    if (stage != null) {
+      Platform.runLater(() -> {
+        stage.close();
+        nullStage();
+      });
+
+    }
+    ;
     // we do not wait and we do not set stage to null
+  }
+
+  private void nullStage() {
+    stage=null;
   }
 
   /**
