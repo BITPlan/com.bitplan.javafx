@@ -28,6 +28,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,8 +62,11 @@ import javafx.scene.layout.Pane;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGUI {
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
+  
   static int SHOW_TIME = 4000;
-
+  boolean debug=false;
+  
   @Before
   public void initGUI() {
     WaitableApp.toolkitInit();
@@ -150,10 +155,10 @@ public class TestGUI {
     String[] colNames = { "ROAD", "LOCK", "CAMERA", "MAP_MARKER", "QUESTION",
         "SIGNAL", "AREA_CHART", "BAR_CHART", "LINE_CHART", "KEY",
         "FILE_TEXT_ALT", "CLOCK_ALT", "POWER_OFF", "INFO", "ADJUST", "BOLT",
-        "PLAY", "CHECK", "DASHBOARD", "EDIT", "FILE_PHOTO_ALT", "FILE_TEXT_ALT",
+        "PLAY", "CHECK", "EDIT", "FILE_PHOTO_ALT", "FILE_TEXT_ALT",
         "FLAG_CHECKERED", "MALE", "SMILE_ALT", "MOON_ALT", "SEARCH_MINUS",
         "SEARCH_PLUS", "SLIDERS", "CHAIN", "EDIT", "CAR", "USER", "WIFI",
-        "WRENCH", "battery0" };
+        "WRENCH", "BUS" };
     int col = 0;
     for (String rowName : rowNames) {
       TabPane hTabPane = xyTabPane.addTabPane(rowName, rowName, rowName);
@@ -167,10 +172,23 @@ public class TestGUI {
     sampleApp.show();
     sampleApp.waitOpen();
     Set<String> tabids = xyTabPane.getTabMap().keySet();
+    xyTabPane.debug=debug;
     for (String tabId : tabids) {
+      if (debug)
+        LOGGER.log(Level.INFO,"testing tab "+tabId);
       xyTabPane.selectTab(tabId);
-      Thread.sleep(SHOW_TIME / tabids.size());
+      int waittime=SHOW_TIME / tabids.size();
+      Thread.sleep(waittime);
+      if (xyTabPane.tabPaneMap.containsKey(tabId)) {
+        assertEquals(tabId,xyTabPane.currentTabPaneId);
+      } else {
+        if (debug)
+          LOGGER.log(Level.INFO,"expecting "+tabId+" found "+xyTabPane.currentTabId );
+        assertEquals(tabId,xyTabPane.currentTabId);
+      }
     }
+    
+    // Thread.sleep(86400*1000);
     sampleApp.close();
   }
   

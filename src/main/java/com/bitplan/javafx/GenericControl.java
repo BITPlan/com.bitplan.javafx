@@ -225,7 +225,15 @@ public class GenericControl implements ValueHolder {
     if (control instanceof TextField) {
       if (value != null) {
         String valueText = value.toString();
-        if ("Double".equals(field.getType())) {
+        if ("Integer".equals(field.getType())) {
+          // gson might return Doubles as integers
+          // fix it
+          if (value instanceof Double) {
+            Double dvalue=(Double) value;
+            value=dvalue.intValue();
+            valueText=""+value;
+          }
+        } else if ("Double".equals(field.getType())) {
           Double d = (Double) value;
           String format=field.getFormat();
           if (format==null)

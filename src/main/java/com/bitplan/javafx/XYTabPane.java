@@ -77,12 +77,16 @@ public class XYTabPane extends Pane {
   GlyphFont fontAwesome;
   // Map of all Tabs by tabId
   Map<String, Tab> tabMap = new HashMap<String, Tab>();
+  // reverse map from tab to tab id
+  Map<Tab, String> tabIdMap = new HashMap<Tab, String>();
   Map<String, Tab> vTabMap = new HashMap<String, Tab>();
   Map<Tab, TabPane> vTabPaneMapByTab = new HashMap<Tab, TabPane>();
   Map<TabPane, Tab> vTapMapByTabPane = new HashMap<TabPane, Tab>();
   Map<String, TabPane> tabPaneMap = new HashMap<String, TabPane>();
   Map<String, TabPane> tabPaneByTabIdMap = new HashMap<String, TabPane>();
   Button topLeftButton;
+  protected String currentTabPaneId;
+  protected String currentTabId;
 
   /**
    * get the vertical tab Pane
@@ -116,6 +120,7 @@ public class XYTabPane extends Pane {
 
   /**
    * get the tab Size
+   * 
    * @return - the size of the tabs
    */
   public int getTabSize() {
@@ -174,70 +179,94 @@ public class XYTabPane extends Pane {
    * 
    * @param tabPane
    */
-  protected void makeBlueOnSelect(TabPane tabPane) {
+  protected void makeBlueOnSelectAndRemember(TabPane tabPane) {
     tabPane.getSelectionModel().selectedItemProperty()
         .addListener((ov, oldTab, newTab) -> {
           if (oldTab != null) {
             setColor(oldTab, Color.BLUE, Color.BLACK);
           }
-          setColor(newTab, Color.BLACK,Color.BLUE);
+          setColor(newTab, Color.BLACK, Color.BLUE);
+          String tabId = tabIdMap.get(newTab);
+
+          if (tabPaneMap.containsKey(tabId)) {
+            currentTabPaneId = tabId;
+            if (debug)
+              LOGGER.log(Level.INFO,
+                  "tabPane " + currentTabPaneId + " selected");
+            TabPane selectedTabPane = tabPaneMap.get(tabId);
+            Tab selectedTab = selectedTabPane.getSelectionModel()
+                .getSelectedItem();
+            if (selectedTab != null)
+              currentTabId = selectedTab.getId();
+          } else {
+            currentTabId = tabId;
+            if (debug)
+              LOGGER.log(Level.INFO, "tab " + currentTabId + " selected");
+          }
         });
   }
 
   /**
    * set the color of the graphic of the given tab
    *
-   * @param tab - the tab to change
-   * @param oldColor - the old color
-   * @param newColor - the new color
+   * @param tab
+   *          - the tab to change
+   * @param oldColor
+   *          - the old color
+   * @param newColor
+   *          - the new color
    */
   protected void setColor(Tab tab, Color oldColor, Color newColor) {
+    if (debug)
+      LOGGER.log(Level.INFO, "changing  tab color for " + tab.getId() + " from "
+          + oldColor + " to " + newColor);
     Node graphic = tab.getGraphic();
-    
+
     if (graphic instanceof Glyph) {
       Glyph glyph = (Glyph) graphic;
       glyph.setColor(newColor);
     } else if (graphic instanceof ImageView) {
-      //  https://docs.oracle.com/javafx/2/image_ops/jfxpub-image_ops.htm
-      ImageView imageView=(ImageView) graphic;
-      imageView.setImage(reColor(imageView.getImage(),oldColor,newColor));
+      // https://docs.oracle.com/javafx/2/image_ops/jfxpub-image_ops.htm
+      ImageView imageView = (ImageView) graphic;
+      imageView.setImage(reColor(imageView.getImage(), oldColor, newColor));
     }
   }
-  
+
   /**
-   * reColor the given InputImage from oldColor to the given newColor
-   * inspired by https://stackoverflow.com/a/12945629/1497139
+   * reColor the given InputImage from oldColor to the given newColor inspired
+   * by https://stackoverflow.com/a/12945629/1497139
    * 
    * @param inputImage
    * @param oldColor
    * @param newColor
    * @return the reColored output Image
    */
-  public static Image reColor(Image inputImage, Color oldColor, Color newColor) {
+  public static Image reColor(Image inputImage, Color oldColor,
+      Color newColor) {
     int W = (int) inputImage.getWidth();
     int H = (int) inputImage.getHeight();
     WritableImage outputImage = new WritableImage(W, H);
     PixelReader reader = inputImage.getPixelReader();
     PixelWriter writer = outputImage.getPixelWriter();
-    int ob=(int) oldColor.getBlue()*255;
-    int or=(int) oldColor.getRed()*255;
-    int og=(int) oldColor.getGreen()*255;
-    int nb=(int) newColor.getBlue()*255;
-    int nr=(int) newColor.getRed()*255;
-    int ng=(int) newColor.getGreen()*255;
+    int ob = (int) oldColor.getBlue() * 255;
+    int or = (int) oldColor.getRed() * 255;
+    int og = (int) oldColor.getGreen() * 255;
+    int nb = (int) newColor.getBlue() * 255;
+    int nr = (int) newColor.getRed() * 255;
+    int ng = (int) newColor.getGreen() * 255;
     for (int y = 0; y < H; y++) {
       for (int x = 0; x < W; x++) {
         int argb = reader.getArgb(x, y);
         int a = (argb >> 24) & 0xFF;
         int r = (argb >> 16) & 0xFF;
-        int g = (argb >>  8) & 0xFF;
-        int b =  argb        & 0xFF;
-        if (g==og && r==or && b==ob) {
-          r=nr;
-          g=ng;
-          b=nb;
+        int g = (argb >> 8) & 0xFF;
+        int b = argb & 0xFF;
+        if (g == og && r == or && b == ob) {
+          r = nr;
+          g = ng;
+          b = nb;
         }
-    
+
         argb = (a << 24) | (r << 16) | (g << 8) | b;
         writer.setArgb(x, y, argb);
       }
@@ -308,7 +337,7 @@ public class XYTabPane extends Pane {
    * @param icon
    */
   public void setTabIcon(Tab tab, Node icon) {
-    if (icon!=null)
+    if (icon != null)
       tab.setGraphic(icon);
   }
 
@@ -349,6 +378,7 @@ public class XYTabPane extends Pane {
    */
   public TabPane addTabPane(String tabPaneId) {
     TabPane tabPane = new TabPane();
+    tabPane.setId(tabPaneId);
     int tabSize = getTabSize();
     tabPane.setTabMinHeight(tabSize);
     tabPane.setTabMaxHeight(tabSize);
@@ -361,7 +391,7 @@ public class XYTabPane extends Pane {
     VBox.setVgrow(tabPane, Priority.ALWAYS);
     tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     // add click behavior
-    makeBlueOnSelect(tabPane);
+    makeBlueOnSelectAndRemember(tabPane);
     // add tab Pane to map
     this.tabPaneMap.put(tabPaneId, tabPane);
     return tabPane;
@@ -405,9 +435,12 @@ public class XYTabPane extends Pane {
   public Tab addTab(TabPane tabPane, String tabId, int index, String title,
       String glyphName, Node content) {
     Tab tab = new Tab();
+    tab.setId(tabId);
     if (glyphName != null) {
       this.setTabGlyph(tab, glyphName);
       getTabMap().put(tabId, tab);
+      // allow reverse lookup
+      tabIdMap.put(tab, tabId);
     }
     if (title != null) {
       tab.setTooltip(new Tooltip(title));
@@ -469,7 +502,13 @@ public class XYTabPane extends Pane {
     Tab tab = getTab(tabId);
     TabPane tabPane = this.tabPaneByTabIdMap.get(tabId);
     Tab vtab = this.vTapMapByTabPane.get(tabPane);
+    // first select the Vertical tab
+    if (debug)
+      LOGGER.log(Level.INFO, "selecting tabpane " + tabPane.getId());
     vTabPane.getSelectionModel().select(vtab);
+    // then the horizontal one
+    if (debug)
+      LOGGER.log(Level.INFO, "selecting tab " + tab.getId());
     tabPane.getSelectionModel().select(tab);
     return tab;
   }

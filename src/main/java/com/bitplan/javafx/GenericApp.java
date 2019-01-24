@@ -311,6 +311,10 @@ public abstract class GenericApp extends WaitableApp
     return xyTabPane.getSelectedTab();
   }
 
+  /**
+   * set the tabPane with the given groupId
+   * @param groupId
+   */
   public void setActiveTabPane(String groupId) {
     xyTabPane.selectVTab(groupId);
   }
