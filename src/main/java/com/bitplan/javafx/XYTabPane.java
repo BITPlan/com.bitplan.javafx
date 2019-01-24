@@ -85,8 +85,23 @@ public class XYTabPane extends Pane {
   Map<String, TabPane> tabPaneMap = new HashMap<String, TabPane>();
   Map<String, TabPane> tabPaneByTabIdMap = new HashMap<String, TabPane>();
   Button topLeftButton;
-  protected String currentTabPaneId;
-  protected String currentTabId;
+  protected TabSelection currentTab;
+
+  public boolean isDebug() {
+    return debug;
+  }
+
+  public void setDebug(boolean debug) {
+    this.debug = debug;
+  }
+
+  public TabSelection getCurrentTab() {
+    return currentTab;
+  }
+
+  public void setCurrentTab(TabSelection currentTab) {
+    this.currentTab = currentTab;
+  }
 
   /**
    * get the vertical tab Pane
@@ -158,6 +173,8 @@ public class XYTabPane extends Pane {
   public XYTabPane(int iconSize) {
     super();
     this.iconSize = iconSize;
+    this.currentTab=TabSelection.getInstance();
+        
     setvTabPane(this.addTabPane("vTabPane"));
     getvTabPane().setSide(Side.LEFT);
     Tab filler = new Tab();
@@ -189,19 +206,20 @@ public class XYTabPane extends Pane {
           String tabId = tabIdMap.get(newTab);
 
           if (tabPaneMap.containsKey(tabId)) {
-            currentTabPaneId = tabId;
+            currentTab.setTabPaneId(tabId);
+          
             if (debug)
               LOGGER.log(Level.INFO,
-                  "tabPane " + currentTabPaneId + " selected");
+                  "tabPane " + currentTab.getTabPaneId() + " selected");
             TabPane selectedTabPane = tabPaneMap.get(tabId);
             Tab selectedTab = selectedTabPane.getSelectionModel()
                 .getSelectedItem();
             if (selectedTab != null)
-              currentTabId = selectedTab.getId();
+              currentTab.setTabId(selectedTab.getId());
           } else {
-            currentTabId = tabId;
+            currentTab.setTabId(tabId); 
             if (debug)
-              LOGGER.log(Level.INFO, "tab " + currentTabId + " selected");
+              LOGGER.log(Level.INFO, "tab " + currentTab.getTabId() + " selected");
           }
         });
   }

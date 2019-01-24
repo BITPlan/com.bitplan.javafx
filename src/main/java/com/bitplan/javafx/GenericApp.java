@@ -23,8 +23,10 @@
  */
 package com.bitplan.javafx;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.controlsfx.control.Notifications;
 import org.controlsfx.glyphfont.FontAwesome;
@@ -325,13 +327,16 @@ public abstract class GenericApp extends WaitableApp
   @Override
   public void close() {
     if (stage != null) {
+      try {
+        TabSelection.getInstance().save();
+      } catch (IOException e) {
+        LOGGER.log(Level.WARNING, e.getMessage(), e);
+      }
       Platform.runLater(() -> {
         stage.close();
         nullStage();
       });
-
-    }
-    ;
+    };
     // we do not wait and we do not set stage to null
   }
 
