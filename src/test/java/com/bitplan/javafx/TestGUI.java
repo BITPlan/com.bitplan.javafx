@@ -180,11 +180,11 @@ public class TestGUI {
       int waittime=SHOW_TIME / tabids.size();
       Thread.sleep(waittime);
       if (xyTabPane.tabPaneMap.containsKey(tabId)) {
-        assertEquals(tabId,xyTabPane.currentTabPaneId);
+        assertEquals(tabId,xyTabPane.getCurrentTab().getTabPaneId());
       } else {
         if (debug)
-          LOGGER.log(Level.INFO,"expecting "+tabId+" found "+xyTabPane.currentTabId );
-        assertEquals(tabId,xyTabPane.currentTabId);
+          LOGGER.log(Level.INFO,"expecting "+tabId+" found "+xyTabPane.getCurrentTab().getTabId() );
+        assertEquals(tabId,xyTabPane.getCurrentTab().getTabId());
       }
     }
     
