@@ -173,8 +173,8 @@ public class XYTabPane extends Pane {
   public XYTabPane(int iconSize) {
     super();
     this.iconSize = iconSize;
-    this.currentTab=TabSelection.getInstance();
-        
+    this.currentTab = TabSelection.getInstance();
+
     setvTabPane(this.addTabPane("vTabPane"));
     getvTabPane().setSide(Side.LEFT);
     Tab filler = new Tab();
@@ -207,7 +207,7 @@ public class XYTabPane extends Pane {
 
           if (tabPaneMap.containsKey(tabId)) {
             currentTab.setTabPaneId(tabId);
-          
+
             if (debug)
               LOGGER.log(Level.INFO,
                   "tabPane " + currentTab.getTabPaneId() + " selected");
@@ -217,9 +217,10 @@ public class XYTabPane extends Pane {
             if (selectedTab != null)
               currentTab.setTabId(selectedTab.getId());
           } else {
-            currentTab.setTabId(tabId); 
+            currentTab.setTabId(tabId);
             if (debug)
-              LOGGER.log(Level.INFO, "tab " + currentTab.getTabId() + " selected");
+              LOGGER.log(Level.INFO,
+                  "tab " + currentTab.getTabId() + " selected");
           }
         });
   }
@@ -519,15 +520,19 @@ public class XYTabPane extends Pane {
   public Tab selectTab(String tabId) {
     Tab tab = getTab(tabId);
     TabPane tabPane = this.tabPaneByTabIdMap.get(tabId);
-    Tab vtab = this.vTapMapByTabPane.get(tabPane);
-    // first select the Vertical tab
-    if (debug)
-      LOGGER.log(Level.INFO, "selecting tabpane " + tabPane.getId());
-    vTabPane.getSelectionModel().select(vtab);
-    // then the horizontal one
-    if (debug)
-      LOGGER.log(Level.INFO, "selecting tab " + tab.getId());
-    tabPane.getSelectionModel().select(tab);
+    if (tabPane == null) {
+      LOGGER.log(Level.WARNING,"no tabPane for tabId "+tabId+"active");
+    } else {
+      Tab vtab = this.vTapMapByTabPane.get(tabPane);
+      // first select the Vertical tab
+      if (debug)
+        LOGGER.log(Level.INFO, "selecting tabpane " + tabPane.getId());
+      vTabPane.getSelectionModel().select(vtab);
+      // then the horizontal one
+      if (debug)
+        LOGGER.log(Level.INFO, "selecting tab " + tab.getId());
+      tabPane.getSelectionModel().select(tab);
+    }
     return tab;
   }
 

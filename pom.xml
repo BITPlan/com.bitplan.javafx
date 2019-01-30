@@ -5,12 +5,12 @@
 	<parent>
 	  <groupId>com.bitplan.pom</groupId>
 	  <artifactId>com.bitplan.pom</artifactId>
-	  <version>0.0.22</version>
+	  <version>0.0.23</version>
 	  <relativePath>../com.bitplan.pom/pom.xml</relativePath>
 	</parent>
 	<groupId>com.bitplan.gui</groupId>
 	<artifactId>com.bitplan.javafx</artifactId>
-	<version>0.0.27</version>
+	<version>0.0.28</version>
 	<name>com.bitplan.javafx</name>
 	<description>javafx controls and utilities - with binding to platform independent gui declaration</description>
 	<properties>

@@ -1,8 +1,8 @@
 ### com.bitplan.javafx
-[javafx controls and utilities - with binding to platform independent gui declaration](http://www.bitplan.com/Com.bitplan.javafx) 
+[javafx controls and utilities - with binding to platform independent gui declaration](http://www.bitplan.com/Com.bitplan.javafx)
 
 [![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.javafx.svg)](https://travis-ci.org/BITPlan/com.bitplan.javafx)
-[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.gui/com.bitplan.javafx.svg)](https://search.maven.org/artifact/com.bitplan.gui/com.bitplan.javafx/0.0.27/jar)
+[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.gui/com.bitplan.javafx.svg)](https://search.maven.org/artifact/com.bitplan.gui/com.bitplan.javafx/0.0.28/jar)
 [![GitHub issues](https://img.shields.io/github/issues/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues)
 [![GitHub issues](https://img.shields.io/github/issues-closed/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues/?q=is%3Aissue+is%3Aclosed)
 [![GitHub](https://img.shields.io/github/license/BITPlan/com.bitplan.javafx.svg)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -17,14 +17,15 @@
 
 Maven dependency
 ```xml
+<!-- javafx controls and utilities - with binding to platform independent gui declaration http://www.bitplan.com/Com.bitplan.javafx -->
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
-  <version>0.0.27</version>
+  <version>0.0.28</version>
 </dependency>
 ```
 
-[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/gui/com.bitplan.javafx/0.0.27/)
+[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/gui/com.bitplan.javafx/0.0.28/)
 
 ### How to build
 ```
@@ -61,3 +62,4 @@ mvn install
 | 2019-01-09 | 0.0.25  | re-releases due to pom config errors
 | 2019-01-09 | 0.0.26  | upgrades com.bitplan.gui to 0.0.15
 | 2019-01-24 | 0.0.27  | adds tab selection handling
+| 2019-01-30 | 0.0.28  | fixes #6 - Nullpointer Exception in selectTab 
