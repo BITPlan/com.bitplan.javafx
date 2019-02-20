@@ -67,14 +67,14 @@ import javafx.scene.paint.Color;
  */
 public class XYTabPane extends Pane {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-  boolean debug = false;
+  protected static boolean debug = false;
   TabPane vTabPane; // vertical TabPane
   List<TabPane> hTabpanes; // horizontal TabPanes - for each vertical tab there
                            // is one horizontal tab
   int iconSize;
 
-  Map<String, Node> iconMap = null;
-  GlyphFont fontAwesome;
+  static Map<String, Node> iconMap = null;
+  static GlyphFont fontAwesome;
   // Map of all Tabs by tabId
   Map<String, Tab> tabMap = new HashMap<String, Tab>();
   // reverse map from tab to tab id
@@ -92,7 +92,7 @@ public class XYTabPane extends Pane {
   }
 
   public void setDebug(boolean debug) {
-    this.debug = debug;
+    XYTabPane.debug = debug;
   }
 
   public TabSelection getCurrentTab() {
@@ -147,7 +147,7 @@ public class XYTabPane extends Pane {
    * 
    * @return the icon map
    */
-  public Map<String, Node> getIconMap() {
+  public static Map<String, Node> getIconMap() {
     if (iconMap == null) {
       iconMap = new HashMap<String, Node>();
       char[] codes = { '\uf240', '\uf241', '\uf242', '\uf243', '\uf244',
@@ -187,7 +187,6 @@ public class XYTabPane extends Pane {
     filler.setDisable(true);
     getvTabPane().getTabs().add(filler);
     this.addToMaps(filler, vTabPane);
-    fontAwesome = GlyphFontRegistry.font("FontAwesome");
     super.getChildren().add(getvTabPane());
   }
 
@@ -302,10 +301,12 @@ public class XYTabPane extends Pane {
    *          - the fontSize of the glyph
    * @return the Glyph
    */
-  public Node getIcon(String name, int fontSize) {
-    Node icon = this.getIconMap().get(name + "x" + fontSize);
+  public static Node getIcon(String name, int fontSize) {
+    if (fontAwesome==null)
+      fontAwesome = GlyphFontRegistry.font("FontAwesome");
+    Node icon = getIconMap().get(name + "x" + fontSize);
     // if (icon == null) {
-    icon = this.getIconMap().get(name);
+    icon = getIconMap().get(name);
     if (icon == null) {
       try {
         org.controlsfx.glyphfont.FontAwesome.Glyph fglyph = FontAwesome.Glyph
@@ -318,7 +319,7 @@ public class XYTabPane extends Pane {
       }
     }
     if (icon == null) {
-      URL iconUrl = this.getClass().getResource("/icons/" + name + ".png");
+      URL iconUrl = XYTabPane.class.getClass().getResource("/icons/" + name + ".png");
       if (iconUrl != null) {
         ImageView iconImage = new ImageView(iconUrl.toString());
         iconImage.setFitHeight(fontSize);
