@@ -45,14 +45,15 @@ public abstract class TestApplication extends Application {
   private ImageView imageView;
   protected Scene scene;
   private Stage stage;
+  
+  
 
   /**
    * get an imageview with a default image
    * 
-   * @param stage
    * @return - the image
    */
-  public ImageView getImageView(Stage stage) {
+  public ImageView getImageView() {
     image = new Image(
         "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Dean_Franklin_-_06.04.03_Mount_Rushmore_Monument_%28by-sa%29-2_new.jpg/1280px-Dean_Franklin_-_06.04.03_Mount_Rushmore_Monument_%28by-sa%29-2_new.jpg");
 
@@ -60,9 +61,20 @@ public abstract class TestApplication extends Application {
     imageView.setImage(image);
     imageView.setSmooth(true);
     imageView.setCache(true);
+    imageView.setPreserveRatio(true);
+    return imageView;
+  }
+  
+  /**
+   * get an imageview with a default image with the width and height bound to the stage
+   * 
+   * @param stage
+   * @return - the image
+   */
+  public ImageView getImageView(Stage stage) {
+    ImageView imageView=getImageView();
     imageView.fitWidthProperty().bind(stage.widthProperty());
     imageView.fitHeightProperty().bind(stage.heightProperty());
-    imageView.setPreserveRatio(true);
     return imageView;
   }
 
