@@ -149,6 +149,8 @@ public class XYTabPane extends Pane {
    */
   public static Map<String, Node> getIconMap() {
     if (iconMap == null) {
+      if (fontAwesome==null)
+        fontAwesome = GlyphFontRegistry.font("FontAwesome");
       iconMap = new HashMap<String, Node>();
       char[] codes = { '\uf240', '\uf241', '\uf242', '\uf243', '\uf244',
           '\uf0ec', '\uf2c9' };
@@ -302,8 +304,6 @@ public class XYTabPane extends Pane {
    * @return the Glyph
    */
   public static Node getIcon(String name, int fontSize) {
-    if (fontAwesome==null)
-      fontAwesome = GlyphFontRegistry.font("FontAwesome");
     Node icon = getIconMap().get(name + "x" + fontSize);
     // if (icon == null) {
     icon = getIconMap().get(name);

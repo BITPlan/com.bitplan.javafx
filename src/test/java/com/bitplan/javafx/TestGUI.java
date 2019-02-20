@@ -128,8 +128,7 @@ public class TestGUI {
       icon.setFontSize(24);
       icon.setTooltip(new Tooltip(glyph.name()));
     }
-    XYTabPane xyTabPane = new XYTabPane(24);
-    for (Entry<String, Node> iconentry : xyTabPane.getIconMap().entrySet()) {
+    for (Entry<String, Node> iconentry : XYTabPane.getIconMap().entrySet()) {
       icons.add(iconentry.getValue());
       iconentry.getValue().setId(iconentry.getKey());
     }
