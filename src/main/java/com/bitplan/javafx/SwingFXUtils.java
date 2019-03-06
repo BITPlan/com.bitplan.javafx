@@ -1,28 +1,53 @@
-/*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+/**
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This file is part of the https://github.com/BITPlan/com.bitplan.javafx open source project
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * The copyright and license below holds true
+ * for all files except
+ *    - the ones in the stackoverflow package
+ *    - SwingFXUtils.java from Oracle which is provided e.g. for the raspberry env
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * Copyright 2017-2018 BITPlan GmbH https://github.com/BITPlan
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ *  You may obtain a copy of the License at
+ *
+ *  http:www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
+// see http://cr.openjdk.java.net/~ant/RT-37740/webrev.0/modules/swing/src/main/java/javafx/embed/swing/SwingFXUtils.java.html
+//    1 /*
+//   2  * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+//   3  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+//   4  *
+//   5  * This code is free software; you can redistribute it and/or modify it
+//   6  * under the terms of the GNU General Public License version 2 only, as
+//   7  * published by the Free Software Foundation.  Oracle designates this
+//   8  * particular file as subject to the "Classpath" exception as provided
+//   9  * by Oracle in the LICENSE file that accompanied this code.
+//  10  *
+//  11  * This code is distributed in the hope that it will be useful, but WITHOUT
+//  12  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+//  13  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+//  14  * version 2 for more details (a copy is included in the LICENSE file that
+//  15  * accompanied this code).
+//  16  *
+//  17  * You should have received a copy of the GNU General Public License version
+//  18  * 2 along with this work; if not, write to the Free Software Foundation,
+//  19  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+//  20  *
+//  21  * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+//  22  * or visit www.oracle.com if you need additional information or have any
+//  23  * questions.
+//  24  */
 package com.bitplan.javafx;
 
 import java.awt.AlphaComposite;

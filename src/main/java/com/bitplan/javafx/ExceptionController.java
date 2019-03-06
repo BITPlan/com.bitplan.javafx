@@ -3,7 +3,9 @@
  * This file is part of the https://github.com/BITPlan/com.bitplan.javafx open source project
  *
  * The copyright and license below holds true
- * for all files except the ones in the stackoverflow package
+ * for all files except
+ *    - the ones in the stackoverflow package
+ *    - SwingFXUtils.java from Oracle which is provided e.g. for the raspberry env
  *
  * Copyright 2017-2018 BITPlan GmbH https://github.com/BITPlan
  *
