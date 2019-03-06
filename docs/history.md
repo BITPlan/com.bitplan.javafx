@@ -28,4 +28,5 @@
 | 2019-01-09 | 0.0.26  | upgrades com.bitplan.gui to 0.0.15
 | 2019-01-24 | 0.0.27  | adds tab selection handling
 | 2019-01-30 | 0.0.28  | fixes #6 - Nullpointer Exception in selectTab
-| 2019-02-20 | 0.0.29  | adds ImageViewPane 
+| 2019-02-20 | 0.0.29  | adds ImageViewPane
+| 2019-03-06 | 0.0.30  | adds SwingFXUtils (e.g. for raspberry)
