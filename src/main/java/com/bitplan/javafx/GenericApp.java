@@ -67,6 +67,7 @@ import javafx.util.Duration;
  */
 public abstract class GenericApp extends WaitableApp
     implements ExceptionHandler, Linker, EventHandler<ActionEvent> {
+  public static int WAIT_CLOSE_MSECS = 1000; // 1 second
 
   protected com.bitplan.gui.App app;
   protected SoftwareVersion softwareVersion;
@@ -315,10 +316,16 @@ public abstract class GenericApp extends WaitableApp
 
   /**
    * set the tabPane with the given groupId
+   * 
    * @param groupId
    */
   public void setActiveTabPane(String groupId) {
     xyTabPane.selectVTab(groupId);
+  }
+
+  public void doClose() {
+    stage.close();
+    nullStage();
   }
 
   /**
@@ -332,16 +339,36 @@ public abstract class GenericApp extends WaitableApp
       } catch (IOException e) {
         LOGGER.log(Level.WARNING, e.getMessage(), e);
       }
-      Platform.runLater(() -> {
-        stage.close();
-        nullStage();
-      });
+      if (Platform.isFxApplicationThread()) {
+        doClose();
+      } else {
+        Platform.runLater(() -> {
+          doClose();
+        });
+        // we wait the specified time until the stage is set to null
+        int WAIT_LOOP_MSECS = 40; // 25 fps
+        int timeToWait = WAIT_CLOSE_MSECS;
+        while (stage != null && timeToWait > 0) {
+          try {
+            Thread.sleep(WAIT_LOOP_MSECS);
+            timeToWait -= WAIT_LOOP_MSECS;
+          } catch (InterruptedException e) {
+            LOGGER.log(Level.WARNING,
+                "Wait for stage null failed with " + e.getMessage(), e);
+          }
+        }
+        // was there a timeout
+        if (timeToWait <= 0) {
+          LOGGER.log(Level.WARNING,
+              String.format("Wait for closing stage timed out after %4.1f secs",
+                  WAIT_CLOSE_MSECS));
+        }
+      }
     };
-    // we do not wait and we do not set stage to null
   }
 
   private void nullStage() {
-    stage=null;
+    stage = null;
   }
 
   /**
