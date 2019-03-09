@@ -25,12 +25,8 @@
  */
 package com.bitplan.javafx.stackoverflow;
 
-import com.bitplan.javafx.ImageViewPane;
-import com.bitplan.javafx.RubberBandSelection;
+import com.bitplan.javafx.SelectableImageViewPane;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -41,27 +37,12 @@ import javafx.stage.Stage;
  * @author Roland
  *
  */
-public class RubberBandSelectionDemo extends TestApplication {
-
-  CheckBox drawButtonCheckBox;
+public class SelectableImageViewPaneDemo extends TestApplication {
 
   @Override
   public void start(Stage primaryStage) {
     ImageView imageView = super.getImageView();
-    ImageViewPane pane = new ImageViewPane(imageView);
-    RubberBandSelection rbs = new RubberBandSelection(pane);
-
-    drawButtonCheckBox = new CheckBox("Draw Button");
-    drawButtonCheckBox.selectedProperty()
-        .addListener(new ChangeListener<Boolean>() {
-          @Override
-          public void changed(ObservableValue<? extends Boolean> observable,
-              Boolean oldValue, Boolean newValue) {
-            rbs.setSelectButton(newValue);
-          }
-        });
-
-    pane.getChildren().add(drawButtonCheckBox);
+    SelectableImageViewPane pane = new SelectableImageViewPane(imageView);
     createSceneAndShowStage(primaryStage, pane);
   }
 

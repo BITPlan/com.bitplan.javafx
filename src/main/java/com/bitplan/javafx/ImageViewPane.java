@@ -32,7 +32,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.Pane;
 
 /**
  * see
@@ -41,7 +41,7 @@ import javafx.scene.layout.Region;
  * 
  * @author akouznet
  */
-public class ImageViewPane extends Region {
+public class ImageViewPane extends Pane {
 
   private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
 
@@ -75,6 +75,7 @@ public class ImageViewPane extends Region {
 
   /**
    * construct the given viewPane based on the given ImageView
+   * 
    * @param imageView
    */
   public ImageViewPane(ImageView imageView) {

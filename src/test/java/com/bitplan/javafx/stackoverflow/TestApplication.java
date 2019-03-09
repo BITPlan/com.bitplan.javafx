@@ -28,10 +28,10 @@ package com.bitplan.javafx.stackoverflow;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -84,12 +84,12 @@ public abstract class TestApplication extends Application {
    * create the scene and show stage
    * 
    * @param stage
-   * @param rootAnchorPane
+   * @param root
    * @return the scene created
    */
-  public Scene createSceneAndShowStage(Stage stage, Pane pane) {
+  public Scene createSceneAndShowStage(Stage stage, Parent root) {
     this.stage = stage;
-    scene = new Scene(pane);
+    scene = new Scene(root);
     scene.setFill(Color.WHITE);
     stage.setTitle(this.getClass().getSimpleName());
     Rectangle2D s = Screen.getPrimary().getVisualBounds();
