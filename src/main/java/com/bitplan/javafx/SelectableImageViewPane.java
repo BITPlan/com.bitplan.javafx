@@ -48,79 +48,92 @@ import javafx.scene.layout.StackPane;
  *
  */
 public class SelectableImageViewPane extends StackPane {
-	protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-	public static boolean debug = true;
-	private RubberBandSelection selection;
-	private ImageViewPane imageViewPane;
-	private Pane glassPane;
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
+  public static boolean debug = true;
+  private RubberBandSelection selection;
+  private ImageViewPane imageViewPane;
+  private Pane glassPane;
 
-	/**
-	 * get my selection
-	 * 
-	 * @return
-	 */
-	public RubberBandSelection getSelection() {
-		return selection;
-	}
+  /**
+   * get my selection
+   * 
+   * @return
+   */
+  public RubberBandSelection getSelection() {
+    return selection;
+  }
 
-	/**
-	 * show the bound of the given node with the given title
-	 * 
-	 * @param title
-	 * @param n
-	 */
-	public void showBounds(String title, Node n) {
-		if (debug) {
-			Bounds b = n.getLayoutBounds();
-			LOGGER.log(Level.INFO, String.format("%s: min %.0f,%.0f max %.0f,%.0f", title, b.getMinX(), b.getMinY(),
-					b.getMaxX(), b.getMaxY()));
-		}
-	}
+  /**
+   * show the bound of the given node with the given title
+   * 
+   * @param title
+   * @param n
+   */
+  public void showBounds(String title, Node n) {
+    if (debug) {
+      showBounds(title, n.getLayoutBounds());
+    }
+  }
 
-	@Override
-	protected void layoutChildren() {
-		super.layoutChildren();
-		int index = 1;
-		if (debug) {
-			showBounds("pane", this);
-			showBounds("imageViewPane", imageViewPane);
-			showBounds("glassPane", glassPane);
-			showBounds("imageView", imageViewPane.imageViewProperty().get());
-		}
-		for (Selection s : selection.selected.values()) {
-			
-			if (debug) {
-				showBounds("" + (index++), s.node);
-				LOGGER.log(Level.INFO, s.asPercent());
-			}
-			Bounds rB = s.relativeBounds;
-			double w = getWidth();
-			double h=getHeight();
-			double minX=rB.getMinX()*w;
-			double minY=rB.getMinY()*h;
-			double width=rB.getWidth()*w;
-			double height=rB.getHeight()*h;
-			layoutInArea(s.node, minX,minY,width,height, 0, HPos.LEFT,
-			          VPos.TOP);
-		}
-	}
+  /**
+   * show the bound of the given node with the given title
+   * 
+   * @param title
+   * @param b
+   */
+  public void showBounds(String title, Bounds b) {
+    LOGGER.log(Level.INFO, String.format("%s: min %.0f,%.0f max %.0f,%.0f",
+        title, b.getMinX(), b.getMinY(), b.getMaxX(), b.getMaxY()));
+  }
 
-	/**
-	 * create me
-	 * 
-	 * @param imageView
-	 */
-	public SelectableImageViewPane(ImageView imageView) {
-		imageViewPane = new ImageViewPane(imageView);
-		getChildren().add(imageViewPane);
-		StackPane.setAlignment(imageViewPane, Pos.CENTER);
-		glassPane = new AnchorPane();
-		glassPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1);");
-		getChildren().add(glassPane);
-		// glassPane.prefWidthProperty().bind(imageViewPane.widthProperty());
-		// glassPane.prefHeightProperty().bind(imageViewPane.heightProperty());
-		selection = new RubberBandSelection(glassPane);
-		selection.setSelectButton(true);
-	}
+  public void showBounds() {
+
+    if (debug) {
+      showBounds("pane", this);
+      showBounds("imageViewPane", imageViewPane);
+      showBounds("glassPane", glassPane);
+      showBounds("imageView", imageViewPane.imageViewProperty().get());
+    }
+  }
+
+  @Override
+  protected void layoutChildren() {
+    super.layoutChildren();
+    showBounds();
+    int index = 1;
+    for (Selection s : selection.selected.values()) {
+
+      if (debug) {
+        showBounds("" + (index++), s.node);
+        LOGGER.log(Level.INFO, s.asPercent());
+      }
+      Bounds rB = s.relativeBounds;
+      double w = getWidth();
+      double h = getHeight();
+      double minX = rB.getMinX() * w;
+      double minY = rB.getMinY() * h;
+      double width = rB.getWidth() * w;
+      double height = rB.getHeight() * h;
+      layoutInArea(s.node, minX, minY, width, height, 0, HPos.LEFT, VPos.TOP);
+    }
+  }
+
+  /**
+   * create me
+   * 
+   * @param imageView
+   */
+  public SelectableImageViewPane(ImageView imageView) {
+    imageViewPane = new ImageViewPane(imageView);
+    getChildren().add(imageViewPane);
+    StackPane.setAlignment(imageViewPane, Pos.CENTER);
+    glassPane = new AnchorPane();
+    glassPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1);");
+    getChildren().add(glassPane);
+    // glassPane.prefWidthProperty().bind(imageViewPane.widthProperty());
+    // glassPane.prefHeightProperty().bind(imageViewPane.heightProperty());
+    selection = new RubberBandSelection(glassPane);
+    selection.setSelectButton(true);
+  }
 
 }
