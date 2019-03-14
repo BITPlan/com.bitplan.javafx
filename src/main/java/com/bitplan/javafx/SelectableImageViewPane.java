@@ -39,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 /**
  * an ImageViewPane with a RubberBandSelection that properly resizes the
@@ -86,14 +87,52 @@ public class SelectableImageViewPane extends StackPane {
         title, b.getMinX(), b.getMinY(), b.getMaxX(), b.getMaxY()));
   }
 
+  /**
+   * show my bounds
+   */
   public void showBounds() {
-
     if (debug) {
       showBounds("pane", this);
       showBounds("imageViewPane", imageViewPane);
       showBounds("glassPane", glassPane);
       showBounds("imageView", imageViewPane.imageViewProperty().get());
     }
+  }
+  
+  /**
+   * @return the imageView
+   * 
+   */
+  public ImageView getImageView() {
+    return imageViewPane.getImageView();
+  }
+  
+  /**
+   * get a rectangle relative to the image with the given relative coordinates
+   * @param rx
+   * @param ry
+   * @param rw
+   * @param rh
+   * @return the rectangle
+   */
+  public Rectangle relativeToImage(double rx, double ry, double rw, double rh) {
+    ImageView imageView = getImageView();
+    double iw = imageView.getImage().getWidth();
+    double ih = imageView.getImage().getHeight();
+    Rectangle rect = new Rectangle(iw * rw, ih * rh);
+    rect.setX(rx*iw);
+    rect.setY(ry*ih);
+    return rect;
+  }
+  
+  /**
+   * get a rectangle relative to the given image based on the given bounds
+   * @param r
+   * @return
+   */
+  public Rectangle relativeToImage(Bounds b) {
+    Rectangle rect=this.relativeToImage(b.getMinX(), b.getMinY(), b.getWidth(), b.getHeight());
+    return rect;
   }
 
   @Override
@@ -127,11 +166,11 @@ public class SelectableImageViewPane extends StackPane {
     imageViewPane = new ImageViewPane(imageView);
     getChildren().add(imageViewPane);
     StackPane.setAlignment(imageViewPane, Pos.CENTER);
-    glassPane = new AnchorPane();
+    glassPane = new Pane();
     glassPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1);");
     getChildren().add(glassPane);
-    // glassPane.prefWidthProperty().bind(imageViewPane.widthProperty());
-    // glassPane.prefHeightProperty().bind(imageViewPane.heightProperty());
+    //glassPane.prefWidthProperty().bind(imageView.fitWidthProperty());
+    // glassPane.prefHeightProperty().bind(imageView.fitHeightProperty());
     selection = new RubberBandSelection(glassPane);
     selection.setSelectButton(true);
   }

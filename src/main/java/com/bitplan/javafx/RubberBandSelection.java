@@ -53,205 +53,221 @@ import javafx.scene.shape.StrokeLineCap;
  */
 public class RubberBandSelection {
 
-	/**
-	 * remember the selection with it's relative bounds
-	 * 
-	 * @author wf
-	 *
-	 */
-	public class Selection {
-		Node node;
-		Bounds relativeBounds;
+  /**
+   * remember the selection with it's relative bounds
+   * 
+   * @author wf
+   *
+   */
+  public class Selection {
+    Node node;
+    Bounds relativeBounds;
 
-		/**
-		 * create a selection from the given
-		 * 
-		 * @param node
-		 * @param rect 
-		 */
-		public Selection(Node node, Rectangle rect) {
-			Bounds pB = parent.getBoundsInParent();
-			this.node = node;
-			double rx = rect.getX() / pB.getWidth();
-			double ry = rect.getY() / pB.getHeight();
-			double rw = rect.getWidth() / pB.getWidth();
-			double rh = rect.getHeight() / pB.getHeight();
-			relativeBounds = new BoundingBox(rx, ry, rw, rh);
-		}
+    /**
+     * create a selection from the given
+     * 
+     * @param node
+     * @param rect
+     */
+    public Selection(Node node, Rectangle rect) {
+      Bounds pB = parent.getBoundsInParent();
+      this.node = node;
+      double rx = rect.getX() / pB.getWidth();
+      double ry = rect.getY() / pB.getHeight();
+      double rw = rect.getWidth() / pB.getWidth();
+      double rh = rect.getHeight() / pB.getHeight();
+      relativeBounds = new BoundingBox(rx, ry, rw, rh);
+    }
 
-		/**
-		 * get a string with my relative positions in percent
-		 * @return String with x,y,w,h formatted with 
-		 */
-		public String asPercent() {
-			String pStr = String.format("x: %4.1f%% y: %4.1f%% w: %4.1f%% h: %4.1f%%", relativeBounds.getMinX()*100,
-					relativeBounds.getMinY()*100, relativeBounds.getHeight()*100, relativeBounds.getWidth()*100);
-			return pStr;
-		}
-	}
+    /**
+     * get a string with my relative positions in percent
+     * 
+     * @return String with x,y,w,h formatted with
+     */
+    public String asPercent() {
+      String pStr = String.format("x: %4.1f%% y: %4.1f%% w: %4.1f%% h: %4.1f%%",
+          relativeBounds.getMinX() * 100, relativeBounds.getMinY() * 100,
+          relativeBounds.getHeight() * 100, relativeBounds.getWidth() * 100);
+      return pStr;
+    }
+  }
 
-	/**
-	 * 
-	 */
-	final DragContext dragContext = new DragContext();
-	Rectangle rect;
-	Map<Node, Selection> selected = new HashMap<Node, Selection>();
+  /**
+   * 
+   */
+  final DragContext dragContext = new DragContext();
+  Rectangle rect;
+  Map<Node, Selection> selected = new HashMap<Node, Selection>();
 
-	Parent parent;
-	private boolean selectButton = false;
+  Parent parent;
+  private boolean selectButton = false;
 
-	public boolean isSelectButton() {
-		return selectButton;
-	}
+  public boolean isSelectButton() {
+    return selectButton;
+  }
 
-	public void setSelectButton(boolean selectButton) {
-		this.selectButton = selectButton;
-	}
+  public void setSelectButton(boolean selectButton) {
+    this.selectButton = selectButton;
+  }
 
-	/**
-	 * construct me for the given
-	 * 
-	 * @param parent
-	 */
-	public RubberBandSelection(Parent parent) {
+  /**
+   * construct me for the given
+   * 
+   * @param parent
+   */
+  public RubberBandSelection(Parent parent) {
 
-		this.parent = parent;
+    this.parent = parent;
 
-		rect = new Rectangle(0, 0, 0, 0);
-		rect.setStroke(Color.BLUE);
-		rect.setStrokeWidth(1);
-		rect.setStrokeLineCap(StrokeLineCap.ROUND);
-		rect.setFill(Color.LIGHTBLUE.deriveColor(0, 1.2, 1, 0.6));
+    rect = new Rectangle(0, 0, 0, 0);
+    rect.setStroke(Color.BLUE);
+    rect.setStrokeWidth(1);
+    rect.setStrokeLineCap(StrokeLineCap.ROUND);
+    rect.setFill(Color.LIGHTBLUE.deriveColor(0, 1.2, 1, 0.6));
 
-		parent.addEventHandler(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
-		parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, onMouseDraggedEventHandler);
-		parent.addEventHandler(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
-	}
+    parent.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        onMousePressedEventHandler);
+    parent.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+        onMouseDraggedEventHandler);
+    parent.addEventHandler(MouseEvent.MOUSE_RELEASED,
+        onMouseReleasedEventHandler);
+  }
 
-	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
+  EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
-		@Override
-		public void handle(MouseEvent event) {
-			dragContext.mouseAnchorX = event.getSceneX();
-			dragContext.mouseAnchorY = event.getSceneY();
+    @Override
+    public void handle(MouseEvent event) {
+      dragContext.mouseAnchorX = event.getSceneX();
+      dragContext.mouseAnchorY = event.getSceneY();
 
-			rect.setX(dragContext.mouseAnchorX);
-			rect.setY(dragContext.mouseAnchorY);
-			rect.setWidth(0);
-			rect.setHeight(0);
-			add(rect,rect,false);
-		}
-	};
+      rect.setX(dragContext.mouseAnchorX);
+      rect.setY(dragContext.mouseAnchorY);
+      rect.setWidth(0);
+      rect.setHeight(0);
+      add(rect, rect, false);
+    }
+  };
 
-	EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
+  EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
 
-		@Override
-		public void handle(MouseEvent event) {
+    @Override
+    public void handle(MouseEvent event) {
 
-			// get coordinates
-			double x = rect.getX();
-			double y = rect.getY();
-			double w = rect.getWidth();
-			double h = rect.getHeight();
+      select(rect);
 
-			if (isSelectButton()) {
+      // remove rubberband
+      rect.setX(0);
+      rect.setY(0);
+      rect.setWidth(0);
+      rect.setHeight(0);
 
-				// create button
-				Button button = new Button();
-				button.setDefaultButton(false);
-				button.setPrefSize(w, h);
-				button.setText("");
-				button.setStyle("-fx-border-color: blue;-fx-background-color: rgba(0,0,0, 0.3);");
-				button.setLayoutX(x);
-				button.setLayoutY(y);
-				button.setOnAction(e -> {
-					remove((Node) e.getSource(),true);
-				});
-				add(button,rect,true);
+      remove(rect, false);
 
-			} else {
-				// create rectangle
-				Rectangle node = new Rectangle(0, 0, w, h);
-				node.setStroke(Color.BLACK);
-				node.setFill(Color.BLACK.deriveColor(0, 0, 0, 0.3));
-				node.setLayoutX(x);
-				node.setLayoutY(y);
-				add(node,node,false);
-			}
+    }
+  };
 
-			// remove rubberband
-			rect.setX(0);
-			rect.setY(0);
-			rect.setWidth(0);
-			rect.setHeight(0);
+  EventHandler<MouseEvent> onMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 
-			remove(rect,false);
+    @Override
+    public void handle(MouseEvent event) {
 
-		}
-	};
+      double offsetX = event.getSceneX() - dragContext.mouseAnchorX;
+      double offsetY = event.getSceneY() - dragContext.mouseAnchorY;
 
-	EventHandler<MouseEvent> onMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+      if (offsetX > 0)
+        rect.setWidth(offsetX);
+      else {
+        rect.setX(event.getSceneX());
+        rect.setWidth(dragContext.mouseAnchorX - rect.getX());
+      }
 
-		@Override
-		public void handle(MouseEvent event) {
+      if (offsetY > 0) {
+        rect.setHeight(offsetY);
+      } else {
+        rect.setY(event.getSceneY());
+        rect.setHeight(dragContext.mouseAnchorY - rect.getY());
+      }
+    }
+  };
 
-			double offsetX = event.getSceneX() - dragContext.mouseAnchorX;
-			double offsetY = event.getSceneY() - dragContext.mouseAnchorY;
+  private final class DragContext {
 
-			if (offsetX > 0)
-				rect.setWidth(offsetX);
-			else {
-				rect.setX(event.getSceneX());
-				rect.setWidth(dragContext.mouseAnchorX - rect.getX());
-			}
+    public double mouseAnchorX;
+    public double mouseAnchorY;
 
-			if (offsetY > 0) {
-				rect.setHeight(offsetY);
-			} else {
-				rect.setY(event.getSceneY());
-				rect.setHeight(dragContext.mouseAnchorY - rect.getY());
-			}
-		}
-	};
+  }
 
-	private final class DragContext {
+  public ObservableList<Node> getChildren() {
+    if (parent instanceof Pane) {
+      return ((Pane) parent).getChildren();
+    } else if (parent instanceof Group) {
+      return ((Group) parent).getChildren();
+    } else {
+      return parent.getChildrenUnmodifiable();
+    }
+  }
 
-		public double mouseAnchorX;
-		public double mouseAnchorY;
+  /**
+   * add the given node
+   * 
+   * @param node
+   * @param rect
+   * @param remember
+   */
+  protected void add(Node node, Rectangle rect, boolean remember) {
+    getChildren().add(node);
+    if (remember)
+      this.selected.put(node, new Selection(node, rect));
+  }
 
-	}
+  /**
+   * remove the given node
+   * 
+   * @param node
+   */
+  protected void remove(Node node, boolean remember) {
+    getChildren().remove(node);
+    if (remember)
+      this.selected.remove(node);
+  }
 
-	public ObservableList<Node> getChildren() {
-		if (parent instanceof Pane) {
-			return ((Pane) parent).getChildren();
-		} else if (parent instanceof Group) {
-			return ((Group) parent).getChildren();
-		} else {
-			return parent.getChildrenUnmodifiable();
-		}
-	}
 
-	/**
-	 * add the given node
-	 * 
-	 * @param node
-	 * @param rect 
-	 * @param remember
-	 */
-	protected void add(Node node, Rectangle rect, boolean remember) {
-		getChildren().add(node);
-		if (remember)
-			this.selected.put(node, new Selection(node,rect));
-	}
+  /**
+   * select the given rectangle
+   * 
+   * @param rect
+   */
+  public void select(Rectangle rect) {
+    // get coordinates
+    double x = rect.getX();
+    double y = rect.getY();
+    double w = rect.getWidth();
+    double h = rect.getHeight();
+    if (isSelectButton()) {
 
-	/**
-	 * remove the given node
-	 * 
-	 * @param node
-	 */
-	protected void remove(Node node, boolean remember) {
-		getChildren().remove(node);
-		if (remember)
-			this.selected.remove(node);
-	}
+      // create button
+      Button button = new Button();
+      button.setDefaultButton(false);
+      button.setPrefSize(w, h);
+      button.setText("");
+      button.setStyle(
+          "-fx-border-color: blue;-fx-background-color: rgba(0,0,0, 0.3);");
+      button.setLayoutX(x);
+      button.setLayoutY(y);
+      button.setOnAction(e -> {
+        remove((Node) e.getSource(), true);
+      });
+      add(button, rect, true);
+    } else {
+      // create rectangle
+      Rectangle node = new Rectangle(0, 0, w, h);
+      node.setStroke(Color.BLACK);
+      node.setFill(Color.BLACK.deriveColor(0, 0, 0, 0.3));
+      node.setLayoutX(x);
+      node.setLayoutY(y);
+      add(node, node, false);
+    }
+
+  }
+
 }

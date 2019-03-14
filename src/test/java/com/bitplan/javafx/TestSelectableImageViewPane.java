@@ -25,6 +25,8 @@
  */
 package com.bitplan.javafx;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.logging.Logger;
 
 import org.junit.Before;
@@ -32,9 +34,11 @@ import org.junit.Test;
 
 import com.bitplan.i18n.Translator;
 
+import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Test selecting rectangles within an image
@@ -98,6 +102,13 @@ public class TestSelectableImageViewPane {
     sampleApp.getStage().setX(sceneBounds.getMinX());
     sampleApp.getStage().setY(sceneBounds.getMinY());
     RubberBandSelection rbs = selectPane.getSelection();
+  
+    // get a rectangle with relative coordinates to the image
+    Rectangle ri=selectPane.relativeToImage(0.25,0.25,0.5,0.5);
+    assertEquals(ri.getWidth(),image.getWidth()/2,0.01);
+    assertEquals(ri.getHeight(),image.getHeight()/2,0.01);
+    Platform.runLater(()->rbs.select(ri));
+    // rbs.select(0,0,selectPane.getWidth(),selectPane.getHeight());
     Scale scales[]= {new Scale(2,1), new Scale(4,3), new Scale(3,2), new Scale(16,9)};
     for (Scale scale:scales) {
      
