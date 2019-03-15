@@ -31,8 +31,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 /**
  * see
@@ -41,9 +45,11 @@ import javafx.scene.layout.Pane;
  * 
  * @author akouznet
  */
-public class ImageViewPane extends Pane {
+public class ImageViewPane extends StackPane {
 
   private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
+  Rectangle imageBorder;
+  private boolean showBorder = false;
 
   public ObjectProperty<ImageView> imageViewProperty() {
     return imageViewProperty;
@@ -57,8 +63,98 @@ public class ImageViewPane extends Pane {
     this.imageViewProperty.set(imageView);
   }
 
+  public boolean isShowBorder() {
+    return showBorder;
+  }
+
+  public void setShowBorder(boolean showBorder) {
+    this.showBorder = showBorder;
+  }
+
+  /**
+   * construct an empty ImageView Pane
+   */
   public ImageViewPane() {
     this(new ImageView());
+  }
+
+  class ImageScaler {
+
+    private ImageView imageView;
+    private Rectangle rect;
+    double scaleX = 1.;
+    double scaleY = 1.;
+    double offsetX = 0.;
+    double offsetY = 0.;
+    double tx = 0.;
+    double ty = 0.;
+
+    /**
+     * create an image Scaler with the given parameters
+     * 
+     * @param imageView
+     * @param rect
+     */
+    public ImageScaler(ImageView imageView, Rectangle rect) {
+      this.imageView = imageView;
+      this.rect = rect;
+    }
+
+    /**
+     * calculate the scale 
+     */
+    public void calcScale() {
+      double fitWidth = imageView.getFitWidth();
+      double fitHeight = imageView.getFitHeight();
+      double fitRatio = fitHeight / fitWidth;
+      double imgWidth=imageView.getImage().getWidth();
+      double imgHeight=imageView.getImage().getHeight();
+      double offsetX = 0.;
+      double offsetY = 0.;
+      double x=rect.getX();
+      double y=rect.getY();
+      double width=rect.getWidth();
+      double height=rect.getHeight();
+      double rectRatio = height/width;
+     
+      if (rectRatio < fitRatio) {
+        offsetX = (height / fitRatio - width) / 2.;
+        scaleY = fitHeight / height;
+      } else {
+        offsetY = (width * fitRatio - height) / 2.;
+        scaleX = fitWidth / width;
+      }
+      double dx = (1. - scaleX) / 2.;
+      double dy = (1. - scaleY) / 2.;
+      tx = -(x - offsetX) * scaleX - dx * imgWidth;
+      ty = -(y - offsetY) * scaleY - dy * imgHeight;
+      System.out
+      .println(String.format("scale: %.1f x %.1f tx: %.1f x %.1f, img: %.1f rect: %.1f", scaleX,scaleY,tx,ty,fitRatio, rectRatio));
+
+    }
+
+    /**
+     * scale the rectangle to fit the image
+     * 
+     * @return true if there is an image and the scaling happened
+     */
+    public boolean scale() {
+      Image image = imageView.getImage();
+      if (image != null) {
+        rect.setWidth(image.getWidth());
+        rect.setHeight(image.getHeight());
+        ImageScaler imageScaler=new ImageScaler(imageView,rect);
+        // calcScale(image);
+        imageScaler.calcScale();
+        rect.setScaleX(scaleX);
+        rect.setScaleY(scaleY);
+        rect.setTranslateX(tx);
+        rect.setTranslateY(ty);
+        return true;
+      }
+      return false;
+    }
+
   }
 
   @Override
@@ -69,6 +165,20 @@ public class ImageViewPane extends Pane {
       imageView.setFitHeight(getHeight());
       layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER,
           VPos.CENTER);
+
+      if (imageBorder != null && this.showBorder) {
+        ImageScaler imgScaler = new ImageScaler(imageView, imageBorder);
+        if (imgScaler.scale()) {
+
+          imageBorder.setVisible(true);
+
+          // imageView.setVisible(false);
+          // layoutInArea(imageBorder, 0, 0, getWidth(), getHeight(), 0,
+          // HPos.CENTER, VPos.CENTER);
+        } else {
+          imageBorder.setVisible(false);
+        }
+      }
     }
     super.layoutChildren();
   }
@@ -79,6 +189,7 @@ public class ImageViewPane extends Pane {
    * @param imageView
    */
   public ImageViewPane(ImageView imageView) {
+    initBorder();
     imageViewProperty.addListener(new ChangeListener<ImageView>() {
 
       @Override
@@ -90,8 +201,24 @@ public class ImageViewPane extends Pane {
         if (newIV != null) {
           getChildren().add(newIV);
         }
+        if (imageBorder != null) {
+          imageBorder.toFront();
+        }
       }
     });
     this.imageViewProperty.set(imageView);
+  }
+
+  /**
+   * initialize the Border
+   */
+  public void initBorder() {
+    this.imageBorder = new Rectangle();
+    imageBorder.setFill(Color.TRANSPARENT);
+    imageBorder.setStroke(Color.BLUE);
+    imageBorder.setVisible(false);
+    imageBorder.setStrokeWidth(5);
+    imageBorder.setStrokeType(StrokeType.INSIDE);
+    this.getChildren().add(imageBorder);
   }
 }

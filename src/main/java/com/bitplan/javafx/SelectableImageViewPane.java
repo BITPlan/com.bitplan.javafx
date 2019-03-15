@@ -164,6 +164,7 @@ public class SelectableImageViewPane extends StackPane {
    */
   public SelectableImageViewPane(ImageView imageView) {
     imageViewPane = new ImageViewPane(imageView);
+    imageViewPane.setShowBorder(true);
     getChildren().add(imageViewPane);
     StackPane.setAlignment(imageViewPane, Pos.CENTER);
     glassPane = new Pane();
