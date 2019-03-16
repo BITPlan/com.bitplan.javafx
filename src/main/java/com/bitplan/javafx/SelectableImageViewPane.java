@@ -36,7 +36,6 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -93,9 +92,9 @@ public class SelectableImageViewPane extends StackPane {
   public void showBounds() {
     if (debug) {
       showBounds("pane", this);
-      showBounds("imageViewPane", imageViewPane);
+      showBounds("imageViewPane", getImageViewPane());
       showBounds("glassPane", glassPane);
-      showBounds("imageView", imageViewPane.imageViewProperty().get());
+      showBounds("imageView", getImageViewPane().imageViewProperty().get());
     }
   }
   
@@ -104,9 +103,17 @@ public class SelectableImageViewPane extends StackPane {
    * 
    */
   public ImageView getImageView() {
-    return imageViewPane.getImageView();
+    return getImageViewPane().getImageView();
   }
   
+  public ImageViewPane getImageViewPane() {
+    return imageViewPane;
+  }
+
+  public void setImageViewPane(ImageViewPane imageViewPane) {
+    this.imageViewPane = imageViewPane;
+  }
+
   /**
    * get a rectangle relative to the image with the given relative coordinates
    * @param rx
@@ -163,10 +170,10 @@ public class SelectableImageViewPane extends StackPane {
    * @param imageView
    */
   public SelectableImageViewPane(ImageView imageView) {
-    imageViewPane = new ImageViewPane(imageView);
-    imageViewPane.setShowBorder(true);
-    getChildren().add(imageViewPane);
-    StackPane.setAlignment(imageViewPane, Pos.CENTER);
+    setImageViewPane(new ImageViewPane(imageView));
+    getImageViewPane().setShowBorder(true);
+    getChildren().add(getImageViewPane());
+    StackPane.setAlignment(getImageViewPane(), Pos.CENTER);
     glassPane = new Pane();
     glassPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1);");
     getChildren().add(glassPane);

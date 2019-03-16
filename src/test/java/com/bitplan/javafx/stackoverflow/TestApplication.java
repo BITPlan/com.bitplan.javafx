@@ -27,6 +27,7 @@ package com.bitplan.javafx.stackoverflow;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,6 +48,7 @@ public abstract class TestApplication extends Application {
   private ImageView imageView;
   protected Scene scene;
   private Stage stage;
+  private Parent root;
   
   
 
@@ -88,6 +90,7 @@ public abstract class TestApplication extends Application {
    * @return the scene created
    */
   public Scene createSceneAndShowStage(Stage stage, Parent root) {
+    this.root=root;
     this.stage = stage;
     scene = new Scene(root);
     scene.setFill(Color.WHITE);
@@ -118,7 +121,11 @@ public abstract class TestApplication extends Application {
     showSize(stage, stage.getWidth(), stage.getHeight());
     showSize(scene, scene.getWidth(), scene.getHeight());
     showSize(imageView, imageView.getFitWidth(), imageView.getFitHeight());
-    showSize(image, image.getHeight(), image.getWidth());
+    showSize(image, image.getWidth(), image.getHeight());
+    Bounds rbip = root.getBoundsInParent();
+    showSize(root,rbip.getWidth(),rbip.getHeight());
+    Bounds rbil=root.getBoundsInLocal();
+    showSize(root,rbil.getWidth(),rbil.getHeight());
   }
 
   /**
@@ -129,7 +136,7 @@ public abstract class TestApplication extends Application {
    * @param height
    */
   public void showSize(Object o, double width, double height) {
-    System.out.println(String.format("%10s %4.0f x %4.0f",
+    System.out.println(String.format("%25s %4.0f x %4.0f",
         o.getClass().getSimpleName(), width, height));
   }
 

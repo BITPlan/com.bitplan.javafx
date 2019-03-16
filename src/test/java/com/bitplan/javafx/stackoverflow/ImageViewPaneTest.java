@@ -29,9 +29,13 @@ import com.bitplan.javafx.ImageViewPane;
 
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+/**
+ * test the ImageView Pane
+ * @author wf
+ *
+ */
 public class ImageViewPaneTest extends TestApplication {
 
   @Override
@@ -39,16 +43,11 @@ public class ImageViewPaneTest extends TestApplication {
     // get an imageView with the fitWidth / fitHeight not bound yet
     ImageView imageView = super.getImageView();
     ImageViewPane imageViewPane = new ImageViewPane(imageView);
-
-    StackPane root = new StackPane();
-    root.getChildren().add(imageViewPane);
-
-    Scene scene = new Scene(root, 300, 250);
-
+    Scene scene = new Scene(imageViewPane, 300, 250);
     primaryStage.setTitle("ImageViewPaneTest");
     primaryStage.setScene(scene);
+    imageViewPane.bindSize(primaryStage);
     primaryStage.show();
-
   }
 
   public static void main(String[] args) {

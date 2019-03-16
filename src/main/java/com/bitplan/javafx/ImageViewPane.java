@@ -27,29 +27,29 @@ package com.bitplan.javafx;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.scene.image.Image;
+import javafx.beans.value.ObservableDoubleValue;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Stage;
 
 /**
- * see
- * http://sahits.ch/blog/blog/2012/12/30/resizable-layout-and-resizable-image/
- * http://javafx-jira.kenai.com/browse/RT-10610
+ * a resizable Pane that shows an image
  * 
- * @author akouznet
+ * @author wf
+ *
  */
-public class ImageViewPane extends StackPane {
+public class ImageViewPane extends AnchorPane {
 
   private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
   Rectangle imageBorder;
   private boolean showBorder = false;
+  private ObservableDoubleValue bindWidthProperty;
+  private ObservableDoubleValue bindHeightProperty;
 
   public ObjectProperty<ImageView> imageViewProperty() {
     return imageViewProperty;
@@ -69,146 +69,36 @@ public class ImageViewPane extends StackPane {
 
   public void setShowBorder(boolean showBorder) {
     this.showBorder = showBorder;
+    imageBorder.setVisible(showBorder);
   }
 
   /**
-   * construct an empty ImageView Pane
-   */
-  public ImageViewPane() {
-    this(new ImageView());
-  }
-
-  class ImageScaler {
-
-    private ImageView imageView;
-    private Rectangle rect;
-    double scaleX = 1.;
-    double scaleY = 1.;
-    double offsetX = 0.;
-    double offsetY = 0.;
-    double tx = 0.;
-    double ty = 0.;
-
-    /**
-     * create an image Scaler with the given parameters
-     * 
-     * @param imageView
-     * @param rect
-     */
-    public ImageScaler(ImageView imageView, Rectangle rect) {
-      this.imageView = imageView;
-      this.rect = rect;
-    }
-
-    /**
-     * calculate the scale 
-     */
-    public void calcScale() {
-      double fitWidth = imageView.getFitWidth();
-      double fitHeight = imageView.getFitHeight();
-      double fitRatio = fitHeight / fitWidth;
-      double imgWidth=imageView.getImage().getWidth();
-      double imgHeight=imageView.getImage().getHeight();
-      double offsetX = 0.;
-      double offsetY = 0.;
-      double x=rect.getX();
-      double y=rect.getY();
-      double width=rect.getWidth();
-      double height=rect.getHeight();
-      double rectRatio = height/width;
-     
-      if (rectRatio < fitRatio) {
-        offsetX = (height / fitRatio - width) / 2.;
-        scaleY = fitHeight / height;
-      } else {
-        offsetY = (width * fitRatio - height) / 2.;
-        scaleX = fitWidth / width;
-      }
-      double dx = (1. - scaleX) / 2.;
-      double dy = (1. - scaleY) / 2.;
-      tx = -(x - offsetX) * scaleX - dx * imgWidth;
-      ty = -(y - offsetY) * scaleY - dy * imgHeight;
-      System.out
-      .println(String.format("scale: %.1f x %.1f tx: %.1f x %.1f, img: %.1f rect: %.1f", scaleX,scaleY,tx,ty,fitRatio, rectRatio));
-
-    }
-
-    /**
-     * scale the rectangle to fit the image
-     * 
-     * @return true if there is an image and the scaling happened
-     */
-    public boolean scale() {
-      Image image = imageView.getImage();
-      if (image != null) {
-        rect.setWidth(image.getWidth());
-        rect.setHeight(image.getHeight());
-        ImageScaler imageScaler=new ImageScaler(imageView,rect);
-        // calcScale(image);
-        imageScaler.calcScale();
-        rect.setScaleX(scaleX);
-        rect.setScaleY(scaleY);
-        rect.setTranslateX(tx);
-        rect.setTranslateY(ty);
-        return true;
-      }
-      return false;
-    }
-
-  }
-
-  @Override
-  protected void layoutChildren() {
-    ImageView imageView = imageViewProperty.get();
-    if (imageView != null) {
-      imageView.setFitWidth(getWidth());
-      imageView.setFitHeight(getHeight());
-      layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER,
-          VPos.CENTER);
-
-      if (imageBorder != null && this.showBorder) {
-        ImageScaler imgScaler = new ImageScaler(imageView, imageBorder);
-        if (imgScaler.scale()) {
-
-          imageBorder.setVisible(true);
-
-          // imageView.setVisible(false);
-          // layoutInArea(imageBorder, 0, 0, getWidth(), getHeight(), 0,
-          // HPos.CENTER, VPos.CENTER);
-        } else {
-          imageBorder.setVisible(false);
-        }
-      }
-    }
-    super.layoutChildren();
-  }
-
-  /**
-   * construct the given viewPane based on the given ImageView
+   * create an imageView Pane for the given ImageView
    * 
    * @param imageView
    */
   public ImageViewPane(ImageView imageView) {
+    this.setImageView(imageView);
+    imageView.setSmooth(true);
+    imageView.setCache(true);
+    imageView.setPreserveRatio(true);
+    getChildren().add(imageView);
+    StackPane.setAlignment(imageView, Pos.CENTER);
     initBorder();
-    imageViewProperty.addListener(new ChangeListener<ImageView>() {
-
-      @Override
-      public void changed(ObservableValue<? extends ImageView> arg0,
-          ImageView oldIV, ImageView newIV) {
-        if (oldIV != null) {
-          getChildren().remove(oldIV);
-        }
-        if (newIV != null) {
-          getChildren().add(newIV);
-        }
-        if (imageBorder != null) {
-          imageBorder.toFront();
-        }
+    imageViewProperty.addListener((obs, oldIV, newIV) -> {
+      if (oldIV != null) {
+        getChildren().remove(oldIV);
+      }
+      if (newIV != null) {
+        getChildren().add(newIV);
+        bindSize();
+      }
+      if (imageBorder != null) {
+        imageBorder.toFront();
       }
     });
-    this.imageViewProperty.set(imageView);
   }
-
+  
   /**
    * initialize the Border
    */
@@ -220,5 +110,37 @@ public class ImageViewPane extends StackPane {
     imageBorder.setStrokeWidth(5);
     imageBorder.setStrokeType(StrokeType.INSIDE);
     this.getChildren().add(imageBorder);
+  }
+
+  /**
+   * bind my size with the given properties
+   * 
+   * @param widthProperty
+   * @param heightProperty
+   */
+  public void bindSize(ObservableDoubleValue widthProperty,
+      ObservableDoubleValue heightProperty) {
+    this.bindWidthProperty = widthProperty;
+    this.bindHeightProperty = heightProperty;
+    bindSize();
+  }
+
+  /**
+   * bind my Sizes
+   */
+  public void bindSize() {
+    if (bindWidthProperty != null && bindHeightProperty != null) {
+      getImageView().fitWidthProperty().bind(bindWidthProperty);
+      getImageView().fitHeightProperty().bind(bindHeightProperty);
+    }
+  }
+
+  /**
+   * bind my size to the stage's size
+   * 
+   * @param stage
+   */
+  public void bindSize(Stage stage) {
+    bindSize(stage.widthProperty(), stage.heightProperty());
   }
 }

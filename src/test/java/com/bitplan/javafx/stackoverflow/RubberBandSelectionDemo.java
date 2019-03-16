@@ -62,6 +62,7 @@ public class RubberBandSelectionDemo extends TestApplication {
         });
 
     pane.getChildren().add(drawButtonCheckBox);
+    pane.bindSize(primaryStage);
     createSceneAndShowStage(primaryStage, pane);
   }
 

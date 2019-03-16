@@ -43,6 +43,10 @@ public class SelectableImageViewPaneDemo extends TestApplication {
   public void start(Stage primaryStage) {
     ImageView imageView = super.getImageView();
     SelectableImageViewPane pane = new SelectableImageViewPane(imageView);
+    pane.widthProperty().addListener((obs,oldVal,newVal)->{
+      showSizes();
+    });
+    pane.getImageViewPane().bindSize(primaryStage);
     createSceneAndShowStage(primaryStage, pane);
   }
 
