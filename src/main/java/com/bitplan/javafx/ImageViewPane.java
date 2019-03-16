@@ -31,8 +31,10 @@ import javafx.beans.value.ObservableDoubleValue;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
@@ -45,8 +47,9 @@ import javafx.stage.Stage;
  */
 public class ImageViewPane extends AnchorPane {
 
+  public static boolean debug=false;
   private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
-  Rectangle imageBorder;
+  Border imageBorder;
   private boolean showBorder = false;
   private ObservableDoubleValue bindWidthProperty;
   private ObservableDoubleValue bindHeightProperty;
@@ -98,17 +101,50 @@ public class ImageViewPane extends AnchorPane {
       }
     });
   }
-  
+
+  public static class Border extends Pane {
+
+    private Line line1, line2;
+    private Rectangle rect;
+
+    public Line addLine() {
+      Line line = new Line();
+      line.setStroke(Color.RED);
+      line.setStrokeWidth(2);
+      this.getChildren().add(line);
+      return line;
+    }
+
+    public Border() {
+      if (debug) {
+        line1 = addLine();
+        line1.setStartX(0.);
+        line1.setStartY(0.);
+        line1.endXProperty().bind(this.widthProperty());
+        line1.endYProperty().bind(this.heightProperty());
+        line2 = addLine();
+        line2.startXProperty().bind(this.widthProperty());
+        line2.setStartY(0.);
+        line2.setEndX(0.);
+        line2.endYProperty().bind(this.heightProperty());
+      }
+      rect=new Rectangle();
+      rect.widthProperty().bind(this.widthProperty());
+      rect.heightProperty().bind(this.heightProperty());
+      rect.setFill(Color.TRANSPARENT);
+      rect.setStroke(Color.BLUE);
+      rect.setVisible(false);
+      rect.setStrokeWidth(3);
+      rect.setStrokeType(StrokeType.CENTERED);
+      this.getChildren().add(rect);
+    }
+  }
+
   /**
    * initialize the Border
    */
   public void initBorder() {
-    this.imageBorder = new Rectangle();
-    imageBorder.setFill(Color.TRANSPARENT);
-    imageBorder.setStroke(Color.BLUE);
-    imageBorder.setVisible(false);
-    imageBorder.setStrokeWidth(5);
-    imageBorder.setStrokeType(StrokeType.INSIDE);
+    this.imageBorder = new Border();
     this.getChildren().add(imageBorder);
   }
 
@@ -132,6 +168,8 @@ public class ImageViewPane extends AnchorPane {
     if (bindWidthProperty != null && bindHeightProperty != null) {
       getImageView().fitWidthProperty().bind(bindWidthProperty);
       getImageView().fitHeightProperty().bind(bindHeightProperty);
+      imageBorder.prefWidthProperty().bind(getImageView().fitWidthProperty());
+      imageBorder.prefHeightProperty().bind(getImageView().fitHeightProperty());
     }
   }
 
