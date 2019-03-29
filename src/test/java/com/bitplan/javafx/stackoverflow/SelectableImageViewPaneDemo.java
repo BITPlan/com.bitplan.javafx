@@ -25,7 +25,7 @@
  */
 package com.bitplan.javafx.stackoverflow;
 
-import com.bitplan.javafx.ImageViewPane;
+import com.bitplan.javafx.Border;
 import com.bitplan.javafx.SelectableImageViewPane;
 
 import javafx.scene.image.ImageView;
@@ -43,12 +43,12 @@ public class SelectableImageViewPaneDemo extends TestApplication {
   @Override
   public void start(Stage primaryStage) {
     ImageView imageView = super.getImageView();
-    ImageViewPane.debug=true;
+    Border.debug=true;
     SelectableImageViewPane pane = new SelectableImageViewPane(imageView);
     pane.widthProperty().addListener((obs,oldVal,newVal)->{
       showSizes();
     });
-    pane.getImageViewPane().bindSize(primaryStage);
+    pane.getImageViewPane().bindSize(pane);
     createSceneAndShowStage(primaryStage, pane);
   }
 

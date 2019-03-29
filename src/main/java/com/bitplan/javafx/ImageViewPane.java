@@ -31,12 +31,8 @@ import javafx.beans.value.ObservableDoubleValue;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 
 /**
@@ -102,44 +98,6 @@ public class ImageViewPane extends AnchorPane {
     });
   }
 
-  public static class Border extends Pane {
-
-    private Line line1, line2;
-    private Rectangle rect;
-
-    public Line addLine() {
-      Line line = new Line();
-      line.setStroke(Color.RED);
-      line.setStrokeWidth(2);
-      this.getChildren().add(line);
-      return line;
-    }
-
-    public Border() {
-      if (debug) {
-        line1 = addLine();
-        line1.setStartX(0.);
-        line1.setStartY(0.);
-        line1.endXProperty().bind(this.widthProperty());
-        line1.endYProperty().bind(this.heightProperty());
-        line2 = addLine();
-        line2.startXProperty().bind(this.widthProperty());
-        line2.setStartY(0.);
-        line2.setEndX(0.);
-        line2.endYProperty().bind(this.heightProperty());
-      }
-      rect=new Rectangle();
-      rect.widthProperty().bind(this.widthProperty());
-      rect.heightProperty().bind(this.heightProperty());
-      rect.setFill(Color.TRANSPARENT);
-      rect.setStroke(Color.BLUE);
-      rect.setVisible(false);
-      rect.setStrokeWidth(3);
-      rect.setStrokeType(StrokeType.CENTERED);
-      this.getChildren().add(rect);
-    }
-  }
-
   /**
    * initialize the Border
    */
@@ -180,5 +138,13 @@ public class ImageViewPane extends AnchorPane {
    */
   public void bindSize(Stage stage) {
     bindSize(stage.widthProperty(), stage.heightProperty());
+  }
+
+  /**
+   * bind my size to the given region
+   * @param pane
+   */
+  public void bindSize(Region pane) {
+    bindSize(pane.widthProperty(),pane.heightProperty());
   }
 }
