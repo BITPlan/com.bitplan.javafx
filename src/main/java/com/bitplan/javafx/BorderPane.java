@@ -36,7 +36,7 @@ import javafx.scene.shape.StrokeType;
  * @author wf
  *
  */
-public class Border extends Pane {
+public class BorderPane extends Pane {
   public static boolean debug;
   
   private Line line1, line2;
@@ -50,7 +50,7 @@ public class Border extends Pane {
     return line;
   }
 
-  public Border() {
+  public BorderPane() {
     if (debug) {
       line1 = addLine();
       line1.setStartX(0.);

@@ -29,6 +29,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -43,12 +44,14 @@ import javafx.stage.Stage;
  */
 public class ImageViewPane extends AnchorPane {
 
-  public static boolean debug=false;
+  public static boolean debug = false;
   private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
-  Border imageBorder;
+  BorderPane imageBorder;
   private boolean showBorder = false;
   private ObservableDoubleValue bindWidthProperty;
   private ObservableDoubleValue bindHeightProperty;
+  private double scaleX;
+  private double scaleY;
 
   public ObjectProperty<ImageView> imageViewProperty() {
     return imageViewProperty;
@@ -84,6 +87,21 @@ public class ImageViewPane extends AnchorPane {
     getChildren().add(imageView);
     StackPane.setAlignment(imageView, Pos.CENTER);
     initBorder();
+    imageView.fitWidthProperty().addListener((obs, oldW, newW) -> {
+      Image image = imageViewProperty.get().getImage();
+      if (image != null) {
+        scaleX = newW.doubleValue() / image.getWidth();
+        scaleBorder(image);
+      }
+    });
+    imageView.fitHeightProperty().addListener((obs, oldH, newH) -> {
+      Image image = imageViewProperty.get().getImage();
+      if (image != null) {
+        scaleY = newH.doubleValue() / image.getHeight();
+        scaleBorder(image);
+      }
+    });
+
     imageViewProperty.addListener((obs, oldIV, newIV) -> {
       if (oldIV != null) {
         getChildren().remove(oldIV);
@@ -102,7 +120,7 @@ public class ImageViewPane extends AnchorPane {
    * initialize the Border
    */
   public void initBorder() {
-    this.imageBorder = new Border();
+    this.imageBorder = new BorderPane();
     this.getChildren().add(imageBorder);
   }
 
@@ -126,8 +144,8 @@ public class ImageViewPane extends AnchorPane {
     if (bindWidthProperty != null && bindHeightProperty != null) {
       getImageView().fitWidthProperty().bind(bindWidthProperty);
       getImageView().fitHeightProperty().bind(bindHeightProperty);
-      imageBorder.prefWidthProperty().bind(getImageView().fitWidthProperty());
-      imageBorder.prefHeightProperty().bind(getImageView().fitHeightProperty());
+      // imageBorder.prefWidthProperty().bind(getImageView().fitWidthProperty());
+      // imageBorder.prefHeightProperty().bind(getImageView().fitHeightProperty());
     }
   }
 
@@ -142,9 +160,24 @@ public class ImageViewPane extends AnchorPane {
 
   /**
    * bind my size to the given region
+   * 
    * @param pane
    */
   public void bindSize(Region pane) {
-    bindSize(pane.widthProperty(),pane.heightProperty());
+    bindSize(pane.widthProperty(), pane.heightProperty());
+  }
+
+  public void scaleBorder(Image image) {
+    if (imageBorder!=null) {
+      if (scaleX>scaleY) {
+        imageBorder.setPrefHeight(image.getHeight()*scaleY);
+        imageBorder.setPrefWidth(image.getWidth()*scaleY);
+      } else {
+        imageBorder.setPrefHeight(image.getHeight()*scaleX);
+        imageBorder.setPrefWidth(image.getWidth()*scaleX);
+      }
+    }
+    if (debug)
+      System.out.println(String.format("%.1f x %.1f", scaleX, scaleY));
   }
 }

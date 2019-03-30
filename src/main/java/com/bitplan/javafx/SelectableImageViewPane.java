@@ -30,14 +30,21 @@ import java.util.logging.Logger;
 
 import com.bitplan.javafx.RubberBandSelection.Selection;
 
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -153,15 +160,29 @@ public class SelectableImageViewPane extends StackPane {
         showBounds("" + (index++), s.node);
         LOGGER.log(Level.INFO, s.asPercent());
       }
-      Bounds rB = s.relativeBounds;
-      double w = getWidth();
-      double h = getHeight();
-      double minX = rB.getMinX() * w;
-      double minY = rB.getMinY() * h;
-      double width = rB.getWidth() * w;
-      double height = rB.getHeight() * h;
-      layoutInArea(s.node, minX, minY, width, height, 0, HPos.LEFT, VPos.TOP);
+      // get the relative bounds
+      Bounds tB = relativeToImageView(s.relativeBounds);
+      layoutInArea(s.node,tB.getMinX(),tB.getMinY(), tB.getWidth(), tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
     }
+  }
+
+  /**
+   * modify the bounds of the relative bounds
+   * @param rB
+   * @return the new bounds
+   */
+  private Bounds relativeToImageView(Bounds rB) {
+    ImageViewPane ivp = this.getImageViewPane();
+    double w = ivp.imageBorder.getWidth();
+    double h = ivp.imageBorder.getHeight();
+    double minX = rB.getMinX() * w;
+    double minY = rB.getMinY() * h;
+    double width = rB.getWidth() * w;
+    double height = rB.getHeight() * h;
+    Bounds tB=new BoundingBox(minX,minY,width,height);
+    showBounds("rB",rB);
+    showBounds("tB",tB);
+    return tB;
   }
 
   /**
@@ -170,15 +191,22 @@ public class SelectableImageViewPane extends StackPane {
    * @param imageView
    */
   public SelectableImageViewPane(ImageView imageView) {
-    setImageViewPane(new ImageViewPane(imageView));
-    getImageViewPane().setShowBorder(true);
-    getChildren().add(getImageViewPane());
-    StackPane.setAlignment(getImageViewPane(), Pos.CENTER);
+    ImageViewPane ivp = new ImageViewPane(imageView);
+    setImageViewPane(ivp);
+    ivp.setShowBorder(true);
+    getChildren().add(ivp);
+    StackPane.setAlignment(ivp, Pos.CENTER);
     glassPane = new Pane();
     glassPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1);");
     getChildren().add(glassPane);
-    //glassPane.prefWidthProperty().bind(imageView.fitWidthProperty());
-    // glassPane.prefHeightProperty().bind(imageView.fitHeightProperty());
+    StackPane.setAlignment(glassPane, Pos.TOP_LEFT);
+    glassPane.maxWidthProperty().bind(ivp.imageBorder.widthProperty());
+    glassPane.prefWidthProperty().bind(ivp.imageBorder.widthProperty());
+    glassPane.maxHeightProperty().bind(ivp.imageBorder.heightProperty());
+    glassPane.prefHeightProperty().bind(ivp.imageBorder.heightProperty());
+    Border glassBorder = new Border(new BorderStroke(Color.GOLD, 
+        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+    glassPane.setBorder(glassBorder);
     selection = new RubberBandSelection(glassPane);
     selection.setSelectButton(true);
   }
