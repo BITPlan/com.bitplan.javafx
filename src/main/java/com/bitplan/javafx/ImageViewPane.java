@@ -50,7 +50,7 @@ public class ImageViewPane extends AnchorPane {
   
   public static boolean debug = false;
   private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
-  BorderPane imageBorder;
+  private BorderPane imageBorder;
   private boolean showBorder = false;
   private ObservableDoubleValue bindWidthProperty;
   private ObservableDoubleValue bindHeightProperty;
@@ -69,13 +69,21 @@ public class ImageViewPane extends AnchorPane {
     this.imageViewProperty.set(imageView);
   }
 
+  public BorderPane getImageBorder() {
+    return imageBorder;
+  }
+
+  public void setImageBorder(BorderPane imageBorder) {
+    this.imageBorder = imageBorder;
+  }
+
   public boolean isShowBorder() {
     return showBorder;
   }
 
   public void setShowBorder(boolean showBorder) {
     this.showBorder = showBorder;
-    imageBorder.setVisible(showBorder);
+    getImageBorder().setVisible(showBorder);
   }
 
   /**
@@ -114,8 +122,8 @@ public class ImageViewPane extends AnchorPane {
         getChildren().add(newIV);
         bindSize();
       }
-      if (imageBorder != null) {
-        imageBorder.toFront();
+      if (getImageBorder() != null) {
+        getImageBorder().toFront();
       }
     });
   }
@@ -124,8 +132,8 @@ public class ImageViewPane extends AnchorPane {
    * initialize the Border
    */
   public void initBorder() {
-    this.imageBorder = new BorderPane();
-    this.getChildren().add(imageBorder);
+    this.setImageBorder(new BorderPane());
+    this.getChildren().add(getImageBorder());
   }
 
   /**
@@ -172,13 +180,13 @@ public class ImageViewPane extends AnchorPane {
   }
 
   public void scaleBorder(Image image) {
-    if (imageBorder!=null) {
+    if (getImageBorder()!=null) {
       if (imageScaleX>imageScaleY) {
-        imageBorder.setPrefHeight(image.getHeight()*imageScaleY);
-        imageBorder.setPrefWidth(image.getWidth()*imageScaleY);
+        getImageBorder().setPrefHeight(image.getHeight()*imageScaleY);
+        getImageBorder().setPrefWidth(image.getWidth()*imageScaleY);
       } else {
-        imageBorder.setPrefHeight(image.getHeight()*imageScaleX);
-        imageBorder.setPrefWidth(image.getWidth()*imageScaleX);
+        getImageBorder().setPrefHeight(image.getHeight()*imageScaleX);
+        getImageBorder().setPrefWidth(image.getWidth()*imageScaleX);
       }
     }
     if (debug)

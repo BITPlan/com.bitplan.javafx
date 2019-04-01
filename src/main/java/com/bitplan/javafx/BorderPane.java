@@ -35,7 +35,7 @@ import javafx.scene.shape.StrokeType;
  * @author wf
  *
  */
-public class BorderPane extends PercentPane {
+public class BorderPane extends RelativePane {
   public static boolean debug;
   
   private Line line1, line2;

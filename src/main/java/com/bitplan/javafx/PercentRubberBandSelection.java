@@ -25,17 +25,45 @@
  */
 package com.bitplan.javafx;
 
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.control.Control;
+
 public class PercentRubberBandSelection extends RubberBandSelection {
 
-  private PercentSizer sizer;
+  private RelativeSizer sizer;
 
   /**
    * construct me from the given sizer
    * @param sizer
    */
-  public PercentRubberBandSelection(PercentSizer sizer) {
+  public PercentRubberBandSelection(RelativeSizer sizer) {
     super(sizer.getSizer());
     this.sizer=sizer;
   }
+ 
+  @Override
+  public void addNode(Node node) {
+    if (node instanceof Control) {
+      Control control=(Control) node;
+      Bounds pB = sizer.getSizer().getBoundsInParent();
+      double rx = control.getLayoutX() / pB.getWidth();
+      double ry = control.getLayoutY() / pB.getHeight();
+      double rw = control.getPrefWidth() / pB.getWidth();
+      double rh = control.getPrefHeight() / pB.getHeight();
+      sizer.addControl(control, rx, ry, rw, rh);    
+    }
+    else
+      super.addNode(node);
+  }
+  
+  public void removeNode(Node node) {
+    if (node instanceof Control) {
+      Control control=(Control) node;
+      sizer.removeControl(control);
+    } else
+      super.removeNode(node);
+  }
+ 
 
 }

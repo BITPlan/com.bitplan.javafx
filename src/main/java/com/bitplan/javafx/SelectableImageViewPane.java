@@ -198,7 +198,7 @@ public class SelectableImageViewPane extends StackPane {
    */
   private Bounds relativeToImageView(Bounds rB) {
     ImageViewPane ivp = this.getImageViewPane();
-    double w = ivp.imageBorder.getWidth() ;
+    double w = ivp.getImageBorder().getWidth() ;
     //double h = ivp.imageBorder.getHeight() ;
     //double w=320;
     double h=240;
@@ -239,7 +239,7 @@ public class SelectableImageViewPane extends StackPane {
      * glassPane.setBorder(glassBorder); selection = new
      * RubberBandSelection(glassPane)
      */
-    selection = new RubberBandSelection(ivp.imageBorder);
+    selection = new RubberBandSelection(ivp.getImageBorder());
   }
 
 }

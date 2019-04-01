@@ -25,54 +25,67 @@
  */
 package com.bitplan.javafx;
 
-import javafx.scene.layout.Pane;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.beans.Observable;
 import javafx.scene.Parent;
 import javafx.scene.control.Control;
+import javafx.scene.layout.Pane;
 
 /**
  * We want a Pane that will automatically resize its components The components
- * width height and position are all expressed in percentages of the width and
- * height of the Pane as the Pane resizes the position and sizes will all remain
- * relative aspect ratio is not respected
+ * width height and position are all expressed as a relative of the width and
+ * height of the Pane from 0.0 to 1.0 As the Pane resizes the position and sizes
+ * will all remain relative to the Pane's new width and height. Aspect ratio is
+ * not respected
  * 
  * see https://gist.github.com/chriscamacho/4f8b2e3e8f8340278b7c
  * 
  * @author chriscamacho
+ * @author wf - modified to relative instead of percent
  *
  */
-public class PercentPane extends Pane implements PercentSizer {
+public class RelativePane extends Pane implements RelativeSizer {
 
   /**
-   * helper class
+   * helper class to keep track of relative position
    */
   public class ControlBundle {
-    public double x, y, w, h;
+    public double rx, ry, rw, rh;
     public Control control;
 
-    ControlBundle(Control c, double X, double Y, double W, double H) {
+    /**
+     * construct me for the given control c and the given relative positions
+     * 
+     * @param c
+     * @param rX
+     * @param rY
+     * @param rW
+     * @param rH
+     */
+    ControlBundle(Control c, double rX, double rY, double rW, double rH) {
       control = c;
-      x = X;
-      y = Y;
-      w = W;
-      h = H;
+      rx = rX;
+      ry = rY;
+      rw = rW;
+      rh = rH;
     }
   }
 
-  ArrayList<ControlBundle> controls = new ArrayList<ControlBundle>();
+  Map<Control, ControlBundle> controls = new HashMap<Control, ControlBundle>();
 
-  PercentPane() {
+  public RelativePane() {
     super();
     widthProperty().addListener(o -> sizeListener(o));
     heightProperty().addListener(o -> sizeListener(o));
   }
 
   void sizeListener(Observable o) {
-    for (ControlBundle cb : controls) {
+    for (ControlBundle cb : controls.values()) {
 
-      double newWidth = getWidth() * (cb.w / 100.0);
-      double newHeight = getHeight() * (cb.h / 100.0);
+      double newWidth = getWidth() * cb.rw;
+      double newHeight = getHeight() * cb.rh;
 
       cb.control.setPrefWidth(newWidth);
       cb.control.setMinWidth(newWidth);
@@ -82,8 +95,8 @@ public class PercentPane extends Pane implements PercentSizer {
       cb.control.setMinHeight(newHeight);
       cb.control.setMaxHeight(newHeight);
 
-      cb.control.setTranslateX(getWidth() * (cb.x / 100.0));
-      cb.control.setTranslateY(getHeight() * (cb.y / 100.0));
+      cb.control.setTranslateX(getWidth() * cb.rx);
+      cb.control.setTranslateY(getHeight() * cb.ry);
 
     }
 
@@ -91,6 +104,7 @@ public class PercentPane extends Pane implements PercentSizer {
 
   /**
    * add a control with the given percentages
+   * 
    * @param ctrl
    * @param x
    * @param y
@@ -99,7 +113,12 @@ public class PercentPane extends Pane implements PercentSizer {
    */
   public void addControl(Control ctrl, double x, double y, double w, double h) {
     this.getChildren().add(ctrl);
-    controls.add(new ControlBundle(ctrl, x, y, w, h));
+    controls.put(ctrl, new ControlBundle(ctrl, x, y, w, h));
+  }
+
+  public void removeControl(Control ctrl) {
+    this.getChildren().remove(ctrl);
+    controls.remove(ctrl);
   }
 
   @Override

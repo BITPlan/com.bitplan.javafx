@@ -207,7 +207,7 @@ public class RubberBandSelection {
    * @param remember
    */
   protected void add(Node node, Rectangle rect, boolean remember) {
-    getChildren().add(node);
+    addNode(node);
     if (remember)
       this.selected.put(node, new Selection(node, rect));
   }
@@ -222,7 +222,14 @@ public class RubberBandSelection {
     if (remember)
       this.selected.remove(node);
   }
-
+  
+  public void addNode(Node node) {
+    getChildren().add(node);
+  }
+  
+  public void removeNode(Node node) {
+    getChildren().remove(node);
+  }
 
   /**
    * select the given rectangle
@@ -236,22 +243,19 @@ public class RubberBandSelection {
     double w = rect.getWidth();
     double h = rect.getHeight();
 
-
-      // create button
-      Button button = new Button();
-      button.setDefaultButton(false);
-      button.setPrefSize(w, h);
-      button.setText("");
-      button.setStyle(
-          "-fx-border-color: blue;-fx-background-color: rgba(0,0,0, 0.3);");
-      button.setLayoutX(x);
-      button.setLayoutY(y);
-      button.setOnAction(e -> {
-        remove((Control) e.getSource(), true);
-      });
-      add(button, rect, true);
-    
-
+    // create button
+    Button button = new Button();
+    button.setDefaultButton(false);
+    button.setPrefSize(w, h);
+    button.setText("");
+    button.setStyle(
+        "-fx-border-color: blue;-fx-background-color: rgba(0,0,0, 0.3);");
+    button.setLayoutX(x);
+    button.setLayoutY(y);
+    button.setOnAction(e -> {
+      remove((Control) e.getSource(), true);
+    });
+    add(button, rect, true);
   }
 
 }

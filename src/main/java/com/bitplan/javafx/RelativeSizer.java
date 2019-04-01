@@ -33,7 +33,7 @@ import javafx.scene.control.Control;
  * @author wf
  *
  */
-public interface PercentSizer {
+public interface RelativeSizer {
   /**
    * add a control with the given percentages
    * @param ctrl
@@ -45,8 +45,15 @@ public interface PercentSizer {
   public void addControl(Control ctrl, double x, double y, double w, double h);
   
   /**
+   * remove the given control
+   * @param control
+   */
+  public void removeControl(Control control);
+  /**
    * return the parent doing the size handling
    * @return
    */
   public Parent getSizer();
+
+  
 }
