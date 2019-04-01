@@ -146,7 +146,7 @@ public class TestSelectableImageViewPane {
         selectPane.showBounds("bounds in local", rbs.parent.getBoundsInLocal());
       }
       selectPane.showBounds("bounds in parent", rbs.parent.getBoundsInParent());
-      Thread.sleep(SHOW_TIME*5 / scales.length);
+      Thread.sleep(SHOW_TIME*10 / scales.length);
     }
     sampleApp.close();
   }

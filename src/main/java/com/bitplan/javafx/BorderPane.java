@@ -42,6 +42,10 @@ public class BorderPane extends Pane {
   private Line line1, line2;
   private Rectangle rect;
 
+  /**
+   * add a line
+   * @return the line to be added
+   */
   public Line addLine() {
     Line line = new Line();
     line.setStroke(Color.RED);
@@ -50,6 +54,9 @@ public class BorderPane extends Pane {
     return line;
   }
 
+  /**
+   * construct me
+   */
   public BorderPane() {
     if (debug) {
       line1 = addLine();
@@ -71,7 +78,7 @@ public class BorderPane extends Pane {
     rect.setFill(Color.TRANSPARENT);
     rect.setStroke(Color.BLUE);
     rect.setVisible(true);
-    rect.setStrokeWidth(3);
+    rect.setStrokeWidth(4);
     rect.setStrokeType(StrokeType.CENTERED);
     this.getChildren().add(rect);
   }

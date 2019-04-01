@@ -32,7 +32,9 @@ import com.bitplan.javafx.RubberBandSelection.Selection;
 
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -111,7 +113,8 @@ public class SelectableImageViewPane extends StackPane {
     if (debug) {
       showBounds("pane", this);
       showBounds("imageViewPane", getImageViewPane());
-      showBounds("glassPane", glassPane);
+      if (glassPane != null)
+        showBounds("glassPane", glassPane);
       showBounds("imageView", getImageViewPane().imageViewProperty().get());
     }
   }
@@ -176,8 +179,8 @@ public class SelectableImageViewPane extends StackPane {
       }
       // get the relative bounds
       Bounds tB = relativeToImageView(s.relativeBounds);
-      //layoutInArea(s.node, tB.getMinX(), tB.getMinY(), tB.getWidth(),
-      //    tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
+      layoutInArea(s.node, tB.getMinX(), tB.getMinY(), tB.getWidth(),
+      tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
       // s.node.setScaleX(imageViewPane.imageScaleX);
       // s.node.setScaleY(imageViewPane.imageScaleY);
     }
@@ -215,18 +218,21 @@ public class SelectableImageViewPane extends StackPane {
     ivp.setShowBorder(debug);
     getChildren().add(ivp);
     StackPane.setAlignment(ivp, Pos.CENTER);
-    glassPane = new Pane();
-    glassPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1);");
-    getChildren().add(glassPane);
-    StackPane.setAlignment(glassPane, Pos.TOP_LEFT);
-    glassPane.maxWidthProperty().bind(ivp.imageBorder.widthProperty());
-    glassPane.prefWidthProperty().bind(ivp.imageBorder.widthProperty());
-    glassPane.maxHeightProperty().bind(ivp.imageBorder.heightProperty());
-    glassPane.prefHeightProperty().bind(ivp.imageBorder.heightProperty());
-    Border glassBorder = new Border(new BorderStroke(Color.GOLD,
-        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
-    glassPane.setBorder(glassBorder);
-    selection = new RubberBandSelection(glassPane);
+    /*
+     * glassPane = new Pane();
+     * glassPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1);");
+     * getChildren().add(glassPane); StackPane.setAlignment(glassPane,
+     * Pos.TOP_LEFT);
+     * glassPane.maxWidthProperty().bind(ivp.imageBorder.widthProperty());
+     * //glassPane.prefWidthProperty().bind(ivp.imageBorder.widthProperty());
+     * glassPane.maxHeightProperty().bind(ivp.imageBorder.heightProperty());
+     * //glassPane.prefHeightProperty().bind(ivp.imageBorder.heightProperty());
+     * Border glassBorder = new Border(new BorderStroke(Color.GOLD,
+     * BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+     * glassPane.setBorder(glassBorder); selection = new
+     * RubberBandSelection(glassPane)
+     */
+    selection = new RubberBandSelection(ivp.imageBorder);
     selection.setSelectButton(true);
   }
 
