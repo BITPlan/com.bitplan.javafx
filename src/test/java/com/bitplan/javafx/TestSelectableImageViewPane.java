@@ -119,31 +119,34 @@ public class TestSelectableImageViewPane {
   
   @Test
   public void testSelectableImageViewPane() throws InterruptedException {
+    BorderPane.debug=true;
+    ImageViewPane.debug=true;
+    SelectableImageViewPane.debug=true;
+    
     ImageView imageView = getImageView();
     SelectableImageViewPane selectPane = new SelectableImageViewPane(imageView);
+    selectPane.getImageViewPane().bindSize(selectPane);
     SampleApp sampleApp = open("selectableImageViewPane",67,2,2,selectPane); 
    
     RubberBandSelection rbs = selectPane.getSelection();
-
     // get a rectangle with relative coordinates to the image
     Rectangle ri = selectPane.relativeToImage(0.25, 0.25, 0.5, 0.5);
     assertEquals(ri.getWidth(), image.getWidth() / 2, 0.01);
     assertEquals(ri.getHeight(), image.getHeight() / 2, 0.01);
     Platform.runLater(() -> rbs.select(ri));
     // rbs.select(0,0,selectPane.getWidth(),selectPane.getHeight());
-    Scale scales[] = { new Scale(2, 1), new Scale(4, 3), new Scale(3, 2),
+    Scale scales[] = { new Scale(2, 1), new Scale(4, 3), new Scale(3, 2),new Scale(2, 3),
         new Scale(16, 9) };
     for (Scale scale : scales) {
-
+      sampleApp.getStage()
+      .setWidth(sceneBounds.getHeight() * scale.x / scale.y);
       debug = true;
       if (debug) {
-        sampleApp.getStage()
-            .setWidth(sceneBounds.getHeight() * scale.x / scale.y);
         selectPane.showBounds();
         selectPane.showBounds("bounds in local", rbs.parent.getBoundsInLocal());
       }
       selectPane.showBounds("bounds in parent", rbs.parent.getBoundsInParent());
-      Thread.sleep(SHOW_TIME / scales.length);
+      Thread.sleep(SHOW_TIME*5 / scales.length);
     }
     sampleApp.close();
   }

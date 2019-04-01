@@ -46,6 +46,8 @@ public class SelectableImageViewPaneDemo extends TestApplication {
     ImageView imageView = super.getImageView();
     BorderPane.debug=true;
     ImageViewPane.debug=true;
+    SelectableImageViewPane.debug=true;
+        
     SelectableImageViewPane pane = new SelectableImageViewPane(imageView);
     pane.widthProperty().addListener((obs,oldVal,newVal)->{
       showSizes();

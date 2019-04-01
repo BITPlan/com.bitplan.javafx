@@ -25,6 +25,9 @@
  */
 package com.bitplan.javafx;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableDoubleValue;
@@ -43,15 +46,16 @@ import javafx.stage.Stage;
  *
  */
 public class ImageViewPane extends AnchorPane {
-
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
+  
   public static boolean debug = false;
   private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
   BorderPane imageBorder;
   private boolean showBorder = false;
   private ObservableDoubleValue bindWidthProperty;
   private ObservableDoubleValue bindHeightProperty;
-  private double scaleX;
-  private double scaleY;
+  double imageScaleX;
+  double imageScaleY;
 
   public ObjectProperty<ImageView> imageViewProperty() {
     return imageViewProperty;
@@ -90,14 +94,14 @@ public class ImageViewPane extends AnchorPane {
     imageView.fitWidthProperty().addListener((obs, oldW, newW) -> {
       Image image = imageViewProperty.get().getImage();
       if (image != null) {
-        scaleX = newW.doubleValue() / image.getWidth();
+        imageScaleX = newW.doubleValue() / image.getWidth();
         scaleBorder(image);
       }
     });
     imageView.fitHeightProperty().addListener((obs, oldH, newH) -> {
       Image image = imageViewProperty.get().getImage();
       if (image != null) {
-        scaleY = newH.doubleValue() / image.getHeight();
+        imageScaleY = newH.doubleValue() / image.getHeight();
         scaleBorder(image);
       }
     });
@@ -169,15 +173,15 @@ public class ImageViewPane extends AnchorPane {
 
   public void scaleBorder(Image image) {
     if (imageBorder!=null) {
-      if (scaleX>scaleY) {
-        imageBorder.setPrefHeight(image.getHeight()*scaleY);
-        imageBorder.setPrefWidth(image.getWidth()*scaleY);
+      if (imageScaleX>imageScaleY) {
+        imageBorder.setPrefHeight(image.getHeight()*imageScaleY);
+        imageBorder.setPrefWidth(image.getWidth()*imageScaleY);
       } else {
-        imageBorder.setPrefHeight(image.getHeight()*scaleX);
-        imageBorder.setPrefWidth(image.getWidth()*scaleX);
+        imageBorder.setPrefHeight(image.getHeight()*imageScaleX);
+        imageBorder.setPrefWidth(image.getWidth()*imageScaleX);
       }
     }
     if (debug)
-      System.out.println(String.format("%.1f x %.1f", scaleX, scaleY));
+      LOGGER.log(Level.INFO,String.format("%.1f x %.1f", imageScaleX, imageScaleY));
   }
 }

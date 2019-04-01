@@ -32,9 +32,7 @@ import com.bitplan.javafx.RubberBandSelection.Selection;
 
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -56,7 +54,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class SelectableImageViewPane extends StackPane {
   protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
-  public static boolean debug = true;
+  public static boolean debug = false;
   private RubberBandSelection selection;
   private ImageViewPane imageViewPane;
   private Pane glassPane;
@@ -94,6 +92,19 @@ public class SelectableImageViewPane extends StackPane {
   }
 
   /**
+   * show the bound of the given node with the given title
+   * 
+   * @param title
+   * @param b
+   */
+  public void showBoundsPercent(String title, Bounds b) {
+    LOGGER.log(Level.INFO,
+        String.format("%s: min %.0f%%,%.0f%% max %.0f%%,%.0f%%", title,
+            b.getMinX() * 100.0, b.getMinY() * 100.0, b.getMaxX() * 100.0,
+            b.getMaxY() * 100.0));
+  }
+
+  /**
    * show my bounds
    */
   public void showBounds() {
@@ -104,7 +115,7 @@ public class SelectableImageViewPane extends StackPane {
       showBounds("imageView", getImageViewPane().imageViewProperty().get());
     }
   }
-  
+
   /**
    * @return the imageView
    * 
@@ -112,7 +123,7 @@ public class SelectableImageViewPane extends StackPane {
   public ImageView getImageView() {
     return getImageViewPane().getImageView();
   }
-  
+
   public ImageViewPane getImageViewPane() {
     return imageViewPane;
   }
@@ -123,6 +134,7 @@ public class SelectableImageViewPane extends StackPane {
 
   /**
    * get a rectangle relative to the image with the given relative coordinates
+   * 
    * @param rx
    * @param ry
    * @param rw
@@ -134,24 +146,26 @@ public class SelectableImageViewPane extends StackPane {
     double iw = imageView.getImage().getWidth();
     double ih = imageView.getImage().getHeight();
     Rectangle rect = new Rectangle(iw * rw, ih * rh);
-    rect.setX(rx*iw);
-    rect.setY(ry*ih);
+    rect.setX(rx * iw);
+    rect.setY(ry * ih);
     return rect;
   }
-  
+
   /**
    * get a rectangle relative to the given image based on the given bounds
+   * 
    * @param r
    * @return
    */
   public Rectangle relativeToImage(Bounds b) {
-    Rectangle rect=this.relativeToImage(b.getMinX(), b.getMinY(), b.getWidth(), b.getHeight());
+    Rectangle rect = this.relativeToImage(b.getMinX(), b.getMinY(),
+        b.getWidth(), b.getHeight());
     return rect;
   }
 
   @Override
   protected void layoutChildren() {
-    super.layoutChildren();
+
     showBounds();
     int index = 1;
     for (Selection s : selection.selected.values()) {
@@ -162,26 +176,31 @@ public class SelectableImageViewPane extends StackPane {
       }
       // get the relative bounds
       Bounds tB = relativeToImageView(s.relativeBounds);
-      layoutInArea(s.node,tB.getMinX(),tB.getMinY(), tB.getWidth(), tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
+      //layoutInArea(s.node, tB.getMinX(), tB.getMinY(), tB.getWidth(),
+      //    tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
+      // s.node.setScaleX(imageViewPane.imageScaleX);
+      // s.node.setScaleY(imageViewPane.imageScaleY);
     }
+    super.layoutChildren();
   }
 
   /**
    * modify the bounds of the relative bounds
+   * 
    * @param rB
    * @return the new bounds
    */
   private Bounds relativeToImageView(Bounds rB) {
     ImageViewPane ivp = this.getImageViewPane();
-    double w = ivp.imageBorder.getWidth();
-    double h = ivp.imageBorder.getHeight();
+    double w = ivp.imageBorder.getWidth() * ivp.imageScaleX;
+    double h = ivp.imageBorder.getHeight() * ivp.imageScaleY;
     double minX = rB.getMinX() * w;
     double minY = rB.getMinY() * h;
     double width = rB.getWidth() * w;
     double height = rB.getHeight() * h;
-    Bounds tB=new BoundingBox(minX,minY,width,height);
-    showBounds("rB",rB);
-    showBounds("tB",tB);
+    Bounds tB = new BoundingBox(minX, minY, width, height);
+    showBoundsPercent("rB", rB);
+    showBounds("tB", tB);
     return tB;
   }
 
@@ -193,7 +212,7 @@ public class SelectableImageViewPane extends StackPane {
   public SelectableImageViewPane(ImageView imageView) {
     ImageViewPane ivp = new ImageViewPane(imageView);
     setImageViewPane(ivp);
-    ivp.setShowBorder(true);
+    ivp.setShowBorder(debug);
     getChildren().add(ivp);
     StackPane.setAlignment(ivp, Pos.CENTER);
     glassPane = new Pane();
@@ -204,7 +223,7 @@ public class SelectableImageViewPane extends StackPane {
     glassPane.prefWidthProperty().bind(ivp.imageBorder.widthProperty());
     glassPane.maxHeightProperty().bind(ivp.imageBorder.heightProperty());
     glassPane.prefHeightProperty().bind(ivp.imageBorder.heightProperty());
-    Border glassBorder = new Border(new BorderStroke(Color.GOLD, 
+    Border glassBorder = new Border(new BorderStroke(Color.GOLD,
         BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
     glassPane.setBorder(glassBorder);
     selection = new RubberBandSelection(glassPane);
