@@ -23,39 +23,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.javafx.stackoverflow;
+package com.bitplan.javafx;
 
-import com.bitplan.javafx.ImageViewPane;
-import com.bitplan.javafx.RubberBandSelection;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.CheckBox;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.control.Control;
 
 /**
- * see
- * https://stackoverflow.com/questions/30295071/how-to-create-stackpane-on-the-drawn-rectangle-area
- * 
- * @author Roland
+ * allow adding controls with x,y width and heigh given in percent of the parent
+ * @author wf
  *
  */
-public class RubberBandSelectionDemo extends TestApplication {
-
-  CheckBox drawButtonCheckBox;
-
-  @Override
-  public void start(Stage primaryStage) {
-    ImageView imageView = super.getImageView();
-    ImageViewPane pane = new ImageViewPane(imageView);
-    RubberBandSelection rbs = new RubberBandSelection(pane);
-    pane.bindSize(primaryStage);
-    createSceneAndShowStage(primaryStage, pane);
-  }
-
-  public static void main(String[] args) {
-    launch(args);
-  }
-
+public interface PercentSizer {
+  /**
+   * add a control with the given percentages
+   * @param ctrl
+   * @param x
+   * @param y
+   * @param w
+   * @param h
+   */
+  public void addControl(Control ctrl, double x, double y, double w, double h);
+  
+  /**
+   * return the parent doing the size handling
+   * @return
+   */
+  public Parent getSizer();
 }

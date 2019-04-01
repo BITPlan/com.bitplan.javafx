@@ -168,7 +168,7 @@ public class SelectableImageViewPane extends StackPane {
 
   @Override
   protected void layoutChildren() {
-
+    super.layoutChildren();
     showBounds();
     int index = 1;
     for (Selection s : selection.selected.values()) {
@@ -183,22 +183,29 @@ public class SelectableImageViewPane extends StackPane {
       tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
       // s.node.setScaleX(imageViewPane.imageScaleX);
       // s.node.setScaleY(imageViewPane.imageScaleY);
+      //s.node.setLayoutX(tB.getMinX());
+      // s.node.setLayoutY(tB.getMinY());
+     
     }
-    super.layoutChildren();
+    
   }
 
   /**
-   * modify the bounds of the relative bounds
+   * modify the bounds based on the relative bounds in %
    * 
-   * @param rB
-   * @return the new bounds
+   * @param rB - the relative bound
+   * @return the calculated absolute bounds
    */
   private Bounds relativeToImageView(Bounds rB) {
     ImageViewPane ivp = this.getImageViewPane();
-    double w = ivp.imageBorder.getWidth() * ivp.imageScaleX;
-    double h = ivp.imageBorder.getHeight() * ivp.imageScaleY;
+    double w = ivp.imageBorder.getWidth() ;
+    //double h = ivp.imageBorder.getHeight() ;
+    //double w=320;
+    double h=240;
+    
     double minX = rB.getMinX() * w;
     double minY = rB.getMinY() * h;
+    
     double width = rB.getWidth() * w;
     double height = rB.getHeight() * h;
     Bounds tB = new BoundingBox(minX, minY, width, height);
@@ -233,7 +240,6 @@ public class SelectableImageViewPane extends StackPane {
      * RubberBandSelection(glassPane)
      */
     selection = new RubberBandSelection(ivp.imageBorder);
-    selection.setSelectButton(true);
   }
 
 }

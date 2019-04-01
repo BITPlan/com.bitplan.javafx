@@ -36,6 +36,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -100,15 +101,6 @@ public class RubberBandSelection {
   Map<Node, Selection> selected = new HashMap<Node, Selection>();
 
   Parent parent;
-  private boolean selectButton = false;
-
-  public boolean isSelectButton() {
-    return selectButton;
-  }
-
-  public void setSelectButton(boolean selectButton) {
-    this.selectButton = selectButton;
-  }
 
   /**
    * construct me for the given
@@ -155,7 +147,7 @@ public class RubberBandSelection {
 
       select(rect);
 
-      // remove rubberband
+      // remove rubber band
       rect.setX(0);
       rect.setY(0);
       rect.setWidth(0);
@@ -243,7 +235,7 @@ public class RubberBandSelection {
     double y = rect.getY();
     double w = rect.getWidth();
     double h = rect.getHeight();
-    if (isSelectButton()) {
+
 
       // create button
       Button button = new Button();
@@ -255,18 +247,10 @@ public class RubberBandSelection {
       button.setLayoutX(x);
       button.setLayoutY(y);
       button.setOnAction(e -> {
-        remove((Node) e.getSource(), true);
+        remove((Control) e.getSource(), true);
       });
       add(button, rect, true);
-    } else {
-      // create rectangle
-      Rectangle node = new Rectangle(0, 0, w, h);
-      node.setStroke(Color.BLACK);
-      node.setFill(Color.BLACK.deriveColor(0, 0, 0, 0.3));
-      node.setLayoutX(x);
-      node.setLayoutY(y);
-      add(node, node, false);
-    }
+    
 
   }
 

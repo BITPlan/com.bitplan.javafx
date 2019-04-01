@@ -23,39 +23,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.javafx.stackoverflow;
+package com.bitplan.javafx;
 
-import com.bitplan.javafx.ImageViewPane;
-import com.bitplan.javafx.RubberBandSelection;
+public class PercentRubberBandSelection extends RubberBandSelection {
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.CheckBox;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+  private PercentSizer sizer;
 
-/**
- * see
- * https://stackoverflow.com/questions/30295071/how-to-create-stackpane-on-the-drawn-rectangle-area
- * 
- * @author Roland
- *
- */
-public class RubberBandSelectionDemo extends TestApplication {
-
-  CheckBox drawButtonCheckBox;
-
-  @Override
-  public void start(Stage primaryStage) {
-    ImageView imageView = super.getImageView();
-    ImageViewPane pane = new ImageViewPane(imageView);
-    RubberBandSelection rbs = new RubberBandSelection(pane);
-    pane.bindSize(primaryStage);
-    createSceneAndShowStage(primaryStage, pane);
-  }
-
-  public static void main(String[] args) {
-    launch(args);
+  /**
+   * construct me from the given sizer
+   * @param sizer
+   */
+  public PercentRubberBandSelection(PercentSizer sizer) {
+    super(sizer.getSizer());
+    this.sizer=sizer;
   }
 
 }

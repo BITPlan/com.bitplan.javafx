@@ -25,7 +25,6 @@
  */
 package com.bitplan.javafx;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -36,7 +35,7 @@ import javafx.scene.shape.StrokeType;
  * @author wf
  *
  */
-public class BorderPane extends Pane {
+public class BorderPane extends PercentPane {
   public static boolean debug;
   
   private Line line1, line2;
