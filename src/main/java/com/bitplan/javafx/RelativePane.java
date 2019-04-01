@@ -27,8 +27,12 @@ package com.bitplan.javafx;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.Observable;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
@@ -47,7 +51,9 @@ import javafx.scene.layout.Pane;
  *
  */
 public class RelativePane extends Pane implements RelativeSizer {
-
+  protected static Logger LOGGER = Logger.getLogger("com.bitplan.javafx");
+  public static boolean debug=false;
+  
   /**
    * helper class to keep track of relative position
    */
@@ -75,28 +81,67 @@ public class RelativePane extends Pane implements RelativeSizer {
 
   Map<Control, ControlBundle> controls = new HashMap<Control, ControlBundle>();
 
+  /**
+   * create a relative Pane
+   */
   public RelativePane() {
     super();
     widthProperty().addListener(o -> sizeListener(o));
     heightProperty().addListener(o -> sizeListener(o));
   }
+  
+  /**
+   * show the bounds of the given node with the given title
+   * 
+   * @param title
+   * @param b
+   */
+  public static void showBoundsPercent(String title, Bounds b) {
+    LOGGER.log(Level.INFO,
+        String.format("%s: min %.0f%%,%.0f%% max %.0f%%,%.0f%%", title,
+            b.getMinX() * 100.0, b.getMinY() * 100.0, b.getMaxX() * 100.0,
+            b.getMaxY() * 100.0));
+  }
+  
+  /**
+   * show the given bounds with the given title
+   * 
+   * @param title
+   * @param b
+   */
+  public static void showBounds(String title, Bounds b) {
+    LOGGER.log(Level.INFO, String.format("%s: min %.0f,%.0f max %.0f,%.0f",
+        title, b.getMinX(), b.getMinY(), b.getMaxX(), b.getMaxY()));
+  }
 
+
+  /**
+   * listen to a change of the given observable
+   * @param o
+   */
   void sizeListener(Observable o) {
+    int index=0;
     for (ControlBundle cb : controls.values()) {
+      index++;
+      double w = getWidth() * cb.rw;
+      double h = getHeight() * cb.rh;
+      double x = getWidth() * cb.rx;
+      double y = getHeight() * cb.ry;
+      if (debug) {
+        showBoundsPercent("r"+index,new BoundingBox(cb.rx,cb.ry,cb.rw,cb.rh));
+        showBounds("a"+index,new BoundingBox(x,y,w,h));
+      }
 
-      double newWidth = getWidth() * cb.rw;
-      double newHeight = getHeight() * cb.rh;
+      cb.control.setPrefWidth(w);
+      cb.control.setMinWidth(w);
+      cb.control.setMaxWidth(w);
 
-      cb.control.setPrefWidth(newWidth);
-      cb.control.setMinWidth(newWidth);
-      cb.control.setMaxWidth(newWidth);
+      cb.control.setPrefHeight(h);
+      cb.control.setMinHeight(h);
+      cb.control.setMaxHeight(h);
 
-      cb.control.setPrefHeight(newHeight);
-      cb.control.setMinHeight(newHeight);
-      cb.control.setMaxHeight(newHeight);
-
-      cb.control.setTranslateX(getWidth() * cb.rx);
-      cb.control.setTranslateY(getHeight() * cb.ry);
+      cb.control.setLayoutX(x);
+      cb.control.setLayoutY(y);
 
     }
 

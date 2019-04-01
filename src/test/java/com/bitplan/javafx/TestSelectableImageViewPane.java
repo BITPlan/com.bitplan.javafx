@@ -143,9 +143,9 @@ public class TestSelectableImageViewPane {
       debug = true;
       if (debug) {
         selectPane.showBounds();
-        selectPane.showBounds("bounds in local", rbs.parent.getBoundsInLocal());
+        RelativePane.showBounds("bounds in local", rbs.parent.getBoundsInLocal());
       }
-      selectPane.showBounds("bounds in parent", rbs.parent.getBoundsInParent());
+      RelativePane.showBounds("bounds in parent", rbs.parent.getBoundsInParent());
       Thread.sleep(SHOW_TIME*10 / scales.length);
     }
     sampleApp.close();

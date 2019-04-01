@@ -218,15 +218,15 @@ public class RubberBandSelection {
    * @param node
    */
   protected void remove(Node node, boolean remember) {
-    getChildren().remove(node);
+    removeNode(node);
     if (remember)
       this.selected.remove(node);
   }
-  
+
   public void addNode(Node node) {
     getChildren().add(node);
   }
-  
+
   public void removeNode(Node node) {
     getChildren().remove(node);
   }

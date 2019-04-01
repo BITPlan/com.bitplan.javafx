@@ -37,14 +37,8 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -78,34 +72,12 @@ public class SelectableImageViewPane extends StackPane {
    */
   public void showBounds(String title, Node n) {
     if (debug) {
-      showBounds(title, n.getLayoutBounds());
+      RelativePane.showBounds(title, n.getLayoutBounds());
     }
   }
 
-  /**
-   * show the bound of the given node with the given title
-   * 
-   * @param title
-   * @param b
-   */
-  public void showBounds(String title, Bounds b) {
-    LOGGER.log(Level.INFO, String.format("%s: min %.0f,%.0f max %.0f,%.0f",
-        title, b.getMinX(), b.getMinY(), b.getMaxX(), b.getMaxY()));
-  }
-
-  /**
-   * show the bound of the given node with the given title
-   * 
-   * @param title
-   * @param b
-   */
-  public void showBoundsPercent(String title, Bounds b) {
-    LOGGER.log(Level.INFO,
-        String.format("%s: min %.0f%%,%.0f%% max %.0f%%,%.0f%%", title,
-            b.getMinX() * 100.0, b.getMinY() * 100.0, b.getMaxX() * 100.0,
-            b.getMaxY() * 100.0));
-  }
-
+  
+  
   /**
    * show my bounds
    */
@@ -178,9 +150,9 @@ public class SelectableImageViewPane extends StackPane {
         LOGGER.log(Level.INFO, s.asPercent());
       }
       // get the relative bounds
-      Bounds tB = relativeToImageView(s.relativeBounds);
-      layoutInArea(s.node, tB.getMinX(), tB.getMinY(), tB.getWidth(),
-      tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
+      // Bounds tB = relativeToImageView(s.relativeBounds);
+      //layoutInArea(s.node, tB.getMinX(), tB.getMinY(), tB.getWidth(),
+      // tB.getHeight(), 0, HPos.LEFT, VPos.TOP);
       // s.node.setScaleX(imageViewPane.imageScaleX);
       // s.node.setScaleY(imageViewPane.imageScaleY);
       //s.node.setLayoutX(tB.getMinX());
@@ -188,30 +160,6 @@ public class SelectableImageViewPane extends StackPane {
      
     }
     
-  }
-
-  /**
-   * modify the bounds based on the relative bounds in %
-   * 
-   * @param rB - the relative bound
-   * @return the calculated absolute bounds
-   */
-  private Bounds relativeToImageView(Bounds rB) {
-    ImageViewPane ivp = this.getImageViewPane();
-    double w = ivp.getImageBorder().getWidth() ;
-    //double h = ivp.imageBorder.getHeight() ;
-    //double w=320;
-    double h=240;
-    
-    double minX = rB.getMinX() * w;
-    double minY = rB.getMinY() * h;
-    
-    double width = rB.getWidth() * w;
-    double height = rB.getHeight() * h;
-    Bounds tB = new BoundingBox(minX, minY, width, height);
-    showBoundsPercent("rB", rB);
-    showBounds("tB", tB);
-    return tB;
   }
 
   /**
@@ -239,7 +187,7 @@ public class SelectableImageViewPane extends StackPane {
      * glassPane.setBorder(glassBorder); selection = new
      * RubberBandSelection(glassPane)
      */
-    selection = new RubberBandSelection(ivp.getImageBorder());
+    selection = new PercentRubberBandSelection(ivp.getImageBorder());
   }
 
 }

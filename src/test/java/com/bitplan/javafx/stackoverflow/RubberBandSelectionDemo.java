@@ -27,6 +27,7 @@ package com.bitplan.javafx.stackoverflow;
 
 import com.bitplan.javafx.ImageViewPane;
 import com.bitplan.javafx.PercentRubberBandSelection;
+import com.bitplan.javafx.RelativePane;
 import com.bitplan.javafx.RubberBandSelection;
 
 import javafx.scene.control.CheckBox;
@@ -48,6 +49,7 @@ public class RubberBandSelectionDemo extends TestApplication {
   public void start(Stage primaryStage) {
     ImageView imageView = super.getImageView();
     ImageViewPane pane = new ImageViewPane(imageView);
+    RelativePane.debug=true;
     RubberBandSelection rbs = new PercentRubberBandSelection(pane.getImageBorder());
     pane.bindSize(primaryStage);
     createSceneAndShowStage(primaryStage, pane);

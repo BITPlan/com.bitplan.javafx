@@ -25,10 +25,16 @@
  */
 package com.bitplan.javafx;
 
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 
+/**
+ * a rubber band selection with relative sizing
+ * @author wf
+ *
+ */
 public class PercentRubberBandSelection extends RubberBandSelection {
 
   private RelativeSizer sizer;
@@ -51,6 +57,7 @@ public class PercentRubberBandSelection extends RubberBandSelection {
       double ry = control.getLayoutY() / pB.getHeight();
       double rw = control.getPrefWidth() / pB.getWidth();
       double rh = control.getPrefHeight() / pB.getHeight();
+      RelativePane.showBoundsPercent("new Control",new BoundingBox(rx,ry,rw,rh));
       sizer.addControl(control, rx, ry, rw, rh);    
     }
     else
