@@ -32,6 +32,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -124,13 +125,25 @@ public class RubberBandSelection {
     parent.addEventHandler(MouseEvent.MOUSE_RELEASED,
         onMouseReleasedEventHandler);
   }
+  
+  /**
+   * get the click position for a given mouse event
+   * @param event
+   * @return the click position
+   */
+  public Point2D clickPos(MouseEvent event) {
+    Point2D click=new Point2D(event.getX(),event.getY());
+    // new Point2D(event.getSceneX(),event.getSceneY());
+    return click;
+  }
 
   EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
     @Override
     public void handle(MouseEvent event) {
-      dragContext.mouseAnchorX = event.getSceneX();
-      dragContext.mouseAnchorY = event.getSceneY();
+      Point2D click = clickPos(event);
+      dragContext.mouseAnchorX = click.getX();
+      dragContext.mouseAnchorY = click.getY();
 
       rect.setX(dragContext.mouseAnchorX);
       rect.setY(dragContext.mouseAnchorY);
@@ -162,21 +175,21 @@ public class RubberBandSelection {
 
     @Override
     public void handle(MouseEvent event) {
-
-      double offsetX = event.getSceneX() - dragContext.mouseAnchorX;
-      double offsetY = event.getSceneY() - dragContext.mouseAnchorY;
+      Point2D click = clickPos(event);
+      double offsetX = click.getX() - dragContext.mouseAnchorX;
+      double offsetY = click.getY() - dragContext.mouseAnchorY;
 
       if (offsetX > 0)
         rect.setWidth(offsetX);
       else {
-        rect.setX(event.getSceneX());
+        rect.setX(click.getX());
         rect.setWidth(dragContext.mouseAnchorX - rect.getX());
       }
 
       if (offsetY > 0) {
         rect.setHeight(offsetY);
       } else {
-        rect.setY(event.getSceneY());
+        rect.setY(click.getY());
         rect.setHeight(dragContext.mouseAnchorY - rect.getY());
       }
     }
