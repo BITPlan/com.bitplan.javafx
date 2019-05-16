@@ -2,7 +2,7 @@
 [javafx controls and utilities - with binding to platform independent gui declaration](http://www.bitplan.com/Com.bitplan.javafx)
 
 [![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.javafx.svg)](https://travis-ci.org/BITPlan/com.bitplan.javafx)
-[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.gui/com.bitplan.javafx.svg)](https://search.maven.org/artifact/com.bitplan.gui/com.bitplan.javafx/0.0.32/jar)
+[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.gui/com.bitplan.javafx.svg)](https://search.maven.org/artifact/com.bitplan.gui/com.bitplan.javafx/0.0.33/jar)
 [![GitHub issues](https://img.shields.io/github/issues/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues)
 [![GitHub issues](https://img.shields.io/github/issues-closed/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues/?q=is%3Aissue+is%3Aclosed)
 [![GitHub](https://img.shields.io/github/license/BITPlan/com.bitplan.javafx.svg)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -21,11 +21,11 @@ Maven dependency
 <dependency>
   <groupId>com.bitplan.gui</groupId>
   <artifactId>com.bitplan.javafx</artifactId>
-  <version>0.0.32</version>
+  <version>0.0.33</version>
 </dependency>
 ```
 
-[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/gui/com.bitplan.javafx/0.0.32/)
+[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/gui/com.bitplan.javafx/0.0.33/)
 
 ### How to build
 ```
@@ -66,4 +66,5 @@ mvn install
 | 2019-02-20 | 0.0.29  | adds ImageViewPane
 | 2019-03-06 | 0.0.30  | adds SwingFXUtils (e.g. for raspberry)
 | 2019-04-01 | 0.0.31  | fixes #7 Allow selection of subrectangles for an ImageViewPane
-| 2019-04-23 | 0.0.32  | fixes #8 and #9 GenericApp close issues.
+| 2019-04-23 | 0.0.32  | fixes #8 and #9 GenericApp close issues
+| 2019-05-16 | 0.0.33  | adds simpler savePng method 
