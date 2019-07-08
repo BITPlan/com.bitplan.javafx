@@ -25,14 +25,14 @@
  */
 package com.bitplan.javafx.stackoverflow;
 
-import javafx.application.Application;
+import org.controlsfx.control.PopOver;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.controlsfx.control.PopOver;
 
 /**
  * https://stackoverflow.com/questions/21655790/javafx-popover-from-controlfx

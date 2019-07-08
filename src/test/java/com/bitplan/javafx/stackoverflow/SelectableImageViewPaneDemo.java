@@ -25,32 +25,39 @@
  */
 package com.bitplan.javafx.stackoverflow;
 
+import com.bitplan.javafx.BorderPane;
 import com.bitplan.javafx.ImageViewPane;
+import com.bitplan.javafx.SelectableImageViewPane;
 
-import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- * test the ImageView Pane
- * @author wf
+ * see
+ * https://stackoverflow.com/questions/30295071/how-to-create-stackpane-on-the-drawn-rectangle-area
+ * 
+ * @author Roland
  *
  */
-public class ImageViewPaneTest extends TestApplication {
+public class SelectableImageViewPaneDemo extends TestApplication {
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
-    // get an imageView with the fitWidth / fitHeight not bound yet
+  public void start(Stage primaryStage) {
     ImageView imageView = super.getImageView();
-    ImageViewPane imageViewPane = new ImageViewPane(imageView);
-    Scene scene = new Scene(imageViewPane, 300, 250);
-    primaryStage.setTitle("ImageViewPaneTest");
-    primaryStage.setScene(scene);
-    imageViewPane.bindSize(primaryStage);
-    primaryStage.show();
+    BorderPane.debug=true;
+    ImageViewPane.debug=true;
+    SelectableImageViewPane.debug=true;
+        
+    SelectableImageViewPane pane = new SelectableImageViewPane(imageView);
+    pane.widthProperty().addListener((obs,oldVal,newVal)->{
+      showSizes();
+    });
+    pane.getImageViewPane().bindSize(pane);
+    createSceneAndShowStage(primaryStage, pane);
   }
 
   public static void main(String[] args) {
     launch(args);
   }
+
 }

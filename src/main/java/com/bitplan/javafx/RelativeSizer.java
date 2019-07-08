@@ -23,34 +23,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bitplan.javafx.stackoverflow;
+package com.bitplan.javafx;
 
-import com.bitplan.javafx.ImageViewPane;
-
-import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.control.Control;
 
 /**
- * test the ImageView Pane
+ * allow adding controls with x,y width and heigh given in percent of the parent
  * @author wf
  *
  */
-public class ImageViewPaneTest extends TestApplication {
+public interface RelativeSizer {
+  /**
+   * add a control with the given percentages
+   * @param ctrl
+   * @param x
+   * @param y
+   * @param w
+   * @param h
+   */
+  public void addControl(Control ctrl, double x, double y, double w, double h);
+  
+  /**
+   * remove the given control
+   * @param control
+   */
+  public void removeControl(Control control);
+  /**
+   * return the parent doing the size handling
+   * @return
+   */
+  public Parent getSizer();
 
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    // get an imageView with the fitWidth / fitHeight not bound yet
-    ImageView imageView = super.getImageView();
-    ImageViewPane imageViewPane = new ImageViewPane(imageView);
-    Scene scene = new Scene(imageViewPane, 300, 250);
-    primaryStage.setTitle("ImageViewPaneTest");
-    primaryStage.setScene(scene);
-    imageViewPane.bindSize(primaryStage);
-    primaryStage.show();
-  }
-
-  public static void main(String[] args) {
-    launch(args);
-  }
+  
 }

@@ -326,7 +326,8 @@ public abstract class GenericApp extends WaitableApp
   }
 
   public void doClose() {
-    stage.close();
+    if (stage!=null)
+      stage.close();
     nullStage();
   }
 
@@ -363,7 +364,7 @@ public abstract class GenericApp extends WaitableApp
         if (timeToWait <= 0) {
           LOGGER.log(Level.WARNING,
               String.format("Wait for closing stage timed out after %4.1f secs",
-                  WAIT_CLOSE_MSECS));
+                  WAIT_CLOSE_MSECS/1000.0));
         }
       }
     };

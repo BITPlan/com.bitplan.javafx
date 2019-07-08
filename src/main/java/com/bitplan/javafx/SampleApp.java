@@ -127,4 +127,12 @@ public class SampleApp extends WaitableApp {
     stage.show();
   }
 
+  /**
+   * save the current state screenshot to the given file
+   * @param file
+   */
+  public void saveAsPng(File file) {
+    Platform.runLater(() ->GenericApp.saveAsPng(this.getStage(), file));
+  }
+
 }

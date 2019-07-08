@@ -30,3 +30,6 @@
 | 2019-01-30 | 0.0.28  | fixes #6 - Nullpointer Exception in selectTab
 | 2019-02-20 | 0.0.29  | adds ImageViewPane
 | 2019-03-06 | 0.0.30  | adds SwingFXUtils (e.g. for raspberry)
+| 2019-04-01 | 0.0.31  | fixes #7 Allow selection of subrectangles for an ImageViewPane
+| 2019-04-23 | 0.0.32  | fixes #8 and #9 GenericApp close issues
+| 2019-05-16 | 0.0.33  | adds simpler savePng method 

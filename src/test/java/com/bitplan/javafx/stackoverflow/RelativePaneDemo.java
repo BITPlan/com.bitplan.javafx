@@ -25,29 +25,26 @@
  */
 package com.bitplan.javafx.stackoverflow;
 
-import com.bitplan.javafx.ImageViewPane;
+import com.bitplan.javafx.RelativePane;
 
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-/**
- * test the ImageView Pane
- * @author wf
- *
- */
-public class ImageViewPaneTest extends TestApplication {
+public class RelativePaneDemo extends TestApplication {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    // get an imageView with the fitWidth / fitHeight not bound yet
-    ImageView imageView = super.getImageView();
-    ImageViewPane imageViewPane = new ImageViewPane(imageView);
-    Scene scene = new Scene(imageViewPane, 300, 250);
-    primaryStage.setTitle("ImageViewPaneTest");
+    
+    RelativePane percentPane=new RelativePane();
+    percentPane.addControl(new Button("tl"), 0, 0, 0.2, 0.2);
+    percentPane.addControl(new Button("middle"),0.25,0.25,0.5,0.5);
+    percentPane.addControl(new Button("br"), 0.8, 0.8, 0.2, 0.2);
+    Scene scene = new Scene(percentPane, 300, 250);
+    primaryStage.setTitle("percentPane");
     primaryStage.setScene(scene);
-    imageViewPane.bindSize(primaryStage);
     primaryStage.show();
+    
   }
 
   public static void main(String[] args) {
