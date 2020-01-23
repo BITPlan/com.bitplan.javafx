@@ -6,7 +6,8 @@ language: java
 #
 # to avoid Unsupported major.minor version 52.0 we need to specify the JDK to be used
 # https://stackoverflow.com/a/40208648/1497139
-jdk: oraclejdk8
+# make sure things keep working see http://wiki.bitplan.com/index.php/Java8
+jdk: openjdk8
 # support for headless Swing tests and other gui stuff
 # see https://docs.travis-ci.com/user/gui-and-headless-browsers/
 #
@@ -30,7 +31,9 @@ env:
 before_script:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- $DISPLAY -ac -screen 0 1280x1024x24"
   - sleep 3
-before_install: sudo apt-get install xvfb
+before_install:
+  - sudo apt update
+  - sudo apt install xvfb openjfx
 # switch off gpg handling
 # and split install and test phase of maven since xvfb will only
 # be available in test phase
@@ -47,5 +50,4 @@ after_success:
 addons:
   apt:
     packages:
-      - oracle-java8-installer
       - xvfb
