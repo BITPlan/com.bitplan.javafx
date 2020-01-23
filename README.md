@@ -68,3 +68,5 @@ mvn install
 | 2019-04-01 | 0.0.31  | fixes #7 Allow selection of subrectangles for an ImageViewPane
 | 2019-04-23 | 0.0.32  | fixes #8 and #9 GenericApp close issues
 | 2019-05-16 | 0.0.33  | adds simpler savePng method 
+| 2020-01-23 |         | check whether travis is broken 
+
