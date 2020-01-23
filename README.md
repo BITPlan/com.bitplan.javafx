@@ -3,6 +3,7 @@
 
 [![Travis (.org)](https://img.shields.io/travis/BITPlan/com.bitplan.javafx.svg)](https://travis-ci.org/BITPlan/com.bitplan.javafx)
 [![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.gui/com.bitplan.javafx.svg)](https://search.maven.org/artifact/com.bitplan.gui/com.bitplan.javafx/0.0.33/jar)
+[![codecov](https://codecov.io/gh/BITPlan/com.bitplan.javafx/branch/master/graph/badge.svg)](https://codecov.io/gh/BITPlan/com.bitplan.javafx)
 [![GitHub issues](https://img.shields.io/github/issues/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues)
 [![GitHub issues](https://img.shields.io/github/issues-closed/BITPlan/com.bitplan.javafx.svg)](https://github.com/BITPlan/com.bitplan.javafx/issues/?q=is%3Aissue+is%3Aclosed)
 [![GitHub](https://img.shields.io/github/license/BITPlan/com.bitplan.javafx.svg)](https://www.apache.org/licenses/LICENSE-2.0)
